@@ -12,7 +12,9 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>1.11</java.version>
+    <java.version>1.8</java.version>
+    <project.build.javaVersion>${java.version}</project.build.javaVersion>
+    <maven.compile.targetLevel>${java.version}</maven.compile.targetLevel>
   </properties>
 
   <build>
@@ -22,8 +24,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
+          <source>${maven.compile.sourceLevel}</source>
+          <target>${maven.compile.targetLevel}</target>
         </configuration>
       </plugin>
     </plugins>

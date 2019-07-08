@@ -15,6 +15,8 @@
     <java.version>1.8</java.version>
     <project.build.javaVersion>${java.version}</project.build.javaVersion>
     <maven.compile.targetLevel>${java.version}</maven.compile.targetLevel>
+		<junit.jupiter.version>5.1.0</junit.jupiter.version>
+		<junit.platform.version>1.1.0</junit.platform.version>
   </properties>
 
   <build>
@@ -33,9 +35,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>6.8</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.jupiter.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-runner</artifactId>
+      <version>${junit.platform.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

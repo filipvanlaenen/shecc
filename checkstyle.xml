@@ -51,6 +51,7 @@
 
     <!-- Checks that a package-info.java file exists for each package.     -->
     <!-- See http://checkstyle.sourceforge.net/config_javadoc.html#JavadocPackage -->
+    <!-- Disabled for SHecC. -->
     <!-- module name="JavadocPackage"/ -->
 
     <!-- Checks whether files end with a new line.                        -->
@@ -151,7 +152,10 @@
         <!-- See http://checkstyle.sourceforge.net/config_coding.html -->
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
-        <module name="HiddenField"/>
+        <module name="HiddenField">
+          <!-- Modified for SHecC to ignore constructor parameters. -->
+          <property name="ignoreConstructorParameter" value="true"/>
+        </module>
         <module name="IllegalInstantiation"/>
         <module name="InnerAssignment"/>
         <module name="MagicNumber"/>

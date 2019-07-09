@@ -14,6 +14,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
     <project.build.javaVersion>${java.version}</project.build.javaVersion>
+    <maven.compile.sourceLevel>${java.version}</maven.compile.sourceLevel>
     <maven.compile.targetLevel>${java.version}</maven.compile.targetLevel>
 		<junit.jupiter.version>5.5.0</junit.jupiter.version>
 		<junit.platform.version>1.1.0</junit.platform.version>

@@ -51,6 +51,7 @@
         <configuration>
           <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
           <targetJdk>${project.build.javaVersion}</targetJdk>
+          <includeTests>true</includeTests>
         </configuration>
       </plugin>
       <plugin>

@@ -11,11 +11,38 @@ package net.filipvanlaenen.shecc;
 class HemicycleLayout {
 
     /**
+     * The number of seats in the hemicycle.
+     */
+    private final int noOfSeats;
+
+    /**
+     * Constructs a hemicycle layout.
+     *
+     * @param noOfSeats
+     *            The number of seats in the hemicycle.
+     */
+    HemicycleLayout(final int noOfSeats) {
+        if (noOfSeats <= 0) {
+            throw new IllegalArgumentException("The number of seats should be strictly positive.");
+        }
+        this.noOfSeats = noOfSeats;
+    }
+
+    /**
      * Returns the angle of the hemicycle.
      *
      * @return The angle of the hemicycle.
      */
-    Double getAngle() {
+    double getAngle() {
         return Math.PI;
+    }
+
+    /**
+     * Returns the number of seats in the hemicycle.
+     *
+     * @return The number of seats in the hemicycle.
+     */
+    int getNoOfSeats() {
+        return noOfSeats;
     }
 }

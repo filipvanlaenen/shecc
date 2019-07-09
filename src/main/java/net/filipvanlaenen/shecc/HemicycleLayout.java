@@ -17,9 +17,14 @@ class HemicycleLayout {
 
     /**
      * The default ratio between the inner and the outer radius for the hemicycle,
-     * set to 2/3.
+     * set to a third.
      */
-    private static final double DEFAULT_RADIUS_RATIO = 2.0D / 3.0D;
+    private static final double DEFAULT_RADIUS_RATIO = 1.0D / 3.0D;
+
+    /**
+     * The magic number one half.
+     */
+    private static final double ONE_HALF = 0.5D;
 
     /**
      * The number of seats in the hemicycle.
@@ -110,5 +115,27 @@ class HemicycleLayout {
      */
     double getRadiusRatio() {
         return radiusRatio;
+    }
+
+    /**
+     * Returns the number of rows for the optimal distribution of seats for the
+     * hemicycle layout.
+     *
+     * @return The number of rows.
+     */
+    int getNoOfRows() {
+        int noOfRows = 0;
+        while (true) {
+            noOfRows += 1;
+            double width = (1.0D - radiusRatio) / noOfRows;
+            int s = 0;
+            for (int row = 1; row <= noOfRows; row++) {
+                double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
+                s += (int) (angle * rowRadius / width);
+            }
+            if (s >= noOfSeats) {
+                return noOfRows;
+            }
+        }
     }
 }

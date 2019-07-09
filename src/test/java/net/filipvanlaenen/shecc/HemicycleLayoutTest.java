@@ -41,4 +41,25 @@ class HemicycleLayoutTest {
         assertEquals(Math.PI, layout.getAngle());
     }
 
+    /**
+     * Test verifying that the angle is wired correctly from the constructor to the
+     * getter.
+     */
+    @Test
+    void angleIsWiredCorrectlyFromConstructorToGetter() {
+        final double testAngle = 3.0;
+        HemicycleLayout layout = new HemicycleLayout(1, testAngle);
+        assertEquals(testAngle, layout.getAngle());
+    }
+
+    /**
+     * Test verifying that the constructor throws a
+     * <code>IllegalArgumentException</code> if the angle is zero or negative.
+     */
+    @Test
+    void constructorShouldThrowIllegalArgumentExceptionIfAngleIsZero() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new HemicycleLayout(1, 0.0);
+        });
+    }
 }

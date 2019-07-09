@@ -11,9 +11,15 @@ package net.filipvanlaenen.shecc;
 class HemicycleLayout {
 
     /**
-     * The default value for the angle, set to π (180°).
+     * The default value for the angle of the hemicycle, set to π (180°).
      */
     private static final double DEFAULT_ANGLE = Math.PI;
+
+    /**
+     * The default ratio between the inner and the outer radius for the hemicycle,
+     * set to 2/3.
+     */
+    private static final double DEFAULT_RADIUS_RATIO = 2.0D / 3.0D;
 
     /**
      * The number of seats in the hemicycle.
@@ -24,6 +30,11 @@ class HemicycleLayout {
      * The angle for the hemicycle.
      */
     private final double angle;
+
+    /**
+     * The ratio between the inner and the outer radius of the hemicycle.
+     */
+    private final double radiusRatio;
 
     /**
      * Constructs a hemicycle layout with a number of seats only.
@@ -44,14 +55,34 @@ class HemicycleLayout {
      *            The angle for the hemicycle.
      */
     HemicycleLayout(final int noOfSeats, final double angle) {
+        this(noOfSeats, angle, DEFAULT_RADIUS_RATIO);
+    }
+
+    /**
+     * Constructs a hemicycle layout with a number of seats and an angle.
+     *
+     * @param noOfSeats
+     *            The number of seats in the hemicycle.
+     * @param angle
+     *            The angle for the hemicycle.
+     * @param radiusRatio
+     *            The ratio between the inner and the outer radius of the hemicycle.
+     */
+    HemicycleLayout(final int noOfSeats, final double angle, final double radiusRatio) {
         if (noOfSeats <= 0) {
             throw new IllegalArgumentException("The number of seats in a hemicycle should be strictly positive.");
         }
         this.noOfSeats = noOfSeats;
-        if (angle <= 0.0) {
+        if (angle <= 0.0D) {
             throw new IllegalArgumentException("The angle of an hemicycle should be strictly positive.");
         }
         this.angle = angle;
+        if (radiusRatio <= 0.0D || radiusRatio >= 1.0D) {
+            throw new IllegalArgumentException(
+                    "The ratio between the inner and the outer radius of an hemicycle should be strictly between 0 "
+                            + "and 1.");
+        }
+        this.radiusRatio = radiusRatio;
     }
 
     /**
@@ -70,5 +101,14 @@ class HemicycleLayout {
      */
     int getNoOfSeats() {
         return noOfSeats;
+    }
+
+    /**
+     * Returns the ratio between the inner and the outer radius of the hemicycle.
+     *
+     * @return The ratio between the inner and the outer radius of the hemicycle.
+     */
+    double getRadiusRatio() {
+        return radiusRatio;
     }
 }

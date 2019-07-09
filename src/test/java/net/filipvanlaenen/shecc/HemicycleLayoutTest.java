@@ -62,4 +62,53 @@ class HemicycleLayoutTest {
             new HemicycleLayout(1, 0.0);
         });
     }
+
+    /**
+     * Test verifying that if the ratio between the inner and the outer radius is
+     * not set, 2/3 is used as the default value.
+     */
+    @Test
+    void twoThirdsShouldBeDefaultRadiusRatio() {
+        HemicycleLayout layout = new HemicycleLayout(1);
+        final double expectedRadiusRatio = 2.0D / 3.0D;
+        assertEquals(expectedRadiusRatio, layout.getRadiusRatio());
+    }
+
+    /**
+     * Test verifying that the ratio between the inner and the outer radius is wired
+     * correctly from the constructor to the getter.
+     */
+    @Test
+    void radiusRatioIsWiredCorrectlyFromConstructorToGetter() {
+        final double testRatio = 0.5;
+        final double testAngle = 3.0;
+        HemicycleLayout layout = new HemicycleLayout(1, testAngle, testRatio);
+        assertEquals(testRatio, layout.getRadiusRatio());
+    }
+
+    /**
+     * Test verifying that the constructor throws a
+     * <code>IllegalArgumentException</code> if the ratio between the inner and the
+     * outer radius is zero or negative.
+     */
+    @Test
+    void constructorShouldThrowIllegalArgumentExceptionIfRadiusRatioIsZero() {
+        final double testAngle = 3.0;
+        assertThrows(IllegalArgumentException.class, () -> {
+            new HemicycleLayout(1, testAngle, 0.0);
+        });
+    }
+
+    /**
+     * Test verifying that the constructor throws a
+     * <code>IllegalArgumentException</code> if the ratio between the inner and the
+     * outer radius is one or greater.
+     */
+    @Test
+    void constructorShouldThrowIllegalArgumentExceptionIfRadiusRatioIsOne() {
+        final double testAngle = 3.0;
+        assertThrows(IllegalArgumentException.class, () -> {
+            new HemicycleLayout(1, testAngle, 1.0);
+        });
+    }
 }

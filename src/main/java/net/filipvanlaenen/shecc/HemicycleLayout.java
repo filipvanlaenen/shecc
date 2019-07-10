@@ -1,5 +1,12 @@
 package net.filipvanlaenen.shecc;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  *
  * Class defining the layout of a hemicycle. The layout is defined by the angle
@@ -14,6 +21,11 @@ class HemicycleLayout {
      * The default value for the angle of the hemicycle, set to π (180°).
      */
     private static final double DEFAULT_ANGLE = Math.PI;
+
+    /**
+     * The maximal value for the angle of the hemicycle, set to 2π (360°).
+     */
+    private static final double MAX_ANGLE = Math.PI * 2D;
 
     /**
      * The default ratio between the inner and the outer radius for the hemicycle,
@@ -78,8 +90,9 @@ class HemicycleLayout {
             throw new IllegalArgumentException("The number of seats in a hemicycle should be strictly positive.");
         }
         this.noOfSeats = noOfSeats;
-        if (angle <= 0.0D) {
-            throw new IllegalArgumentException("The angle of an hemicycle should be strictly positive.");
+        if (angle <= 0.0D || angle > MAX_ANGLE) {
+            throw new IllegalArgumentException(
+                    "The angle of an hemicycle should be strictly positive but not greater than 2π.");
         }
         this.angle = angle;
         if (radiusRatio <= 0.0D || radiusRatio >= 1.0D) {
@@ -137,5 +150,49 @@ class HemicycleLayout {
                 return noOfRows;
             }
         }
+    }
+
+    /**
+     * Returns an unordered set with the seat positions.
+     *
+     * @return A set with all the seat positions.
+     */
+    private Set<SeatPosition> getSeatPositionSet() {
+        Set<SeatPosition> seatPositions = new HashSet<SeatPosition>();
+        int noOfRows = getNoOfRows();
+        double width = (1.0D - radiusRatio) / noOfRows;
+        for (int row = 1; row <= noOfRows; row++) {
+            double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
+            seatPositions.add(new SeatPosition(rowRadius, Math.PI / 2D));
+        }
+        return seatPositions;
+    }
+
+    /**
+     * Returns a sorted list with the seat positions.
+     *
+     * @return A sorted list with the seat positions.
+     */
+    private List<SeatPosition> getSeatPositionList() {
+        Set<SeatPosition> set = getSeatPositionSet();
+        List<SeatPosition> list = new ArrayList<SeatPosition>(set);
+        Collections.sort(list, new Comparator<SeatPosition>() {
+            @Override
+            public int compare(final SeatPosition seatPosition1, final SeatPosition seatPosition2) {
+                return 0;
+            }
+        });
+        return list;
+    }
+
+    /**
+     * Returns the seat position at index i.
+     *
+     * @param i
+     *            The index of the requested seat position
+     * @return The seat position at index i.
+     */
+    SeatPosition getSeatPosition(final int i) {
+        return getSeatPositionList().get(i);
     }
 }

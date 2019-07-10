@@ -16,6 +16,10 @@ class HemicycleLayoutTest {
     private static final int THREE = 3;
 
     /**
+     * The delta for double comparisons.
+     */
+    private static final double DOUBLE_DELTA = 0.000001D;
+    /**
      * The magic number a third.
      */
     private static final double A_THIRD = 1.0D / 3.0D;
@@ -25,13 +29,17 @@ class HemicycleLayoutTest {
      */
     private static final double JUST_ABOVE_A_THIRD = 0.34D;
     /**
-     * Just below four-fifths. Can e.g. used to test a boundary condition depending on
-     * the number of four-fifths.
+     * The magic number two thirds.
+     */
+    private static final double TWO_THIRDS = 2.0D / 3.0D;
+    /**
+     * Just below four-fifths. Can e.g. used to test a boundary condition depending
+     * on the number of four-fifths.
      */
     private static final double JUST_BELOW_FOUR_FIFTHS = 0.79D;
     /**
-     * Just above four-fifths. Can e.g. used to test a boundary condition depending on
-     * the number of four-fifths.
+     * Just above four-fifths. Can e.g. used to test a boundary condition depending
+     * on the number of four-fifths.
      */
     private static final double JUST_ABOVE_FOUR_FIFTHS = 0.81D;
     /**
@@ -54,11 +62,19 @@ class HemicycleLayoutTest {
      * number three.
      */
     private static final double JUST_ABOVE_THREE = 3.01D;
-
     /**
      * Half of π. Can e.g. be used as a test angle.
      */
-    private static final double HALF_PI = Math.PI / 2;
+    private static final double HALF_PI = Math.PI / 2D;
+    /**
+     * 2π. Can e.g. used to test a boundary condition depending on the number 2π.
+     */
+    private static final double TWO_PI = Math.PI * 2D;
+    /**
+     * Just above 2π. Can e.g. used to test a boundary condition depending on the
+     * number 2π.
+     */
+    private static final double JUST_ABOVE_TWO_PI = Math.PI * 2D + 0.1D;
 
     /**
      * Test verifying that the number of seats is wired correctly from the
@@ -97,8 +113,8 @@ class HemicycleLayoutTest {
      */
     @Test
     void angleIsWiredCorrectlyFromConstructorToGetter() {
-        HemicycleLayout layout = new HemicycleLayout(1, HALF_PI);
-        assertEquals(HALF_PI, layout.getAngle());
+        HemicycleLayout layout = new HemicycleLayout(1, TWO_PI);
+        assertEquals(TWO_PI, layout.getAngle());
     }
 
     /**
@@ -109,6 +125,17 @@ class HemicycleLayoutTest {
     void constructorShouldThrowIllegalArgumentExceptionIfAngleIsZero() {
         assertThrows(IllegalArgumentException.class, () -> {
             new HemicycleLayout(1, 0.0);
+        });
+    }
+
+    /**
+     * Test verifying that the constructor throws a
+     * <code>IllegalArgumentException</code> if the angle is greather than 2π.
+     */
+    @Test
+    void constructorShouldThrowIllegalArgumentExceptionIfAngleIsJustAboveTwoPi() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new HemicycleLayout(1, JUST_ABOVE_TWO_PI);
         });
     }
 
@@ -247,12 +274,24 @@ class HemicycleLayoutTest {
     }
 
     /**
-     * Test verifying that the number of rows is three for three seats when the angle
-     * is reduced to 0.79.
+     * Test verifying that the number of rows is three for three seats when the
+     * angle is reduced to 0.79.
      */
     @Test
     void noOfRowsIsThreeForThreeSeatsWhenTheAngleIsJustBelowFourFifths() {
         HemicycleLayout layout = new HemicycleLayout(THREE, JUST_BELOW_FOUR_FIFTHS);
         assertEquals(THREE, layout.getNoOfRows());
+    }
+
+    /**
+     * Test verifying that if there is only one seat in the default layout, the
+     * position of the seat is at angle π/2 and radius 2/3.
+     */
+    @Test
+    void singleSeatInDefaultLayoutIsPositionedInTheMiddle() {
+        HemicycleLayout layout = new HemicycleLayout(1);
+        SeatPosition seatPosition = layout.getSeatPosition(0);
+        assertEquals(TWO_THIRDS, seatPosition.getRadius(), DOUBLE_DELTA);
+        assertEquals(HALF_PI, seatPosition.getAngle(), DOUBLE_DELTA);
     }
 }

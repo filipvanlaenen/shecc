@@ -51,6 +51,24 @@ public class SeatPosition {
     }
 
     /**
+     * Returns the x coordinate for the seat position.
+     *
+     * @return The x coordinate for the seat position.
+     */
+    double getX() {
+        return radius * Math.cos(angle);
+    }
+
+    /**
+     * Returns the y coordinate for the seat position.
+     *
+     * @return The y coordinate for the seat position.
+     */
+    double getY() {
+        return radius * Math.sin(angle);
+    }
+
+    /**
      * Tests for equality with another object. Since a seat position is a value
      * object, two seat positions are equal if their polar coordinates are equal.
      */

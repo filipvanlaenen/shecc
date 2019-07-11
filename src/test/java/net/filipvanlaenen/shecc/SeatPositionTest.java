@@ -11,13 +11,22 @@ import org.junit.jupiter.api.Test;
 public class SeatPositionTest {
 
     /**
+     * The delta for double comparisons.
+     */
+    private static final double DOUBLE_DELTA = 0.000001D;
+    /**
+     * The magic number a half.
+     */
+    private static final double A_HALF = 0.5D;
+
+    /**
      * Test verifying that the radius is wired correctly from the constructor to the
      * getter.
      */
     @Test
     void radiusIsWiredCorrectlyFromConstructorToGetter() {
-        SeatPosition seat = new SeatPosition(1D, Math.PI);
-        assertEquals(1D, seat.getRadius());
+        SeatPosition seatPosition = new SeatPosition(1D, Math.PI);
+        assertEquals(1D, seatPosition.getRadius());
     }
 
     /**
@@ -26,8 +35,8 @@ public class SeatPositionTest {
      */
     @Test
     void angleIsWiredCorrectlyFromConstructorToGetter() {
-        SeatPosition seat = new SeatPosition(1D, Math.PI);
-        assertEquals(Math.PI, seat.getAngle());
+        SeatPosition seatPosition = new SeatPosition(1D, Math.PI);
+        assertEquals(Math.PI, seatPosition.getAngle());
     }
 
     /**
@@ -35,8 +44,8 @@ public class SeatPositionTest {
      */
     @Test
     void seatPositionIsEqualToItself() {
-        SeatPosition seat = new SeatPosition(1D, Math.PI);
-        assertEquals(seat, seat);
+        SeatPosition seatPosition = new SeatPosition(1D, Math.PI);
+        assertEquals(seatPosition, seatPosition);
     }
 
     /**
@@ -45,9 +54,9 @@ public class SeatPositionTest {
      */
     @Test
     void seatPositionIsEqualToOtherSeatPositionWithTheSameCoordinates() {
-        SeatPosition seat1 = new SeatPosition(1D, Math.PI);
-        SeatPosition seat2 = new SeatPosition(1D, Math.PI);
-        assertEquals(seat1, seat2);
+        SeatPosition seatPosition1 = new SeatPosition(1D, Math.PI);
+        SeatPosition seatPosition2 = new SeatPosition(1D, Math.PI);
+        assertEquals(seatPosition1, seatPosition2);
     }
 
     /**
@@ -56,9 +65,9 @@ public class SeatPositionTest {
      */
     @Test
     void seatPositionIsNotEqualToAnotherSeatPositionWithADifferentRadius() {
-        SeatPosition seat1 = new SeatPosition(1D, Math.PI);
-        SeatPosition seat2 = new SeatPosition(2D, Math.PI);
-        assertNotEquals(seat1, seat2);
+        SeatPosition seatPosition1 = new SeatPosition(1D, Math.PI);
+        SeatPosition seatPosition2 = new SeatPosition(2D, Math.PI);
+        assertNotEquals(seatPosition1, seatPosition2);
     }
 
     /**
@@ -67,9 +76,9 @@ public class SeatPositionTest {
      */
     @Test
     void seatPositionIsNotEqualToAnotherSeatPositionWithADifferentAngle() {
-        SeatPosition seat1 = new SeatPosition(1D, Math.PI);
-        SeatPosition seat2 = new SeatPosition(1D, 1D);
-        assertNotEquals(seat1, seat2);
+        SeatPosition seatPosition1 = new SeatPosition(1D, Math.PI);
+        SeatPosition seatPosition2 = new SeatPosition(1D, 1D);
+        assertNotEquals(seatPosition1, seatPosition2);
     }
 
     /**
@@ -77,8 +86,8 @@ public class SeatPositionTest {
      */
     @Test
     void seatPositionIsNotEqualToNull() {
-        SeatPosition seat = new SeatPosition(1D, Math.PI);
-        assertNotEquals(seat, null);
+        SeatPosition seatPosition = new SeatPosition(1D, Math.PI);
+        assertNotEquals(seatPosition, null);
     }
 
     /**
@@ -87,8 +96,8 @@ public class SeatPositionTest {
      */
     @Test
     void seatPositionIsNotEqualToAString() {
-        SeatPosition seat = new SeatPosition(1D, Math.PI);
-        assertNotEquals(seat, "foo");
+        SeatPosition seatPosition = new SeatPosition(1D, Math.PI);
+        assertNotEquals(seatPosition, "foo");
     }
 
     /**
@@ -97,9 +106,9 @@ public class SeatPositionTest {
      */
     @Test
     void seatPositionsWithTheSameCoordinatesHaveTheSameHashCode() {
-        SeatPosition seat1 = new SeatPosition(1D, Math.PI);
-        SeatPosition seat2 = new SeatPosition(1D, Math.PI);
-        assertEquals(seat1.hashCode(), seat2.hashCode());
+        SeatPosition seatPosition1 = new SeatPosition(1D, Math.PI);
+        SeatPosition seatPosition2 = new SeatPosition(1D, Math.PI);
+        assertEquals(seatPosition1.hashCode(), seatPosition2.hashCode());
     }
 
     /**
@@ -121,17 +130,38 @@ public class SeatPositionTest {
      */
     @Test
     void seatPositionsWithADifferentAngleHaveDifferentHashCodes() {
-        SeatPosition seat1 = new SeatPosition(1D, Math.PI);
-        SeatPosition seat2 = new SeatPosition(1D, 1D);
-        assertNotEquals(seat1.hashCode(), seat2.hashCode());
+        SeatPosition seatPosition1 = new SeatPosition(1D, Math.PI);
+        SeatPosition seatPosition2 = new SeatPosition(1D, 1D);
+        assertNotEquals(seatPosition1.hashCode(), seatPosition2.hashCode());
     }
 
     /**
-     * Test verifying that the String representation of a seat position shows the radius and the angle.
+     * Test verifying that the String representation of a seat position shows the
+     * radius and the angle.
      */
     @Test
     void toStringShowsRadiusAndAngle() {
-        SeatPosition seat = new SeatPosition(1D, Math.PI);
-        assertEquals("Seat position (1.0, 3.141592653589793 rad)", seat.toString());
+        SeatPosition seatPosition = new SeatPosition(1D, Math.PI);
+        assertEquals("Seat position (1.0, 3.141592653589793 rad)", seatPosition.toString());
+    }
+
+    /**
+     * Test verifying that the x coordinate is calculated correctly.
+     */
+    @Test
+    void xCoordinateIsCalculatedCorrectly() {
+        SeatPosition seatPosition = new SeatPosition(A_HALF, 1D);
+        double expected = Math.cos(1D) / 2D;
+        assertEquals(expected, seatPosition.getX(), DOUBLE_DELTA);
+    }
+
+    /**
+     * Test verifying that the y coordinate is calculated correctly.
+     */
+    @Test
+    void yCoordinateIsCalculatedCorrectly() {
+        SeatPosition seatPosition = new SeatPosition(A_HALF, 1D);
+        double expected = Math.sin(1D) / 2D;
+        assertEquals(expected, seatPosition.getY(), DOUBLE_DELTA);
     }
 }

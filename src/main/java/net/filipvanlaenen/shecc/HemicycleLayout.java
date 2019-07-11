@@ -193,7 +193,7 @@ class HemicycleLayout {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
             for (int seat = 0; seat < seats[row - 1]; seat++) {
                 double seatAngle = Math.PI / 2D + rescale * (seat + (1D - seats[row - 1]) / 2D) * width / rowRadius;
-                if (seatAngle < Math.PI * 2D) {
+                if (seatAngle < 0D) {
                     seatAngle += Math.PI * 2D;
                 }
                 seatPositions.add(new SeatPosition(rowRadius, seatAngle));

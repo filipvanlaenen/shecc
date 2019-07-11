@@ -271,4 +271,26 @@ public class HemicycleLayout {
     public double getRowWidth() {
         return (1D - getRadiusRatio()) / getNoOfRows();
     }
+
+    /**
+     * Returns the total width of the hemicycle layout. If the angle of the
+     * hemicycle is π or more, the width is two. Otherwise, the width is twice the
+     * sine of half the angle (2*sin(α/2)).
+     *
+     * @return The total width.
+     */
+    public double getWidth() {
+        return getAngle() < Math.PI ? 2D * Math.sin(getAngle() / 2D) : 2D;
+    }
+
+    /**
+     * Returns the total height of the hemicycle layout. If the angle of the
+     * hemicycle is π or less, the height is one. Otherwise. the height is one plus
+     * the sine of half the angle minus π (1 + sin((α-π)/2)).
+     *
+     * @return The total height.
+     */
+    public double getHeight() {
+        return getAngle() < Math.PI ? 1D : 1D + Math.sin((getAngle() - Math.PI) / 2D);
+    }
 }

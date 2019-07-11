@@ -50,6 +50,10 @@ class HemicycleLayoutTest {
      */
     private static final double JUST_ABOVE_FOUR_FIFTHS = 0.81D;
     /**
+     * The magic number one and a half.
+     */
+    private static final double ONE_AND_A_HALF = 1.5D;
+    /**
      * Just below two. Can e.g. used to test a boundary condition depending on the
      * number two.
      */
@@ -299,6 +303,36 @@ class HemicycleLayoutTest {
     }
 
     /**
+     * Test verifying that the row width is the full width of the hemicycle when
+     * there's only one row.
+     */
+    @Test
+    void rowWidthIsTwoThirdsUsingTheDefaultLayoutForOneSeat() {
+        HemicycleLayout layout = new HemicycleLayout(1);
+        assertEquals(TWO_THIRDS, layout.getRowWidth(), DOUBLE_DELTA);
+    }
+
+    /**
+     * Test verifying that the row width is the full width of the hemicycle when
+     * there's only one row.
+     */
+    @Test
+    void rowWidthIsAThirdUsingALayoutWithOneRowAndRadiusRatioTwoThirds() {
+        HemicycleLayout layout = new HemicycleLayout(1, TWO_THIRDS);
+        assertEquals(A_THIRD, layout.getRowWidth(), DOUBLE_DELTA);
+    }
+
+    /**
+     * Test verifying that the row width is half the width of the hemicycle when
+     * there are two rows.
+     */
+    @Test
+    void rowWidthIsOneThirdUsingTheDefaultLayoutForOneSeat() {
+        HemicycleLayout layout = new HemicycleLayout(2, JUST_BELOW_TWO);
+        assertEquals(A_THIRD, layout.getRowWidth(), DOUBLE_DELTA);
+    }
+
+    /**
      * Test verifying that if there is only one seat in the default layout, the
      * position of the seat is at angle π/2 and radius 2/3.
      */
@@ -358,5 +392,56 @@ class HemicycleLayoutTest {
         SeatPosition seatPosition = layout.getSeatPosition(0);
         assertEquals(THREE_QUARTERS, seatPosition.getRadius(), DOUBLE_DELTA);
         assertEquals(THREE_QUARTERS_OF_PI, seatPosition.getAngle(), DOUBLE_DELTA);
+    }
+
+    /**
+     * Test verifying that when a hemicycle layout is created with two seats, two
+     * seat positions are returned in the list of seat positions.
+     */
+    @Test
+    void getSeatPositionsReturnsTwoSeatPositionsWhenTheLayoutContainsTwoSeats() {
+        HemicycleLayout layout = new HemicycleLayout(2);
+        assertEquals(2, layout.getSeatPositions().size());
+    }
+
+    /**
+     * Test verifying that the width of the hemicycle layout is two when the angle
+     * is π or greater.
+     */
+    @Test
+    void widthIsTwoWhenAngleIsPi() {
+        HemicycleLayout layout = new HemicycleLayout(1);
+        assertEquals(2D, layout.getWidth());
+    }
+
+    /**
+     * Test verifying that the width of the hemicycle layout is 2*sin(angle/2) when
+     * the angle is less than π.
+     */
+    @Test
+    void widthIsTwiceTheSinceOfHalfTheAngleWhenAngleIsLessThanPi() {
+        HemicycleLayout layout = new HemicycleLayout(1, THREE);
+        assertEquals(2D * Math.sin(ONE_AND_A_HALF), layout.getWidth());
+    }
+
+    /**
+     * Test verifying that the height of the hemicycle layout is one when the angle
+     * is π or less.
+     */
+    @Test
+    void heightIsOneWhenAngleIsPi() {
+        HemicycleLayout layout = new HemicycleLayout(1);
+        assertEquals(1D, layout.getHeight());
+    }
+
+    /**
+     * Test verifying that the height of the hemicycle layout is 1 + sin((α-π)/2) when the angle
+     * is greater than π.
+     */
+    @Test
+    void heightIsCalculatedCorrectlyOneWhenAngleIsGreaterThanPi() {
+        HemicycleLayout layout = new HemicycleLayout(1, 4D);
+        double expected = 1 + Math.sin(2D - HALF_PI);
+        assertEquals(expected, layout.getHeight(), DOUBLE_DELTA);
     }
 }

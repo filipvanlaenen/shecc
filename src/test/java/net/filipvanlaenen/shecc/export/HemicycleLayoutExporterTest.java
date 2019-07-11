@@ -15,6 +15,16 @@ public class HemicycleLayoutExporterTest {
      * The magic number three.
      */
     private static final int THREE = 3;
+    /**
+     * Just below π. Can e.g. used to test a boundary condition depending on the
+     * number π.
+     */
+    private static final double JUST_BELOW_PI = 3.13D;
+    /**
+     * Just above π. Can e.g. used to test a boundary condition depending on the
+     * number π.
+     */
+    private static final double JUST_ABOVE_PI = 3.15D;
 
     /**
      * Test verifying the export of a default hemicycle layout with three seats to
@@ -29,6 +39,38 @@ public class HemicycleLayoutExporterTest {
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0.57735\" cy=\"-0.333333\" r=\"0.3\"/>\n" + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying the export of a hemicycle layout with three seats and a angle
+     * slightly less than π to SVG.
+     */
+    @Test
+    void svgExportForThreeSeatsWithAnAngleLessThanPi() {
+        HemicycleLayout layout = new HemicycleLayout(THREE, JUST_BELOW_PI);
+        HemicycleLayoutExporter exporter = new HemicycleLayoutExporter();
+        String actual = exporter.export(layout);
+        String expected = "<svg height=\"100\" viewBox=\"-0.999983 -1 1.999966 1\" width=\"199.99664\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <circle cx=\"-0.576058\" cy=\"-0.335562\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.576058\" cy=\"-0.335562\" r=\"0.3\"/>\n" + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying the export of a hemicycle layout with three seats and a angle
+     * slightly greater than π to SVG.
+     */
+    @Test
+    void svgExportForThreeSeatsWithAnAngleGreaterThanPi() {
+        HemicycleLayout layout = new HemicycleLayout(THREE, JUST_ABOVE_PI);
+        HemicycleLayoutExporter exporter = new HemicycleLayoutExporter();
+        String actual = exporter.export(layout);
+        String expected = "<svg height=\"100.420366\" viewBox=\"-1 -1 2 1.004204\" width=\"200\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <circle cx=\"-0.578282\" cy=\"-0.331714\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.578282\" cy=\"-0.331714\" r=\"0.3\"/>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 }

@@ -20,7 +20,12 @@ public class HemicycleLayoutExporter {
      * @return A string representing the hemicycle layout in SVG.
      */
     String export(final HemicycleLayout layout) {
-        Svg svg = new Svg().width(200).height(100).viewBox(-1, -1, 2, 1);
+        double width = layout.getWidth();
+        double halfWidth = width / 2D;
+        double svgWidth = width * 100D;
+        double height = layout.getHeight();
+        double svgHeight = height * 100D;
+        Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, -1, width, height);
         double seatRadius = layout.getRowWidth() * 0.45D;
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
         while (seatPositions.hasNext()) {

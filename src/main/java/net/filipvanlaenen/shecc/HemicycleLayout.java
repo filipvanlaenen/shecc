@@ -2,7 +2,6 @@ package net.filipvanlaenen.shecc;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -203,46 +202,7 @@ class HemicycleLayout {
     private List<SeatPosition> getSeatPositionList() {
         Set<SeatPosition> set = getSeatPositionSet();
         List<SeatPosition> list = new ArrayList<SeatPosition>(set);
-        Collections.sort(list, new Comparator<SeatPosition>() {
-
-            /**
-             * The delta to compare angles.
-             */
-            private static final double ANGLE_DELTA = 0.000001D;
-            /**
-             * One and a half π.
-             */
-            private static final double ONE_AND_A_HALF_PI = 1.5D * Math.PI;
-            /**
-             * Three and a half π.
-             */
-            private static final double THREE_AND_A_HALF_PI = 3.5D * Math.PI;
-
-            @Override
-            public int compare(final SeatPosition seatPosition1, final SeatPosition seatPosition2) {
-                return anglesArePraticallyEqual(seatPosition1, seatPosition2)
-                        ? compareRadiuses(seatPosition1, seatPosition2)
-                        : compareAngles(seatPosition1, seatPosition2);
-            }
-
-            private double angleFromOneAndAHalfPi(final double anAngle) {
-                return anAngle > ONE_AND_A_HALF_PI ? THREE_AND_A_HALF_PI - anAngle : ONE_AND_A_HALF_PI - anAngle;
-            }
-
-            private int compareAngles(final SeatPosition seatPosition1, final SeatPosition seatPosition2) {
-                return Double.compare(angleFromOneAndAHalfPi(seatPosition1.getAngle()),
-                        angleFromOneAndAHalfPi(seatPosition2.getAngle()));
-            }
-
-            private int compareRadiuses(final SeatPosition seatPosition1, final SeatPosition seatPosition2) {
-                return Double.compare(seatPosition1.getRadius(), seatPosition2.getRadius());
-            }
-
-            private boolean anglesArePraticallyEqual(final SeatPosition seatPosition1,
-                    final SeatPosition seatPosition2) {
-                return Math.abs(seatPosition1.getAngle() - seatPosition2.getAngle()) < ANGLE_DELTA;
-            }
-        });
+        Collections.sort(list, new SeatPositionInHemicycleComparator());
         return list;
     }
 

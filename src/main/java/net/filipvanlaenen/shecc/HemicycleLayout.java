@@ -254,10 +254,20 @@ public class HemicycleLayout {
         return getSeatPositionList().get(i);
     }
 
+    /**
+     * Returns an unmodifiable list with all the seat positions.
+     *
+     * @return An unmodifiable list with all the seat positions.
+     */
     public List<SeatPosition> getSeatPositions() {
         return Collections.unmodifiableList(getSeatPositionList());
     }
 
+    /**
+     * Returns the row width.
+     *
+     * @return The row width.
+     */
     public double getRowWidth() {
         return (1D - getRadiusRatio()) / getNoOfRows();
     }

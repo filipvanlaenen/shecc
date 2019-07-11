@@ -3,24 +3,56 @@ package net.filipvanlaenen.shecc.export.svg;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class representing a circle.
+ */
 public class Circle implements ShapeElement {
+    /**
+     * A map with the numeric attributes.
+     */
     private final Map<String, Number> numericAttributes = new HashMap<String, Number>();
 
-    public Circle cx(Number cx) {
+    /**
+     * Sets the x coordinate of the center.
+     *
+     * @param cx
+     *            The x coordinate of the center.
+     * @return The instance called.
+     */
+    public Circle cx(final Number cx) {
         numericAttributes.put("cx", cx);
         return this;
     }
 
-    public Circle cy(Number cy) {
+    /**
+     * Sets the y coordinate of the center.
+     *
+     * @param cy
+     *            The y coordinate of the center.
+     * @return The instance called.
+     */
+    public Circle cy(final Number cy) {
         numericAttributes.put("cy", cy);
         return this;
     }
 
-    public Circle r(Number r) {
+    /**
+     * Sets the radius.
+     *
+     * @param r
+     *            The radius.
+     * @return The instance called.
+     */
+    public Circle r(final Number r) {
         numericAttributes.put("r", r);
         return this;
     }
 
+    /**
+     * Returns a string representation of the circle.
+     *
+     * @return A string representation of the circle.
+     */
     @Override
     public String asString() {
         return "<circle" + Attributes.attributesAsString(numericAttributes) + "/>";

@@ -213,7 +213,7 @@ class HemicycleLayoutTest {
      * layout.
      */
     @Test
-    void noOfRowsIsOneForTwoSeatUsingTheDefaultLayout() {
+    void noOfRowsIsOneForTwoSeatsUsingTheDefaultLayout() {
         HemicycleLayout layout = new HemicycleLayout(2);
         assertEquals(1, layout.getNoOfRows());
     }

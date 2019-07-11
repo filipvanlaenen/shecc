@@ -163,7 +163,6 @@ class HemicycleLayout {
         double width = (1.0D - radiusRatio) / noOfRows;
         double[] length = new double[noOfRows];
         double[] quote = new double[noOfRows];
-        double[] scale = new double[noOfRows];
         for (int row = 1; row <= noOfRows; row++) {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
             length[row - 1] = rowRadius * angle;
@@ -181,16 +180,10 @@ class HemicycleLayout {
             }
             seats[row] += 1;
             quote[row] = length[row] / (seats[row] + 1);
-            scale[row] = length[row] / (width * seats[row]);
-        }
-        double rescale = scale[0];
-        for (int row = 1; row < noOfRows; row++) {
-            if (scale[row] < rescale) {
-                rescale = scale[row];
-            }
         }
         for (int row = 1; row <= noOfRows; row++) {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
+            double rescale = length[row - 1] / (width * seats[row - 1]);
             for (int seat = 0; seat < seats[row - 1]; seat++) {
                 double seatAngle = Math.PI / 2D + rescale * (seat + (1D - seats[row - 1]) / 2D) * width / rowRadius;
                 if (seatAngle < 0D) {

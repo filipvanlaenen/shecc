@@ -4,7 +4,8 @@ import java.util.Objects;
 
 /**
  * Class defining the position of a seat in a hemicycle. A seat position is
- * defined by its polar coordinates, i.e. a radius and an angle.
+ * defined by its polar coordinates, i.e. a radius and an angle, and should be
+ * treated as a value object.
  */
 public class SeatPosition {
 
@@ -49,6 +50,10 @@ public class SeatPosition {
         return angle;
     }
 
+    /**
+     * Tests for equality with another object. Since a seat position is a value
+     * object, two seat positions are equal if their polar coordinates are equal.
+     */
     @Override
     public boolean equals(final Object object) {
         if (object instanceof SeatPosition) {
@@ -58,11 +63,19 @@ public class SeatPosition {
         return false;
     }
 
+    /**
+     * Returns a hash code based on the seat position's attributes, i.e. radius and
+     * angle.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getRadius(), getAngle());
     }
 
+    /**
+     * Returns a string representation of a seat position, including the polar
+     * coordinates.
+     */
     @Override
     public String toString() {
         return "Seat position (" + getRadius() + ", " + getAngle() + " rad)";

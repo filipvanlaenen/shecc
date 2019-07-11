@@ -161,9 +161,43 @@ class HemicycleLayout {
         Set<SeatPosition> seatPositions = new HashSet<SeatPosition>();
         int noOfRows = getNoOfRows();
         double width = (1.0D - radiusRatio) / noOfRows;
+        double[] length = new double[noOfRows];
+        double[] quote = new double[noOfRows];
+        double[] scale = new double[noOfRows];
         for (int row = 1; row <= noOfRows; row++) {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
-            seatPositions.add(new SeatPosition(rowRadius, Math.PI / 2D));
+            length[row - 1] = rowRadius * angle;
+            quote[row - 1] = length[row - 1];
+        }
+        int[] seats = new int[noOfRows];
+        for (int seat = 1; seat <= noOfSeats; seat++) {
+            int row = 0;
+            double highestQuote = quote[0];
+            for (int i = 1; i < noOfRows; i++) {
+                if (quote[i] > highestQuote) {
+                    row = i;
+                    highestQuote = quote[i];
+                }
+            }
+            seats[row] += 1;
+            quote[row] = length[row] / (seats[row] + 1);
+            scale[row] = length[row] / (width * seats[row]);
+        }
+        double rescale = scale[0];
+        for (int row = 1; row < noOfRows; row++) {
+            if (scale[row] < rescale) {
+                rescale = scale[row];
+            }
+        }
+        for (int row = 1; row <= noOfRows; row++) {
+            double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
+            for (int seat = 0; seat < seats[row - 1]; seat++) {
+                double seatAngle = Math.PI / 2D + rescale * (seat + (1D - seats[row - 1]) / 2D) * width / rowRadius;
+                if (seatAngle < Math.PI * 2D) {
+                    seatAngle += Math.PI * 2D;
+                }
+                seatPositions.add(new SeatPosition(rowRadius, seatAngle));
+            }
         }
         return seatPositions;
     }
@@ -177,9 +211,43 @@ class HemicycleLayout {
         Set<SeatPosition> set = getSeatPositionSet();
         List<SeatPosition> list = new ArrayList<SeatPosition>(set);
         Collections.sort(list, new Comparator<SeatPosition>() {
+
+            /**
+             * The delta to compare angles.
+             */
+            private static final double ANGLE_DELTA = 0.000001D;
+            /**
+             * One and a half π.
+             */
+            private static final double ONE_AND_A_HALF_PI = 1.5D * Math.PI;
+            /**
+             * Three and a half π.
+             */
+            private static final double THREE_AND_A_HALF_PI = 3.5D * Math.PI;
+
             @Override
             public int compare(final SeatPosition seatPosition1, final SeatPosition seatPosition2) {
-                return 0;
+                return anglesArePraticallyEqual(seatPosition1, seatPosition2)
+                        ? compareRadiuses(seatPosition1, seatPosition2)
+                        : compareAngles(seatPosition1, seatPosition2);
+            }
+
+            private double angleFromOneAndAHalfPi(final double anAngle) {
+                return anAngle > ONE_AND_A_HALF_PI ? THREE_AND_A_HALF_PI - anAngle : ONE_AND_A_HALF_PI - anAngle;
+            }
+
+            private int compareAngles(final SeatPosition seatPosition1, final SeatPosition seatPosition2) {
+                return Double.compare(angleFromOneAndAHalfPi(seatPosition1.getAngle()),
+                        angleFromOneAndAHalfPi(seatPosition2.getAngle()));
+            }
+
+            private int compareRadiuses(final SeatPosition seatPosition1, final SeatPosition seatPosition2) {
+                return Double.compare(seatPosition1.getRadius(), seatPosition2.getRadius());
+            }
+
+            private boolean anglesArePraticallyEqual(final SeatPosition seatPosition1,
+                    final SeatPosition seatPosition2) {
+                return Math.abs(seatPosition1.getAngle() - seatPosition2.getAngle()) < ANGLE_DELTA;
             }
         });
         return list;

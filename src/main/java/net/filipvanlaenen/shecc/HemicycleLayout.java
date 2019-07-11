@@ -53,6 +53,18 @@ class HemicycleLayout {
     private final double radiusRatio;
 
     /**
+     * The number of rows. This field is calculated and set through lazy
+     * initialization.
+     */
+    private int noOfRows;
+
+    /**
+     * The list with seat positions, sorted. This field is calculated and set
+     * through lazy initialization.
+     */
+    private List<SeatPosition> seatPositionList;
+
+    /**
      * Constructs a hemicycle layout with a number of seats only.
      *
      * @param noOfSeats
@@ -130,48 +142,61 @@ class HemicycleLayout {
     }
 
     /**
+     * Calculates the number of rows for the optimal distribution of seats for the
+     * hemicycle layout.
+     *
+     * @return The number of rows.
+     */
+    int calculateNoOfRows() {
+        int n = 0;
+        while (true) {
+            n += 1;
+            double width = (1.0D - radiusRatio) / n;
+            int s = 0;
+            for (int row = 1; row <= n; row++) {
+                double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
+                s += (int) (angle * rowRadius / width);
+            }
+            if (s >= noOfSeats) {
+                return n;
+            }
+        }
+    }
+
+    /**
      * Returns the number of rows for the optimal distribution of seats for the
      * hemicycle layout.
      *
      * @return The number of rows.
      */
     int getNoOfRows() {
-        int noOfRows = 0;
-        while (true) {
-            noOfRows += 1;
-            double width = (1.0D - radiusRatio) / noOfRows;
-            int s = 0;
-            for (int row = 1; row <= noOfRows; row++) {
-                double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
-                s += (int) (angle * rowRadius / width);
-            }
-            if (s >= noOfSeats) {
-                return noOfRows;
-            }
+        if (noOfRows == 0) {
+            noOfRows = calculateNoOfRows();
         }
+        return noOfRows;
     }
 
     /**
-     * Returns an unordered set with the seat positions.
+     * Calculates an unordered set with the seat positions.
      *
      * @return A set with all the seat positions.
      */
-    private Set<SeatPosition> getSeatPositionSet() {
+    private Set<SeatPosition> calculateSeatPositionSet() {
         Set<SeatPosition> seatPositions = new HashSet<SeatPosition>();
-        int noOfRows = getNoOfRows();
-        double width = (1.0D - radiusRatio) / noOfRows;
-        double[] length = new double[noOfRows];
-        double[] quote = new double[noOfRows];
-        for (int row = 1; row <= noOfRows; row++) {
+        int thisNoOfRows = getNoOfRows();
+        double width = (1.0D - radiusRatio) / thisNoOfRows;
+        double[] length = new double[thisNoOfRows];
+        double[] quote = new double[thisNoOfRows];
+        for (int row = 1; row <= thisNoOfRows; row++) {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
             length[row - 1] = rowRadius * angle;
             quote[row - 1] = length[row - 1];
         }
-        int[] seats = new int[noOfRows];
+        int[] seats = new int[thisNoOfRows];
         for (int seat = 1; seat <= noOfSeats; seat++) {
             int row = 0;
             double highestQuote = quote[0];
-            for (int i = 1; i < noOfRows; i++) {
+            for (int i = 1; i < thisNoOfRows; i++) {
                 if (quote[i] > highestQuote) {
                     row = i;
                     highestQuote = quote[i];
@@ -180,7 +205,7 @@ class HemicycleLayout {
             seats[row] += 1;
             quote[row] = length[row] / (seats[row] + 1);
         }
-        for (int row = 1; row <= noOfRows; row++) {
+        for (int row = 1; row <= thisNoOfRows; row++) {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
             double rescale = length[row - 1] / (width * seats[row - 1]);
             for (int seat = 0; seat < seats[row - 1]; seat++) {
@@ -195,15 +220,27 @@ class HemicycleLayout {
     }
 
     /**
+     * Calculates a sorted list with the seat positions.
+     *
+     * @return A sorted list with the seat positions.
+     */
+    private List<SeatPosition> calculateSeatPositionList() {
+        Set<SeatPosition> set = calculateSeatPositionSet();
+        List<SeatPosition> list = new ArrayList<SeatPosition>(set);
+        Collections.sort(list, new SeatPositionInHemicycleComparator());
+        return list;
+    }
+
+    /**
      * Returns a sorted list with the seat positions.
      *
      * @return A sorted list with the seat positions.
      */
     private List<SeatPosition> getSeatPositionList() {
-        Set<SeatPosition> set = getSeatPositionSet();
-        List<SeatPosition> list = new ArrayList<SeatPosition>(set);
-        Collections.sort(list, new SeatPositionInHemicycleComparator());
-        return list;
+        if (seatPositionList == null) {
+            seatPositionList = calculateSeatPositionList();
+        }
+        return seatPositionList;
     }
 
     /**

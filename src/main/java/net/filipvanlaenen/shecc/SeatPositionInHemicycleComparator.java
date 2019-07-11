@@ -14,13 +14,9 @@ class SeatPositionInHemicycleComparator implements Comparator<SeatPosition> {
      */
     private static final double ANGLE_DELTA = 0.000001D;
     /**
-     * One and a half π.
-     */
-    private static final double ONE_AND_A_HALF_PI = 1.5D * Math.PI;
-    /**
      * Three and a half π.
      */
-    private static final double THREE_AND_A_HALF_PI = 3.5D * Math.PI;
+    private static final double ONE_AND_A_HALF_PI = 1.5D * Math.PI;
 
     /**
      * Compares two seat positions.
@@ -41,7 +37,11 @@ class SeatPositionInHemicycleComparator implements Comparator<SeatPosition> {
      * @return The distance of the angle from 3π/2 (the south), clockwise.
      */
     private double angleFromOneAndAHalfPi(final double angle) {
-        return angle > ONE_AND_A_HALF_PI ? THREE_AND_A_HALF_PI - angle : ONE_AND_A_HALF_PI - angle;
+        double distance = ONE_AND_A_HALF_PI - angle;
+        if (distance < 0D) {
+            distance += 2D * Math.PI;
+        }
+        return distance;
     }
 
     /**

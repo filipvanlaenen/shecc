@@ -37,7 +37,7 @@ public class SeatPosition {
      *
      * @return The radius for the seat position.
      */
-    double getRadius() {
+    public double getRadius() {
         return radius;
     }
 
@@ -46,7 +46,7 @@ public class SeatPosition {
      *
      * @return The angle for the seat position.
      */
-    double getAngle() {
+    public double getAngle() {
         return angle;
     }
 
@@ -55,7 +55,7 @@ public class SeatPosition {
      *
      * @return The x coordinate for the seat position.
      */
-    double getX() {
+    public double getX() {
         return radius * Math.cos(angle);
     }
 
@@ -64,7 +64,7 @@ public class SeatPosition {
      *
      * @return The y coordinate for the seat position.
      */
-    double getY() {
+    public double getY() {
         return radius * Math.sin(angle);
     }
 

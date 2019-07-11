@@ -14,7 +14,7 @@ import java.util.Set;
  * and the ratio is two thirds.
  *
  */
-class HemicycleLayout {
+public class HemicycleLayout {
 
     /**
      * The default value for the angle of the hemicycle, set to π (180°).
@@ -70,7 +70,7 @@ class HemicycleLayout {
      * @param noOfSeats
      *            The number of seats in the hemicycle.
      */
-    HemicycleLayout(final int noOfSeats) {
+    public HemicycleLayout(final int noOfSeats) {
         this(noOfSeats, DEFAULT_ANGLE);
     }
 
@@ -82,7 +82,7 @@ class HemicycleLayout {
      * @param angle
      *            The angle for the hemicycle.
      */
-    HemicycleLayout(final int noOfSeats, final double angle) {
+    public HemicycleLayout(final int noOfSeats, final double angle) {
         this(noOfSeats, angle, DEFAULT_RADIUS_RATIO);
     }
 
@@ -169,7 +169,7 @@ class HemicycleLayout {
      *
      * @return The number of rows.
      */
-    int getNoOfRows() {
+    public int getNoOfRows() {
         if (noOfRows == 0) {
             noOfRows = calculateNoOfRows();
         }
@@ -250,7 +250,15 @@ class HemicycleLayout {
      *            The index of the requested seat position
      * @return The seat position at index i.
      */
-    SeatPosition getSeatPosition(final int i) {
+    public SeatPosition getSeatPosition(final int i) {
         return getSeatPositionList().get(i);
+    }
+
+    public List<SeatPosition> getSeatPositions() {
+        return Collections.unmodifiableList(getSeatPositionList());
+    }
+
+    public double getRowWidth() {
+        return (1D - getRadiusRatio()) / getNoOfRows();
     }
 }

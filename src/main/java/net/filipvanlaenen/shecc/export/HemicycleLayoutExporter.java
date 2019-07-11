@@ -7,9 +7,19 @@ import net.filipvanlaenen.shecc.SeatPosition;
 import net.filipvanlaenen.shecc.export.svg.Circle;
 import net.filipvanlaenen.shecc.export.svg.Svg;
 
+/**
+ * A class exporting hemicycle layouts.
+ */
 public class HemicycleLayoutExporter {
 
-    String export(HemicycleLayout layout) {
+    /**
+     * Exports a hemicycle layout to SVG.
+     *
+     * @param layout
+     *            The hemicycle layout to be exported.
+     * @return A string representing the hemicycle layout in SVG.
+     */
+    String export(final HemicycleLayout layout) {
         Svg svg = new Svg().width(200).height(100).viewBox(-1, -1, 2, 1);
         double seatRadius = layout.getRowWidth() * 0.45D;
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();

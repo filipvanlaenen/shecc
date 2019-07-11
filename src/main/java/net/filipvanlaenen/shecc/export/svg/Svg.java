@@ -1,64 +1,87 @@
 package net.filipvanlaenen.shecc.export.svg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * Class representing the root element of an SVG document.
+ */
 public class Svg {
 
-    private Number height;
-    private Number width;
-    private Number[] viewBox;
+    /**
+     * A map with the numeric attributes.
+     */
+    private final Map<String, Number> numericAttributes = new HashMap<String, Number>();
+    /**
+     * A map with the numeric array attributes.
+     */
+    private final Map<String, Number[]> numericArrayAttributes = new HashMap<String, Number[]>();
+    /**
+     * A list with the elements.
+     */
     private final List<ShapeElement> elements = new ArrayList<ShapeElement>();
 
-    public Svg height(Number height) {
-        this.height = height;
+    /**
+     * Sets the height.
+     *
+     * @param height
+     *            The height.
+     * @return The instance called.
+     */
+    public Svg height(final Number height) {
+        numericAttributes.put("height", height);
         return this;
     }
 
-    public Svg width(Number width) {
-        this.width = width;
+    /**
+     * Sets the width.
+     *
+     * @param width
+     *            The width.
+     * @return The instance called.
+     */
+    public Svg width(final Number width) {
+        numericAttributes.put("width", width);
         return this;
     }
 
-    public Svg viewBox(Number minX, Number minY, Number width, Number height) {
-        this.viewBox = new Number[] { minX, minY, width, height };
+    /**
+     * Sets the view box attribute, a list of four numbers (minX, minY, width and
+     * height).
+     *
+     * @param minX
+     *            The x coordinate of the top left corner.
+     * @param minY
+     *            The y coordinate of the top left corner.
+     * @param width
+     *            The width of the view box.
+     * @param height
+     *            The height of the view box.
+     * @return The instance called.
+     */
+    public Svg viewBox(final Number minX, final Number minY, final Number width, final Number height) {
+        numericArrayAttributes.put("viewBox", new Number[] {minX, minY, width, height});
         return this;
     }
 
-    public void addElement(ShapeElement shape) {
+    /**
+     * Adds a shape element.
+     *
+     * @param shape
+     *            A shape element.
+     */
+    public void addElement(final ShapeElement shape) {
         this.elements.add(shape);
     }
 
-    private void conditionallyAddNumericAttributeAsString(List<String> attributes, Number number, String name) {
-        if (number != null) {
-            attributes.add(name + "=\"" + number.toString() + "\"");
-        }
-    }
-
-    private void conditionallyAddNumericArrayAttributeAsString(List<String> attributes, Number[] numberArray,
-            String name) {
-        if (numberArray != null) {
-            List<String> values = new ArrayList<String>();
-            for (Number number : numberArray) {
-                values.add(number.toString());
-            }
-            attributes.add(name + "=\"" + String.join(" ", values) + "\"");
-        }
-    }
-
-    private String attributesAsString() {
-        List<String> attributeStrings = new ArrayList<String>();
-        conditionallyAddNumericAttributeAsString(attributeStrings, height, "height");
-        conditionallyAddNumericArrayAttributeAsString(attributeStrings, viewBox, "viewBox");
-        conditionallyAddNumericAttributeAsString(attributeStrings, width, "width");
-        if (attributeStrings.isEmpty()) {
-            return "";
-        } else {
-            return " " + String.join(" ", attributeStrings);
-        }
-    }
-
+    /**
+     * Returns a string representation of the elements.
+     *
+     * @return A string representation of the elements.
+     */
     private String elementsAsString() {
         List<String> elementStrings = new ArrayList<String>();
         Iterator<ShapeElement> elementIterator = elements.iterator();
@@ -73,10 +96,15 @@ public class Svg {
         }
     }
 
+    /**
+     * Returns a string representation of the SVG document.
+     *
+     * @return A string representation of the SVG document.
+     */
     public String asString() {
-        return "<svg" + attributesAsString() + " xmlns=\"http://www.w3.org/2000/svg\""
-                + (elements.isEmpty() ? "/>" : (">\n" + elementsAsString() + "</svg>"));
+        return "<svg" + Attributes.attributesAsString(numericAttributes, numericArrayAttributes)
+                + " xmlns=\"http://www.w3.org/2000/svg\""
+                + (elements.isEmpty() ? "/>" : ">\n" + elementsAsString() + "</svg>");
 
     }
-
 }

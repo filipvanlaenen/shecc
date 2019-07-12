@@ -31,7 +31,7 @@ public class SeatingPlan {
      * @param parliamentaryGroups
      *            The parliamentary groups to be seated.
      */
-    public SeatingPlan(List<ParliamentaryGroup> parliamentaryGroups) {
+    public SeatingPlan(final List<ParliamentaryGroup> parliamentaryGroups) {
         this.parliamentaryGroups = Collections.unmodifiableList(parliamentaryGroups);
     }
 
@@ -51,7 +51,7 @@ public class SeatingPlan {
 
     /**
      * Returns the total number of seats for all parliamentary groups together.
-     * 
+     *
      * @return The total number of seats.
      */
     public int getNoOfSeats() {
@@ -68,7 +68,7 @@ public class SeatingPlan {
      *            The number of the seat.
      * @return The parliamentary group sitting at the request seat number.
      */
-    private ParliamentaryGroup calculateParliamentaryGroupAtSeat(int seatNumber) {
+    private ParliamentaryGroup calculateParliamentaryGroupAtSeat(final int seatNumber) {
         Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
         int total = 0;
         while (iterator.hasNext()) {
@@ -88,7 +88,7 @@ public class SeatingPlan {
      *            The number of the seat.
      * @return The parliamentary group sitting at the request seat number.
      */
-    public ParliamentaryGroup getParliamentaryGroupAtSeat(int seatNumber) {
+    public ParliamentaryGroup getParliamentaryGroupAtSeat(final int seatNumber) {
         if (seats == null) {
             seats = new ParliamentaryGroup[getNoOfSeats()];
         }

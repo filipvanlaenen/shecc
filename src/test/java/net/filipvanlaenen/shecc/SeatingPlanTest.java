@@ -13,6 +13,10 @@ import org.junit.jupiter.api.Test;
  */
 public class SeatingPlanTest {
     /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
      * A parliamentary group with two seats using the color red.
      */
     private static final ParliamentaryGroup RED_GROUP_WITH_TWO_SEATS = new ParliamentaryGroup(2, 0xFF0000);
@@ -42,16 +46,16 @@ public class SeatingPlanTest {
     @Test
     void numberOfSeatsIsThreeForTwoRedSeatsAndOneBlueSeat() {
         SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
-        assertEquals(3, seatingPlan.getNoOfSeats());
+        assertEquals(THREE, seatingPlan.getNoOfSeats());
     }
-    
+
     /**
      * Test verifying that the red group holds the first seat.
      */
     @Test
     void firstSeatIsForTheRedGroupForTwoRedSeatsAndOneBlue() {
         SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
-        assertEquals(RED_GROUP_WITH_TWO_SEATS, seatingPlan.getParliamentaryGroupAtSeat(0));        
+        assertEquals(RED_GROUP_WITH_TWO_SEATS, seatingPlan.getParliamentaryGroupAtSeat(0));
     }
 
     /**
@@ -60,7 +64,6 @@ public class SeatingPlanTest {
     @Test
     void thirdSeatIsForTheBlueGroupForTwoRedSeatsAndOneBlue() {
         SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
-        assertEquals(BLUE_GROUP_WITH_ONE_SEAT, seatingPlan.getParliamentaryGroupAtSeat(2));        
+        assertEquals(BLUE_GROUP_WITH_ONE_SEAT, seatingPlan.getParliamentaryGroupAtSeat(2));
     }
-
 }

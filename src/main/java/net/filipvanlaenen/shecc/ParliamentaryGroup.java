@@ -23,14 +23,14 @@ public class ParliamentaryGroup {
      * @param color
      *            The color of the parliamentary group.
      */
-    public ParliamentaryGroup(int size, int color) {
+    public ParliamentaryGroup(final int size, final int color) {
         this.size = size;
         this.color = color;
     }
 
     /**
      * Returns the size of the parliamentary group.
-     * 
+     *
      * @return The size of the parliamentary group.
      */
     public int getSize() {
@@ -39,7 +39,7 @@ public class ParliamentaryGroup {
 
     /**
      * Returns the color of the parliamentary group.
-     * 
+     *
      * @return The color of the parliamentary group.
      */
     public int getColor() {

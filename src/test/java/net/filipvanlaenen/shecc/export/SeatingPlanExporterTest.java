@@ -15,14 +15,23 @@ import net.filipvanlaenen.shecc.SeatingPlan;
  */
 public class SeatingPlanExporterTest {
     /**
+     * Magic number for the color red.
+     */
+    private static final int RED = 0xFF0000;
+    /**
+     * Magic number for the color blue.
+     */
+    private static final int BLUE = 0x0000FF;
+
+    /**
      * Test verifying the export of a seating plan with two seats for the red group
      * and one for the blue group using the default hemicycle layout to SVG.
      */
     @Test
     void svgExportForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
         List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, 0xFF0000));
-        groups.add(new ParliamentaryGroup(1, 0x0000FF));
+        groups.add(new ParliamentaryGroup(2, RED));
+        groups.add(new ParliamentaryGroup(1, BLUE));
         SeatingPlan plan = new SeatingPlan(groups);
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String actual = exporter.export(plan);

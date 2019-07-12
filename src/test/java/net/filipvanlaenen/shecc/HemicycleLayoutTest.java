@@ -74,6 +74,11 @@ class HemicycleLayoutTest {
      */
     private static final double JUST_ABOVE_THREE = 3.01D;
     /**
+     * The magic number four. Can e.g. used to test a boundary condition depending on the
+     * number four.
+     */
+    private static final double FOUR = 4D;
+    /**
      * Quarter of π. Can e.g. be used as a test angle.
      */
     private static final double QUARTER_PI = Math.PI / 4D;
@@ -440,7 +445,7 @@ class HemicycleLayoutTest {
      */
     @Test
     void heightIsCalculatedCorrectlyOneWhenAngleIsGreaterThanPi() {
-        HemicycleLayout layout = new HemicycleLayout(1, 4D);
+        HemicycleLayout layout = new HemicycleLayout(1, FOUR);
         double expected = 1 + Math.sin(2D - HALF_PI);
         assertEquals(expected, layout.getHeight(), DOUBLE_DELTA);
     }

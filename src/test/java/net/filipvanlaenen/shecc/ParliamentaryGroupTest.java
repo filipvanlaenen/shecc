@@ -9,12 +9,16 @@ import org.junit.jupiter.api.Test;
  */
 public class ParliamentaryGroupTest {
     /**
+     * Magic number for the color red.
+     */
+    private static final int RED = 0xFF0000;
+    /**
      * Test verifying that the size is wired correctly from the constructor to the
      * getter.
      */
     @Test
     void sizeIsWiredCorrectlyFromTheConstructorToTheGetter() {
-        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, 0xFF0000);
+        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, RED);
         assertEquals(1, parliamentaryGroup.getSize());
     }
 
@@ -24,7 +28,7 @@ public class ParliamentaryGroupTest {
      */
     @Test
     void colorIsWiredCorrectlyFromTheConstructorToTheGetter() {
-        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, 0xFF0000);
-        assertEquals(0xFF0000, parliamentaryGroup.getColor());
+        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, RED);
+        assertEquals(RED, parliamentaryGroup.getColor());
     }
 }

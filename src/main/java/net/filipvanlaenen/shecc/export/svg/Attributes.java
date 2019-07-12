@@ -51,6 +51,20 @@ public class Attributes {
     }
 
     /**
+     * Converts a string value from the map of string attributes to a string.
+     *
+     * @param attributeName
+     *            The name of the attribute to be exported.
+     * @param stringAttributes
+     *            The map with the string attributes.
+     * @return A string representing the requested string attribute's value.
+     */
+    private static String stringAttributeValueAsString(final String attributeName,
+            final Map<String, String> stringAttributes) {
+        return stringAttributes.get(attributeName);
+    }
+
+    /**
      * Converts a numeric array from the map of numeric array attributes to a
      * string.
      *
@@ -78,7 +92,7 @@ public class Attributes {
      * @return A string representing the numeric attributes.
      */
     static String attributesAsString(final Map<String, Number> numericAttributes) {
-        return attributesAsString(numericAttributes, Collections.emptyMap(), Collections.emptyMap());
+        return attributesAsString(numericAttributes, Collections.emptyMap());
     }
 
     /**
@@ -97,6 +111,23 @@ public class Attributes {
     }
 
     /**
+     * Converts a map with numeric attributes together with a map of color and
+     * string attributes to a string.
+     *
+     * @param numericAttributes
+     *            The map with the numeric attributes.
+     * @param colorAttributes
+     *            The map with the color attributes.
+     * @param stringAttributes
+     *            The map with the string attributes.
+     * @return A string representing the numeric and the numeric array attributes.
+     */
+    static String attributesAsString(final Map<String, Number> numericAttributes,
+            final Map<String, Integer> colorAttributes, final Map<String, String> stringAttributes) {
+        return attributesAsString(numericAttributes, colorAttributes, stringAttributes, Collections.emptyMap());
+    }
+
+    /**
      * Converts a map with numeric attributes together with a map of color
      * attributes and numeric array attributes to a string.
      *
@@ -104,17 +135,21 @@ public class Attributes {
      *            The map with the numeric attributes.
      * @param colorAttributes
      *            The map with the color attributes.
+     * @param stringAttributes
+     *            The map with the string attributes.
      * @param numericArrayAttributes
      *            The map with the numeric array attributes.
      * @return A string representing the numeric, color and the numeric array
      *         attributes.
      */
     static String attributesAsString(final Map<String, Number> numericAttributes,
-            final Map<String, Integer> colorAttributes, final Map<String, Number[]> numericArrayAttributes) {
+            final Map<String, Integer> colorAttributes, final Map<String, String> stringAttributes,
+            final Map<String, Number[]> numericArrayAttributes) {
         List<String> attributeStrings = new ArrayList<String>();
         Set<String> attributeNameSet = new HashSet<String>();
         attributeNameSet.addAll(numericAttributes.keySet());
         attributeNameSet.addAll(colorAttributes.keySet());
+        attributeNameSet.addAll(stringAttributes.keySet());
         attributeNameSet.addAll(numericArrayAttributes.keySet());
         List<String> attributeNameList = new ArrayList<String>(attributeNameSet);
         Collections.sort(attributeNameList);
@@ -126,6 +161,8 @@ public class Attributes {
                 attributeValueString = numericAttributeValueAsString(attributeName, numericAttributes);
             } else if (colorAttributes.containsKey(attributeName)) {
                 attributeValueString = colorAttributeValueAsString(attributeName, colorAttributes);
+            } else if (stringAttributes.containsKey(attributeName)) {
+                attributeValueString = stringAttributeValueAsString(attributeName, stringAttributes);
             } else {
                 attributeValueString = numericArrayAttributeValueAsString(attributeName, numericArrayAttributes);
             }

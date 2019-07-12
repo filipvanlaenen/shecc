@@ -23,7 +23,7 @@ public class Svg {
     /**
      * A list with the elements.
      */
-    private final List<ShapeElement> elements = new ArrayList<ShapeElement>();
+    private final List<GraphicsElement> elements = new ArrayList<GraphicsElement>();
 
     /**
      * Sets the height.
@@ -79,15 +79,25 @@ public class Svg {
     }
 
     /**
+     * Adds a text element.
+     *
+     * @param text
+     *            A text element.
+     */
+    public void addElement(final Text text) {
+        this.elements.add(text);
+    }
+
+    /**
      * Returns a string representation of the elements.
      *
      * @return A string representation of the elements.
      */
     private String elementsAsString() {
         List<String> elementStrings = new ArrayList<String>();
-        Iterator<ShapeElement> elementIterator = elements.iterator();
+        Iterator<GraphicsElement> elementIterator = elements.iterator();
         while (elementIterator.hasNext()) {
-            ShapeElement element = elementIterator.next();
+            GraphicsElement element = elementIterator.next();
             elementStrings.add(element.asString());
         }
         if (elementStrings.isEmpty()) {
@@ -103,7 +113,9 @@ public class Svg {
      * @return A string representation of the SVG document.
      */
     public String asString() {
-        return "<svg" + Attributes.attributesAsString(numericAttributes, Collections.emptyMap(), numericArrayAttributes)
+        return "<svg"
+                + Attributes.attributesAsString(numericAttributes, Collections.emptyMap(), Collections.emptyMap(),
+                        numericArrayAttributes)
                 + " xmlns=\"http://www.w3.org/2000/svg\""
                 + (elements.isEmpty() ? "/>" : ">\n" + elementsAsString() + "</svg>");
 

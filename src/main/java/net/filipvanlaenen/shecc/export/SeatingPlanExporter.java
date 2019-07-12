@@ -3,15 +3,21 @@ package net.filipvanlaenen.shecc.export;
 import java.util.Iterator;
 
 import net.filipvanlaenen.shecc.HemicycleLayout;
+import net.filipvanlaenen.shecc.ParliamentaryGroup;
 import net.filipvanlaenen.shecc.SeatPosition;
 import net.filipvanlaenen.shecc.SeatingPlan;
 import net.filipvanlaenen.shecc.export.svg.Circle;
 import net.filipvanlaenen.shecc.export.svg.Svg;
+import net.filipvanlaenen.shecc.export.svg.Text;
 
 /**
  * A class exporting seating plans.
  */
 public class SeatingPlanExporter {
+    /**
+     * Magic number for the color white.
+     */
+    private static final int WHITE = 0xFFFFFF;
     /**
      * The ratio between the seat circle radius and the row width.
      */
@@ -20,6 +26,12 @@ public class SeatingPlanExporter {
      * The factor to scale up the view box to the SVG dimensions.
      */
     private static final double VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR = 100D;
+
+    /**
+     * The factor used to move text down such that it appears vertically centered in
+     * the middle, relative to the font size.
+     */
+    private static final double FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY = 0.333333D;
 
     /**
      * Exports a seating plan to SVG.
@@ -41,8 +53,16 @@ public class SeatingPlanExporter {
         int seatNumber = 0;
         while (seatPositions.hasNext()) {
             SeatPosition seatPosition = seatPositions.next();
-            int color = plan.getParliamentaryGroupAtSeat(seatNumber).getColor();
-            svg.addElement(new Circle().cx(seatPosition.getX()).cy(-seatPosition.getY()).r(seatRadius).fill(color));
+            ParliamentaryGroup parliamentaryGroup = plan.getParliamentaryGroupAtSeat(seatNumber);
+            int color = parliamentaryGroup.getColor();
+            double x = seatPosition.getX();
+            double y = seatPosition.getY();
+            svg.addElement(new Circle().cx(x).cy(-y).r(seatRadius).fill(color));
+            String character = parliamentaryGroup.getCharacter();
+            if (character != null) {
+                svg.addElement(new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
+                        .fontSize(seatRadius).fill(WHITE).textAnchor("middle"));
+            }
             seatNumber += 1;
         }
         return svg.asString();

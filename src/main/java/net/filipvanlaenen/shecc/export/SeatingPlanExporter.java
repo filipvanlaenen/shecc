@@ -40,7 +40,7 @@ public class SeatingPlanExporter {
      *            The seating plan to be exported.
      * @return A string representing the seating plan in SVG.
      */
-    String export(final SeatingPlan plan) {
+    public String export(final SeatingPlan plan) {
         HemicycleLayout layout = new HemicycleLayout(plan.getNoOfSeats());
         double width = layout.getWidth();
         double halfWidth = width / 2D;

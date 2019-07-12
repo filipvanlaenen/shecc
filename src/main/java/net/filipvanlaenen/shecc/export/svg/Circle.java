@@ -11,6 +11,10 @@ public class Circle implements ShapeElement {
      * A map with the numeric attributes.
      */
     private final Map<String, Number> numericAttributes = new HashMap<String, Number>();
+    /**
+     * A map with the color attributes.
+     */
+    private final Map<String, Integer> colorAttributes = new HashMap<String, Integer>();
 
     /**
      * Sets the x coordinate of the center.
@@ -37,6 +41,18 @@ public class Circle implements ShapeElement {
     }
 
     /**
+     * Sets the fill color.
+     *
+     * @param fill
+     *            The fill color as an integer.
+     * @return The instance called.
+     */
+    public Circle fill(final Integer fill) {
+        colorAttributes.put("fill", fill);
+        return this;
+    }
+
+    /**
      * Sets the radius.
      *
      * @param r
@@ -55,6 +71,6 @@ public class Circle implements ShapeElement {
      */
     @Override
     public String asString() {
-        return "<circle" + Attributes.attributesAsString(numericAttributes) + "/>";
+        return "<circle" + Attributes.attributesAsString(numericAttributes, colorAttributes) + "/>";
     }
 }

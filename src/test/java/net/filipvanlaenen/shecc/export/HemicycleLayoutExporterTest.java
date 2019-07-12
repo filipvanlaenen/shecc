@@ -36,9 +36,9 @@ public class HemicycleLayoutExporterTest {
         HemicycleLayoutExporter exporter = new HemicycleLayoutExporter();
         String actual = exporter.export(layout);
         String expected = "<svg height=\"100\" viewBox=\"-1 -1 2 1\" width=\"200\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" r=\"0.3\"/>\n"
-                + "  <circle cx=\"0\" cy=\"-0.666667\" r=\"0.3\"/>\n"
-                + "  <circle cx=\"0.57735\" cy=\"-0.333333\" r=\"0.3\"/>\n" + "</svg>";
+                + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#777777\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#777777\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#777777\" r=\"0.3\"/>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -52,9 +52,9 @@ public class HemicycleLayoutExporterTest {
         HemicycleLayoutExporter exporter = new HemicycleLayoutExporter();
         String actual = exporter.export(layout);
         String expected = "<svg height=\"100\" viewBox=\"-0.999983 -1 1.999966 1\" width=\"199.99664\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <circle cx=\"-0.576058\" cy=\"-0.335562\" r=\"0.3\"/>\n"
-                + "  <circle cx=\"0\" cy=\"-0.666667\" r=\"0.3\"/>\n"
-                + "  <circle cx=\"0.576058\" cy=\"-0.335562\" r=\"0.3\"/>\n" + "</svg>";
+                + "  <circle cx=\"-0.576058\" cy=\"-0.335562\" fill=\"#777777\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#777777\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.576058\" cy=\"-0.335562\" fill=\"#777777\" r=\"0.3\"/>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -68,9 +68,9 @@ public class HemicycleLayoutExporterTest {
         HemicycleLayoutExporter exporter = new HemicycleLayoutExporter();
         String actual = exporter.export(layout);
         String expected = "<svg height=\"100.420366\" viewBox=\"-1 -1 2 1.004204\" width=\"200\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <circle cx=\"-0.578282\" cy=\"-0.331714\" r=\"0.3\"/>\n"
-                + "  <circle cx=\"0\" cy=\"-0.666667\" r=\"0.3\"/>\n"
-                + "  <circle cx=\"0.578282\" cy=\"-0.331714\" r=\"0.3\"/>\n" + "</svg>";
+                + "  <circle cx=\"-0.578282\" cy=\"-0.331714\" fill=\"#777777\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#777777\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.578282\" cy=\"-0.331714\" fill=\"#777777\" r=\"0.3\"/>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 }

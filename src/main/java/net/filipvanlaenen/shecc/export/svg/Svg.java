@@ -1,6 +1,7 @@
 package net.filipvanlaenen.shecc.export.svg;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -102,7 +103,7 @@ public class Svg {
      * @return A string representation of the SVG document.
      */
     public String asString() {
-        return "<svg" + Attributes.attributesAsString(numericAttributes, numericArrayAttributes)
+        return "<svg" + Attributes.attributesAsString(numericAttributes, Collections.emptyMap(), numericArrayAttributes)
                 + " xmlns=\"http://www.w3.org/2000/svg\""
                 + (elements.isEmpty() ? "/>" : ">\n" + elementsAsString() + "</svg>");
 

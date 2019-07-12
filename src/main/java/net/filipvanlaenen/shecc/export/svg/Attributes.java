@@ -37,6 +37,20 @@ public class Attributes {
     }
 
     /**
+     * Converts a color value from the map of color attributes to a string.
+     *
+     * @param attributeName
+     *            The name of the attribute to be exported.
+     * @param colorAttributes
+     *            The map with the color attributes.
+     * @return A string representing the requested color attribute's value.
+     */
+    private static String colorAttributeValueAsString(final String attributeName,
+            final Map<String, Integer> colorAttributes) {
+        return String.format("#%06X", colorAttributes.get(attributeName));
+    }
+
+    /**
      * Converts a numeric array from the map of numeric array attributes to a
      * string.
      *
@@ -64,24 +78,43 @@ public class Attributes {
      * @return A string representing the numeric attributes.
      */
     static String attributesAsString(final Map<String, Number> numericAttributes) {
-        return attributesAsString(numericAttributes, Collections.emptyMap());
+        return attributesAsString(numericAttributes, Collections.emptyMap(), Collections.emptyMap());
     }
 
     /**
-     * Converts a map with numeric attributes together with a map of numeric array
+     * Converts a map with numeric attributes together with a map of color
      * attributes to a string.
      *
      * @param numericAttributes
      *            The map with the numeric attributes.
-     * @param numericArrayAttributes
-     *            The map with the numeric array attributes.
+     * @param colorAttributes
+     *            The map with the color attributes.
      * @return A string representing the numeric and the numeric array attributes.
      */
     static String attributesAsString(final Map<String, Number> numericAttributes,
-            final Map<String, Number[]> numericArrayAttributes) {
+            final Map<String, Integer> colorAttributes) {
+        return attributesAsString(numericAttributes, colorAttributes, Collections.emptyMap());
+    }
+
+    /**
+     * Converts a map with numeric attributes together with a map of color
+     * attributes and numeric array attributes to a string.
+     *
+     * @param numericAttributes
+     *            The map with the numeric attributes.
+     * @param colorAttributes
+     *            The map with the color attributes.
+     * @param numericArrayAttributes
+     *            The map with the numeric array attributes.
+     * @return A string representing the numeric, color and the numeric array
+     *         attributes.
+     */
+    static String attributesAsString(final Map<String, Number> numericAttributes,
+            final Map<String, Integer> colorAttributes, final Map<String, Number[]> numericArrayAttributes) {
         List<String> attributeStrings = new ArrayList<String>();
         Set<String> attributeNameSet = new HashSet<String>();
         attributeNameSet.addAll(numericAttributes.keySet());
+        attributeNameSet.addAll(colorAttributes.keySet());
         attributeNameSet.addAll(numericArrayAttributes.keySet());
         List<String> attributeNameList = new ArrayList<String>(attributeNameSet);
         Collections.sort(attributeNameList);
@@ -91,6 +124,8 @@ public class Attributes {
             String attributeValueString;
             if (numericAttributes.containsKey(attributeName)) {
                 attributeValueString = numericAttributeValueAsString(attributeName, numericAttributes);
+            } else if (colorAttributes.containsKey(attributeName)) {
+                attributeValueString = colorAttributeValueAsString(attributeName, colorAttributes);
             } else {
                 attributeValueString = numericArrayAttributeValueAsString(attributeName, numericArrayAttributes);
             }

@@ -62,6 +62,15 @@ The number of seats per parliamentary group can be specified as follows:
 * Join all groups together, separating them with a comma
 * Parliamentary groups will be placed in the hemicycle from left to right
 
+The example from above, `19.FF0000.R,11.00FF00.G,48.0000FF.B` can therefore be
+decoded as follows:
+
+| Group Specification | Size | Color            | Character |
+|---------------------|:----:| ----------------:|:---------:|
+| `19.FF0000.R`       | 19   | `FF0000` (red)   | R         |
+| `11.00FF00.G`       | 11   | `00FF00` (green) | G         |
+| `48.0000FF.B`       | 48   | `0000FF` (blue)  | B         |
+
 Below is a more formal specification of the grammar in extended Backus-Naur
 form:
 

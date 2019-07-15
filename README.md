@@ -51,3 +51,30 @@ The result should be something like this, a seating plan with 19 red seats, 11
 green seats and 48 blue seats:
 
 ![Seating Plan with 19 red seats, 11 green seats and 48 blue seats](/README-seating-plan.png "Seating Plan with 19 red seats, 11 green seats and 48 blue seats")
+
+
+## Seating Plan Specification
+
+The number of seats per parliamentary group can be specified as follows:
+* For each group, specify its size, followed by a dot, followed by its color as
+  a six-digit hexademical number, followed by a dot, followed by a character to
+  be used in the circle
+* Join all groups together, separating them with a comma
+* Parliamentary groups will be placed in the hemicycle from left to right
+
+Below is a more formal specification of the grammar in extended Backus-Naur
+form:
+
+```
+letter              = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" ;
+digit               = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+hexademical digit   = digit | "A" | "a" | "B" | "b" | "C" | "c" | "D" | "d" | "E" | "e" | "F" | "f" ;
+integer             = digit , { digit } ;
+size                = integer ;
+color               = hexademical digit , hexademical digit , hexademical digit , hexademical digit , hexademical digit , hexademical digit ;
+character           = letter | digit ;
+dor                 = "." ;
+group specification = size , dot , color , dot , character ;
+comma               = "," ;
+seating plan        = group specification ,  { comma , group specification } ;
+```

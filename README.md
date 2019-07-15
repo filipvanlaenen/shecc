@@ -16,3 +16,33 @@ of the features it intends to implement:
   * The shape, the colors and the character per party
   * Party name
   * Number of mandates
+
+## Getting Started
+
+First of all, you need to obtain a copy of the source code and compile it into
+an executable. Run the following commands to do this:
+
+```
+git clone git@github.com:filipvanlaenen/shecc.git
+cd shecc
+mvn clean compile assembly:single
+```
+
+If everything works well, you'll a JAR file in the `target` directory with all
+dependencies included. Navigate into the `target` directory and produce your
+first seating plan as folows:
+
+```
+cd target
+java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar 19.FF0000.R,11.00FF00.G,48.0000FF.B
+```
+
+As you'll see, this will print the contents of an SVG file to the command line.
+You can redirect the output to an SVG file, and if you have
+[Inkscape](https://inkscape.org/) installed, convert it to a PNG file as
+follows:
+
+```
+java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar 19.FF0000.R,11.00FF00.G,48.0000FF.B > seating-plan.svg
+inkscape -z -D seating-plan.svg -e seating-plan.png
+```

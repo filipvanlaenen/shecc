@@ -6,21 +6,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * A class representing a numeric array attribute.
+ */
 public class NumericArrayAttribute implements Attribute {
     /**
      * The decimal format.
      */
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.######",
             DecimalFormatSymbols.getInstance(Locale.US));
-    
+
+    /**
+     * The name of the attribute.
+     */
     private final String name;
+    /**
+     * The value of the attribute, an array of numbers.
+     */
     private final Number[] numbers;
 
+    /**
+     * Constructs an attribute with a numeric array value.
+     *
+     * @param name
+     *            The name of the attribute.
+     * @param numbers
+     *            The numbers.
+     */
     NumericArrayAttribute(final String name, final Number... numbers) {
         this.name = name;
         this.numbers = numbers;
     }
 
+    /**
+     * Converts the attribute value to a string.
+     *
+     * @return A string representing the value.
+     */
     @Override
     public String asString() {
         List<String> values = new ArrayList<String>();

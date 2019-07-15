@@ -9,7 +9,7 @@ import net.filipvanlaenen.shecc.SeatingPlan;
 import net.filipvanlaenen.shecc.export.svg.Circle;
 import net.filipvanlaenen.shecc.export.svg.Svg;
 import net.filipvanlaenen.shecc.export.svg.Text;
-import net.filipvanlaenen.shecc.export.svg.TextAnchor;
+import net.filipvanlaenen.shecc.export.svg.TextAnchorValues;
 
 /**
  * A class exporting seating plans.
@@ -62,7 +62,7 @@ public class SeatingPlanExporter {
             String character = parliamentaryGroup.getCharacter();
             if (character != null) {
                 svg.addElement(new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
-                        .fontSize(seatRadius).fill(WHITE).textAnchor(TextAnchor.MIDDLE));
+                        .fontSize(seatRadius).fill(WHITE).textAnchor(TextAnchorValues.MIDDLE));
             }
             seatNumber += 1;
         }

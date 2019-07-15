@@ -40,7 +40,7 @@ public class Attributes {
      * @param color
      *            The color specified as an integer number.
      */
-    void addColorAttribute(String name, Integer color) {
+    void addColorAttribute(final String name, final Integer color) {
         attributes.put(name, new ColorAttribute(name, color));
     }
 
@@ -52,22 +52,27 @@ public class Attributes {
      * @param numbers
      *            The numeric array value of the attribute.
      */
-    void addNumericArrayAttribute(String name, Number... numbers) {
+    void addNumericArrayAttribute(final String name, final Number... numbers) {
         attributes.put(name, new NumericArrayAttribute(name, numbers));
     }
 
     /**
-     * Adds an enumerated attribute to the set of attributes.
+     * Adds an attribute value enumeration attribute to the set of attributes.
      *
      * @param name
      *            The name of the attribute.
      * @param value
-     *            The enumerated value of the attribute.
+     *            The value of the attribute.
      */
-    void addEnumeratedAttribute(final String name, final Enum value) {
-        attributes.put(name, new EnumeratedArrayAttribute(name, value));
+    void addEnumerationAttribute(final String name, final AttributeValueEnumeration value) {
+        attributes.put(name, new EnumerationAttribute(name, value));
     }
 
+    /**
+     * Converts the set of attributes into a string.
+     *
+     * @return A string representing all the attributes.
+     */
     String asString() {
         Set<String> attributeNameSet = new HashSet<String>();
         attributeNameSet.addAll(attributes.keySet());

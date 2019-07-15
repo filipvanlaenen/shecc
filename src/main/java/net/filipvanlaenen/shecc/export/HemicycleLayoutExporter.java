@@ -22,7 +22,7 @@ public class HemicycleLayoutExporter {
     /**
      * The factor to scale up the view box to the SVG dimensions.
      */
-    private static final double VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR = 100D;
+    private static final double VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR = 1000D;
 
     /**
      * Exports a hemicycle layout to SVG.

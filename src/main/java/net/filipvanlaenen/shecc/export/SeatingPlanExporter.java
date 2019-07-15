@@ -25,7 +25,7 @@ public class SeatingPlanExporter {
     /**
      * The factor to scale up the view box to the SVG dimensions.
      */
-    private static final double VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR = 100D;
+    private static final double VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR = 1000D;
 
     /**
      * The factor used to move text down such that it appears vertically centered in

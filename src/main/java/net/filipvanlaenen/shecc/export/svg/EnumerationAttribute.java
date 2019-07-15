@@ -37,7 +37,7 @@ public class EnumerationAttribute<E extends AttributeValueEnumeration> implement
      */
     @Override
     public String asString() {
-        return value.toString();
+        return value.toString().toLowerCase();
     }
 
 }

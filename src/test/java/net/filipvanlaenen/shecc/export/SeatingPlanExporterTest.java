@@ -57,11 +57,11 @@ public class SeatingPlanExporterTest {
         String actual = exporter.export(plan);
         String expected = "<svg height=\"1000\" viewBox=\"-1 -1 2 1\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"MIDDLE\" x=\"-0.57735\" y=\"-0.233333\">R</text>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">R</text>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"MIDDLE\" x=\"0\" y=\"-0.566667\">R</text>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0\" y=\"-0.566667\">R</text>\n"
                 + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"MIDDLE\" x=\"0.57735\" y=\"-0.233333\">B</text>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0.57735\" y=\"-0.233333\">B</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }
@@ -83,11 +83,11 @@ public class SeatingPlanExporterTest {
         String actual = exporter.export(plan);
         String expected = "<svg height=\"1000\" viewBox=\"-1 -1 2 1\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"MIDDLE\" transform=\"rotate(-60 -0.57735,-0.333333)\" x=\"-0.57735\" y=\"-0.233333\">R</text>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" transform=\"rotate(-60 -0.57735,-0.333333)\" x=\"-0.57735\" y=\"-0.233333\">R</text>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"MIDDLE\" transform=\"rotate(0 0,-0.666667)\" x=\"0\" y=\"-0.566667\">R</text>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" transform=\"rotate(0 0,-0.666667)\" x=\"0\" y=\"-0.566667\">R</text>\n"
                 + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"MIDDLE\" transform=\"rotate(60 0.57735,-0.333333)\" x=\"0.57735\" y=\"-0.233333\">B</text>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" transform=\"rotate(60 0.57735,-0.333333)\" x=\"0.57735\" y=\"-0.233333\">B</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }

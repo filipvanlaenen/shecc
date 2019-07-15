@@ -61,6 +61,18 @@ public class Text implements GraphicsElement {
     }
 
     /**
+     * Adds a transformation to the text.
+     *
+     * @param transformation
+     *            The specification of the transformation, as a string.
+     * @return The instance called.
+     */
+    public Text transform(final String transformation) {
+        attributes.addStringAttribute("transform", transformation);
+        return this;
+    }
+
+    /**
      * Sets the x coordinate of the text.
      *
      * @param x
@@ -93,4 +105,5 @@ public class Text implements GraphicsElement {
     public String asString() {
         return "<text" + attributes.asString() + ">" + content + "</text>";
     }
+
 }

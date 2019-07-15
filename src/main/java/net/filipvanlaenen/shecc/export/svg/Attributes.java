@@ -45,6 +45,18 @@ public class Attributes {
     }
 
     /**
+     * Adds a string attribute to the set of attributes.
+     *
+     * @param name
+     *            The name of the attribute.
+     * @param string
+     *            The string value of the attribute.
+     */
+    public void addStringAttribute(final String name, final String string) {
+        attributes.put(name, new StringAttribute(name, string));
+    }
+
+    /**
      * Adds a numeric array attribute to the set of attributes.
      *
      * @param name
@@ -90,5 +102,4 @@ public class Attributes {
             return " " + String.join(" ", attributeStrings);
         }
     }
-
 }

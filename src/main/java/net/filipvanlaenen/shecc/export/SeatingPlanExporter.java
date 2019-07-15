@@ -1,6 +1,9 @@
 package net.filipvanlaenen.shecc.export;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Iterator;
+import java.util.Locale;
 
 import net.filipvanlaenen.shecc.HemicycleLayout;
 import net.filipvanlaenen.shecc.ParliamentaryGroup;
@@ -33,6 +36,15 @@ public class SeatingPlanExporter {
      * the middle, relative to the font size.
      */
     private static final double FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY = 0.333333D;
+    /**
+     * The decimal format.
+     */
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.######",
+            DecimalFormatSymbols.getInstance(Locale.US));
+    /**
+     * Specifies whether the letters should be rotated towards the center.
+     */
+    private boolean rotateLetters;
 
     /**
      * Exports a seating plan to SVG.
@@ -61,12 +73,28 @@ public class SeatingPlanExporter {
             svg.addElement(new Circle().cx(x).cy(-y).r(seatRadius).fill(color));
             String character = parliamentaryGroup.getCharacter();
             if (character != null) {
-                svg.addElement(new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
-                        .fontSize(seatRadius).fill(WHITE).textAnchor(TextAnchorValues.MIDDLE));
+                Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
+                        .fontSize(seatRadius).fill(WHITE).textAnchor(TextAnchorValues.MIDDLE);
+                if (rotateLetters) {
+                    double angle = 180D * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
+                    text.transform("rotate(" + DECIMAL_FORMAT.format(angle) + " " + DECIMAL_FORMAT.format(x) + ","
+                            + DECIMAL_FORMAT.format(-y) + ")");
+                }
+                svg.addElement(text);
             }
             seatNumber += 1;
         }
         return svg.asString();
+    }
+
+    /**
+     * Specifies whether the letters should be rotated towards the center.
+     *
+     * @param rotateLetters
+     *            True if the letters should be rotated towards the center.
+     */
+    void setRotateLetters(final boolean rotateLetters) {
+        this.rotateLetters = rotateLetters;
     }
 
 }

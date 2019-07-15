@@ -74,7 +74,8 @@ digit               = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" 
 hexademical digit   = digit | "A" | "a" | "B" | "b" | "C" | "c" | "D" | "d" | "E" | "e" | "F" | "f" ;
 integer             = digit , { digit } ;
 size                = integer ;
-color               = hexademical digit , hexademical digit , hexademical digit , hexademical digit , hexademical digit , hexademical digit ;
+color               = hexademical digit , hexademical digit , hexademical digit , hexademical digit ,
+                      hexademical digit , hexademical digit ;
 character           = letter | digit ;
 dor                 = "." ;
 group specification = size , dot , color , dot , character ;

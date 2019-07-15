@@ -66,7 +66,7 @@ The example from above, `19.FF0000.R,11.00FF00.G,48.0000FF.B` can therefore be
 decoded as follows:
 
 | Group Specification | Size | Color            | Character |
-|---------------------|:----:| ----------------:|:---------:|
+|:-------------------:|:----:|:----------------:|:---------:|
 | `19.FF0000.R`       | 19   | `FF0000` (red)   | R         |
 | `11.00FF00.G`       | 11   | `00FF00` (green) | G         |
 | `48.0000FF.B`       | 48   | `0000FF` (blue)  | B         |

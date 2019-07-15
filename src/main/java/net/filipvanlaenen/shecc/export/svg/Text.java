@@ -1,24 +1,14 @@
 package net.filipvanlaenen.shecc.export.svg;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A class representing text.
  */
 public class Text implements GraphicsElement {
     /**
-     * A map with the numeric attributes.
+     * The attributes.
      */
-    private final Map<String, Number> numericAttributes = new HashMap<String, Number>();
-    /**
-     * A map with the string attributes.
-     */
-    private final Map<String, String> stringAttributes = new HashMap<String, String>();
-    /**
-     * A map with the color attributes.
-     */
-    private final Map<String, Integer> colorAttributes = new HashMap<String, Integer>();
+    private final Attributes attributes = new Attributes();
+
     /**
      * The content.
      */
@@ -42,7 +32,7 @@ public class Text implements GraphicsElement {
      * @return The instance called.
      */
     public Text fill(final Integer fill) {
-        colorAttributes.put("fill", fill);
+        attributes.addColorAttribute("fill", fill);
         return this;
     }
 
@@ -54,7 +44,7 @@ public class Text implements GraphicsElement {
      * @return The instance called.
      */
     public Text fontSize(final Number fontSize) {
-        numericAttributes.put("font-size", fontSize);
+        attributes.addNumericAttribute("font-size", fontSize);
         return this;
     }
 
@@ -65,8 +55,8 @@ public class Text implements GraphicsElement {
      *            The text anchor for the text.
      * @return The instance called.
      */
-    public Text textAnchor(final String textAnchor) {
-        stringAttributes.put("text-anchor", textAnchor);
+    public Text textAnchor(final TextAnchor textAnchor) {
+        attributes.addEnumeratedAttribute("text-anchor", textAnchor);
         return this;
     }
 
@@ -78,7 +68,7 @@ public class Text implements GraphicsElement {
      * @return The instance called.
      */
     public Text x(final Number x) {
-        numericAttributes.put("x", x);
+        attributes.addNumericAttribute("x", x);
         return this;
     }
 
@@ -90,7 +80,7 @@ public class Text implements GraphicsElement {
      * @return The instance called.
      */
     public Text y(final Number y) {
-        numericAttributes.put("y", y);
+        attributes.addNumericAttribute("y", y);
         return this;
     }
 
@@ -101,7 +91,6 @@ public class Text implements GraphicsElement {
      */
     @Override
     public String asString() {
-        return "<text" + Attributes.attributesAsString(numericAttributes, colorAttributes, stringAttributes) + ">"
-                + content + "</text>";
+        return "<text" + attributes.asString() + ">" + content + "</text>";
     }
 }

@@ -1,20 +1,13 @@
 package net.filipvanlaenen.shecc.export.svg;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A class representing a circle.
  */
 public class Circle implements ShapeElement {
     /**
-     * A map with the numeric attributes.
+     * The attributes.
      */
-    private final Map<String, Number> numericAttributes = new HashMap<String, Number>();
-    /**
-     * A map with the color attributes.
-     */
-    private final Map<String, Integer> colorAttributes = new HashMap<String, Integer>();
+    private final Attributes attributes = new Attributes();
 
     /**
      * Sets the x coordinate of the center.
@@ -24,7 +17,7 @@ public class Circle implements ShapeElement {
      * @return The instance called.
      */
     public Circle cx(final Number cx) {
-        numericAttributes.put("cx", cx);
+        attributes.addNumericAttribute("cx", cx);
         return this;
     }
 
@@ -36,7 +29,7 @@ public class Circle implements ShapeElement {
      * @return The instance called.
      */
     public Circle cy(final Number cy) {
-        numericAttributes.put("cy", cy);
+        attributes.addNumericAttribute("cy", cy);
         return this;
     }
 
@@ -48,7 +41,7 @@ public class Circle implements ShapeElement {
      * @return The instance called.
      */
     public Circle fill(final Integer fill) {
-        colorAttributes.put("fill", fill);
+        attributes.addColorAttribute("fill", fill);
         return this;
     }
 
@@ -60,7 +53,7 @@ public class Circle implements ShapeElement {
      * @return The instance called.
      */
     public Circle r(final Number r) {
-        numericAttributes.put("r", r);
+        attributes.addNumericAttribute("r", r);
         return this;
     }
 
@@ -71,6 +64,6 @@ public class Circle implements ShapeElement {
      */
     @Override
     public String asString() {
-        return "<circle" + Attributes.attributesAsString(numericAttributes, colorAttributes) + "/>";
+        return "<circle" + attributes.asString() + "/>";
     }
 }

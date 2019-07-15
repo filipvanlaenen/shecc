@@ -1,11 +1,8 @@
 package net.filipvanlaenen.shecc.export.svg;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Class representing the root element of an SVG document.
@@ -13,13 +10,9 @@ import java.util.Map;
 public class Svg {
 
     /**
-     * A map with the numeric attributes.
+     * The attributes.
      */
-    private final Map<String, Number> numericAttributes = new HashMap<String, Number>();
-    /**
-     * A map with the numeric array attributes.
-     */
-    private final Map<String, Number[]> numericArrayAttributes = new HashMap<String, Number[]>();
+    private final Attributes attributes = new Attributes();
     /**
      * A list with the elements.
      */
@@ -33,7 +26,7 @@ public class Svg {
      * @return The instance called.
      */
     public Svg height(final Number height) {
-        numericAttributes.put("height", height);
+        attributes.addNumericAttribute("height", height);
         return this;
     }
 
@@ -45,7 +38,7 @@ public class Svg {
      * @return The instance called.
      */
     public Svg width(final Number width) {
-        numericAttributes.put("width", width);
+        attributes.addNumericAttribute("width", width);
         return this;
     }
 
@@ -64,7 +57,7 @@ public class Svg {
      * @return The instance called.
      */
     public Svg viewBox(final Number minX, final Number minY, final Number width, final Number height) {
-        numericArrayAttributes.put("viewBox", new Number[] {minX, minY, width, height});
+        attributes.addNumericArrayAttribute("viewBox", new Number[] {minX, minY, width, height});
         return this;
     }
 
@@ -113,10 +106,7 @@ public class Svg {
      * @return A string representation of the SVG document.
      */
     public String asString() {
-        return "<svg"
-                + Attributes.attributesAsString(numericAttributes, Collections.emptyMap(), Collections.emptyMap(),
-                        numericArrayAttributes)
-                + " xmlns=\"http://www.w3.org/2000/svg\""
+        return "<svg" + attributes.asString() + " xmlns=\"http://www.w3.org/2000/svg\""
                 + (elements.isEmpty() ? "/>" : ">\n" + elementsAsString() + "</svg>");
 
     }

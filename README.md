@@ -46,3 +46,8 @@ follows:
 java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar 19.FF0000.R,11.00FF00.G,48.0000FF.B > seating-plan.svg
 inkscape -z -D seating-plan.svg -e seating-plan.png
 ```
+
+The result should be something like this, a seating plan with 19 red seats, 11
+green seats and 48 blue seats:
+
+![Seating Plan with 19 red seats, 11 green seats and 48 blue seats](/README-seating-plan.png "Seating Plan with 19 red seats, 11 green seats and 48 blue seats")

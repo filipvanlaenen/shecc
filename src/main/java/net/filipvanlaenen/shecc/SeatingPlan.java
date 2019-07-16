@@ -36,6 +36,15 @@ public class SeatingPlan {
     }
 
     /**
+     * Returns an unmodifiable copy of the list of the parliamentary groups.
+     *
+     * @return An unmodifiable copy of the list of the parliamentary groups
+     */
+    public List<ParliamentaryGroup> getParliamentaryGroups() {
+        return parliamentaryGroups;
+    }
+
+    /**
      * Calculates the total number of seats for all parliamentary groups together.
      *
      * @return The total number of seats.

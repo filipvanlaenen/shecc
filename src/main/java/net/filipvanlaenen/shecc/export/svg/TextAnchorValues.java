@@ -6,8 +6,16 @@ package net.filipvanlaenen.shecc.export.svg;
 public enum TextAnchorValues implements AttributeValueEnumeration {
 
     /**
+     * Anchor text at the start.
+     */
+    START,
+    /**
      * Anchor text in the middle.
      */
-    MIDDLE
+    MIDDLE,
+    /**
+     * Anchor text at the end.
+     */
+    END
 
 }

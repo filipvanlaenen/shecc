@@ -41,6 +41,16 @@ public class SeatingPlanTest {
     }
 
     /**
+     * Test verifying that the list of parliamentary groups is wired correctly from
+     * the constructor to the getter.
+     */
+    @Test
+    void parliamentaryGroupsIsWiredCorrectlyFromTheConstructorToTheGetter() {
+        SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
+        assertEquals(twoRedSeatsAndOneBlue, seatingPlan.getParliamentaryGroups());
+    }
+
+    /**
      * Test verifying that the number of seats is calculated correctly.
      */
     @Test

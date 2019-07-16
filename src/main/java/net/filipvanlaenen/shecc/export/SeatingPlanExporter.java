@@ -3,6 +3,7 @@ package net.filipvanlaenen.shecc.export;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import net.filipvanlaenen.shecc.HemicycleLayout;
@@ -23,6 +24,10 @@ public class SeatingPlanExporter {
      */
     private static final int WHITE = 0xFFFFFF;
     /**
+     * Magic number for the color black.
+     */
+    private static final int BLACK = 0x000000;
+    /**
      * The ratio between the seat circle radius and the row width.
      */
     private static final double RADIUS_ROW_WIDTH_RATIO = 0.45D;
@@ -42,6 +47,10 @@ public class SeatingPlanExporter {
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.######",
             DecimalFormatSymbols.getInstance(Locale.US));
     /**
+     * Specifies whether a legend should be displayed.
+     */
+    private boolean displayLegend;
+    /**
      * Specifies whether the letters should be rotated towards the center.
      */
     private boolean rotateLetters;
@@ -58,10 +67,14 @@ public class SeatingPlanExporter {
         double width = layout.getWidth();
         double halfWidth = width / 2D;
         double svgWidth = width * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
-        double height = layout.getHeight();
-        double svgHeight = height * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
-        Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, -1, width, height);
+        double hemicycleHeight = layout.getHeight();
+        double canvasHeight = hemicycleHeight;
         double seatRadius = layout.getRowWidth() * RADIUS_ROW_WIDTH_RATIO;
+        if (displayLegend) {
+            canvasHeight +=  seatRadius * 3D;
+        }
+        double svgHeight = canvasHeight * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
+        Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, -1, width, canvasHeight);
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
         int seatNumber = 0;
         while (seatPositions.hasNext()) {
@@ -84,7 +97,41 @@ public class SeatingPlanExporter {
             }
             seatNumber += 1;
         }
+        if (displayLegend) {
+            List<ParliamentaryGroup> parliamentaryGroupsList = plan.getParliamentaryGroups();
+            int noOfParliamentaryGroups = parliamentaryGroupsList.size();
+            Iterator<ParliamentaryGroup> parliamentaryGroups = parliamentaryGroupsList.iterator();
+            int legendPositionNumber = 0;
+            double y = -1 + hemicycleHeight + seatRadius * 2D;
+            while (parliamentaryGroups.hasNext()) {
+                ParliamentaryGroup parliamentaryGroup = parliamentaryGroups.next();
+                int color = parliamentaryGroup.getColor();
+                double x = -halfWidth + seatRadius + width * legendPositionNumber / noOfParliamentaryGroups;
+                svg.addElement(new Circle().cx(x).cy(y).r(seatRadius).fill(color));
+                String character = parliamentaryGroup.getCharacter();
+                double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
+                if (character != null) {
+                    Text text = new Text(character).x(x).y(textY).fontSize(seatRadius).fill(WHITE)
+                            .textAnchor(TextAnchorValues.MIDDLE);
+                    svg.addElement(text);
+                }
+                Text text = new Text(parliamentaryGroup.getName()).x(x + 1.5D * seatRadius).y(textY).fontSize(seatRadius)
+                        .fill(BLACK).textAnchor(TextAnchorValues.START);
+                svg.addElement(text);
+                legendPositionNumber += 1;
+            }
+        }
         return svg.asString();
+    }
+
+    /**
+     * Specifies whether a legend should be displayed.
+     *
+     * @param displayLegend
+     *            True if a legend should be displayed.
+     */
+    void setDisplayLegend(final boolean displayLegend) {
+        this.displayLegend = displayLegend;
     }
 
     /**
@@ -96,5 +143,4 @@ public class SeatingPlanExporter {
     void setRotateLetters(final boolean rotateLetters) {
         this.rotateLetters = rotateLetters;
     }
-
 }

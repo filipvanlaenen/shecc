@@ -71,7 +71,7 @@ public class SeatingPlanExporter {
         double canvasHeight = hemicycleHeight;
         double seatRadius = layout.getRowWidth() * RADIUS_ROW_WIDTH_RATIO;
         if (displayLegend) {
-            canvasHeight +=  seatRadius * 3D;
+            canvasHeight += seatRadius * 3D;
         }
         double svgHeight = canvasHeight * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
         Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, -1, width, canvasHeight);
@@ -115,8 +115,8 @@ public class SeatingPlanExporter {
                             .textAnchor(TextAnchorValues.MIDDLE);
                     svg.addElement(text);
                 }
-                Text text = new Text(parliamentaryGroup.getName()).x(x + 1.5D * seatRadius).y(textY).fontSize(seatRadius)
-                        .fill(BLACK).textAnchor(TextAnchorValues.START);
+                Text text = new Text(parliamentaryGroup.getName()).x(x + 1.5D * seatRadius).y(textY)
+                        .fontSize(seatRadius).fill(BLACK).textAnchor(TextAnchorValues.START);
                 svg.addElement(text);
                 legendPositionNumber += 1;
             }

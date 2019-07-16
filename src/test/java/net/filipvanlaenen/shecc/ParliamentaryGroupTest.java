@@ -50,7 +50,27 @@ public class ParliamentaryGroupTest {
      */
     @Test
     void characterIsWiredCorrectlyFromTheConstructorToTheGetter() {
-        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, RED, "R");
+        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, RED, null, "R");
         assertEquals("R", parliamentaryGroup.getCharacter());
+    }
+
+    /**
+     * Test verifying that by default, the name of a parliamentary group is
+     * null.
+     */
+    @Test
+    void byDefaultTheNameIsNull() {
+        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, RED);
+        assertNull(parliamentaryGroup.getName());
+    }
+
+    /**
+     * Test verifying that the name is wired correctly from the constructor to the
+     * getter.
+     */
+    @Test
+    void nameIsWiredCorrectlyFromTheConstructorToTheGetter() {
+        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, RED, "Red");
+        assertEquals("Red", parliamentaryGroup.getName());
     }
 }

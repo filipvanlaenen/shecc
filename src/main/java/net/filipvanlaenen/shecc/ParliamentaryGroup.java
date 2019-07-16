@@ -15,11 +15,15 @@ public class ParliamentaryGroup {
      */
     private final int color;
 
-
     /**
      * The character of the parliamentary group.
      */
     private final String character;
+
+    /**
+     * The name of the parliamentary group.
+     */
+    private final String name;
 
     /**
      * Constructs a parliamentary group with a size and a color.
@@ -34,18 +38,35 @@ public class ParliamentaryGroup {
     }
 
     /**
-     * Constructs a parliamentary group with a size and a color.
+     * Constructs a parliamentary group with a size, color and name.
      *
      * @param size
      *            The size of the parliamentary group.
      * @param color
      *            The color of the parliamentary group.
+     * @param name
+     *            The name of the parliamentary group.
+     */
+    public ParliamentaryGroup(final int size, final int color, final String name) {
+        this(size, color, name, null);
+    }
+
+    /**
+     * Constructs a parliamentary group with a size, color, name and a character.
+     *
+     * @param size
+     *            The size of the parliamentary group.
+     * @param color
+     *            The color of the parliamentary group.
+     * @param name
+     *            The name of the parliamentary group.
      * @param character
      *            The character of the parliamentary group.
      */
-    public ParliamentaryGroup(final int size, final int color, final String character) {
+    public ParliamentaryGroup(final int size, final int color, final String name, final String character) {
         this.size = size;
         this.color = color;
+        this.name = name;
         this.character = character;
     }
 
@@ -74,6 +95,15 @@ public class ParliamentaryGroup {
      */
     public String getCharacter() {
         return character;
+    }
+
+    /**
+     * Returns the name of the parliamentary group.
+     *
+     * @return The name of the parliamentary group.
+     */
+    public String getName() {
+        return name;
     }
 
 }

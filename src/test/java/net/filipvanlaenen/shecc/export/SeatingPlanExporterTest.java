@@ -50,8 +50,8 @@ public class SeatingPlanExporterTest {
     @Test
     void svgExportForTwoRedAndOneBlueSeatsWithLettersInADefaultHemicycleLayout() {
         List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, "R"));
-        groups.add(new ParliamentaryGroup(1, BLUE, "B"));
+        groups.add(new ParliamentaryGroup(2, RED, null, "R"));
+        groups.add(new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlan plan = new SeatingPlan(groups);
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String actual = exporter.export(plan);
@@ -75,8 +75,8 @@ public class SeatingPlanExporterTest {
     @Test
     void svgExportForTwoRedAndOneBlueSeatsWithRotatedLettersInADefaultHemicycleLayout() {
         List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, "R"));
-        groups.add(new ParliamentaryGroup(1, BLUE, "B"));
+        groups.add(new ParliamentaryGroup(2, RED, null, "R"));
+        groups.add(new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlan plan = new SeatingPlan(groups);
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setRotateLetters(true);

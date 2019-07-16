@@ -41,7 +41,7 @@ public class CommandLineInterface {
             int size = Integer.parseInt(attributes[0]);
             int color = Integer.parseInt(attributes[1], SIXTEEN);
             String character = attributes[2];
-            groups.add(new ParliamentaryGroup(size, color, character));
+            groups.add(new ParliamentaryGroup(size, color, null, character));
         }
         SeatingPlan plan = new SeatingPlan(groups);
         SeatingPlanExporter exporter = new SeatingPlanExporter();

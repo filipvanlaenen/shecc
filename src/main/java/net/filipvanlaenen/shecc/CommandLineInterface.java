@@ -33,8 +33,24 @@ public class CommandLineInterface {
      * @return Whatever was requested by the user from the command-line.
      */
     String perform(final String... args) {
-        String groupsargument = args[0];
-        String[] groupdefinitions = groupsargument.split(",");
+        String groupsDefinition = null;
+        String fontFamily = null;
+        Integer fontColor = null;
+        for (String argument : args) {
+            if (argument.startsWith("--")) {
+                String[] keyValue = argument.substring(2).split("=");
+                String key = keyValue[0];
+                String value = keyValue[1];
+                if (key.equals("font-family")) {
+                    fontFamily = value;
+                } else if (key.equals("font-color")) {
+                    fontColor = Integer.parseInt(value, SIXTEEN);
+                }
+            } else {
+                groupsDefinition = argument;
+            }
+        }
+        String[] groupdefinitions = groupsDefinition.split(",");
         List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
         boolean atLeastOneNamePresent = false;
         for (int i = 0; i < groupdefinitions.length; i++) {
@@ -49,6 +65,12 @@ public class CommandLineInterface {
         SeatingPlan plan = new SeatingPlan(groups);
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(atLeastOneNamePresent);
+        if (fontColor != null) {
+            exporter.setFontColor(fontColor);
+        }
+        if (fontFamily != null) {
+            exporter.setFontFamily(fontFamily);
+        }
         return exporter.export(plan);
     }
 

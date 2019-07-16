@@ -51,6 +51,10 @@ public class SeatingPlanExporter {
      */
     private boolean displayLegend;
     /**
+     * Specifies the font color.
+     */
+    private Integer fontColor;
+    /**
      * Specifies the font family.
      */
     private String fontFamily;
@@ -109,7 +113,7 @@ public class SeatingPlanExporter {
             int noOfParliamentaryGroups = parliamentaryGroupsList.size();
             Iterator<ParliamentaryGroup> parliamentaryGroups = parliamentaryGroupsList.iterator();
             int legendPositionNumber = 0;
-            double y = -1 + hemicycleHeight + seatRadius * 2D;
+            double y = -1D + hemicycleHeight + seatRadius * 2D;
             while (parliamentaryGroups.hasNext()) {
                 ParliamentaryGroup parliamentaryGroup = parliamentaryGroups.next();
                 int color = parliamentaryGroup.getColor();
@@ -118,7 +122,7 @@ public class SeatingPlanExporter {
                 String character = parliamentaryGroup.getCharacter();
                 double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
                 if (character != null) {
-                    Text text = new Text(character).x(x).y(textY).fontSize(seatRadius).fill(WHITE)
+                    Text text = new Text(character).x(x).y(textY).fill(WHITE).fontSize(seatRadius)
                             .textAnchor(TextAnchorValues.MIDDLE);
                     if (fontFamily != null) {
                         text.fontFamily(fontFamily);
@@ -126,7 +130,12 @@ public class SeatingPlanExporter {
                     svg.addElement(text);
                 }
                 Text text = new Text(parliamentaryGroup.getName()).x(x + 1.5D * seatRadius).y(textY)
-                        .fontSize(seatRadius).fill(BLACK).textAnchor(TextAnchorValues.START);
+                        .fontSize(seatRadius).textAnchor(TextAnchorValues.START);
+                if (fontColor == null) {
+                    text.fill(BLACK);
+                } else {
+                    text.fill(fontColor);
+                }
                 if (fontFamily != null) {
                     text.fontFamily(fontFamily);
                 }
@@ -158,12 +167,22 @@ public class SeatingPlanExporter {
     }
 
     /**
+     * Specifies the font color.
+     *
+     * @param fontColor
+     *            The name of the font color.
+     */
+    public void setFontColor(final Integer fontColor) {
+        this.fontColor = fontColor;
+    }
+
+    /**
      * Specifies the font family.
      *
      * @param fontFamily
      *            The name of the font family.
      */
-    void setFontFamily(String fontFamily) {
+    public void setFontFamily(final String fontFamily) {
         this.fontFamily = fontFamily;
     }
 }

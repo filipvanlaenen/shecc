@@ -51,6 +51,10 @@ public class SeatingPlanExporter {
      */
     private boolean displayLegend;
     /**
+     * Specifies the font family.
+     */
+    private String fontFamily;
+    /**
      * Specifies whether the letters should be rotated towards the center.
      */
     private boolean rotateLetters;
@@ -93,6 +97,9 @@ public class SeatingPlanExporter {
                     text.transform("rotate(" + DECIMAL_FORMAT.format(angle) + " " + DECIMAL_FORMAT.format(x) + ","
                             + DECIMAL_FORMAT.format(-y) + ")");
                 }
+                if (fontFamily != null) {
+                    text.fontFamily(fontFamily);
+                }
                 svg.addElement(text);
             }
             seatNumber += 1;
@@ -113,10 +120,16 @@ public class SeatingPlanExporter {
                 if (character != null) {
                     Text text = new Text(character).x(x).y(textY).fontSize(seatRadius).fill(WHITE)
                             .textAnchor(TextAnchorValues.MIDDLE);
+                    if (fontFamily != null) {
+                        text.fontFamily(fontFamily);
+                    }
                     svg.addElement(text);
                 }
                 Text text = new Text(parliamentaryGroup.getName()).x(x + 1.5D * seatRadius).y(textY)
                         .fontSize(seatRadius).fill(BLACK).textAnchor(TextAnchorValues.START);
+                if (fontFamily != null) {
+                    text.fontFamily(fontFamily);
+                }
                 svg.addElement(text);
                 legendPositionNumber += 1;
             }
@@ -142,5 +155,15 @@ public class SeatingPlanExporter {
      */
     void setRotateLetters(final boolean rotateLetters) {
         this.rotateLetters = rotateLetters;
+    }
+
+    /**
+     * Specifies the font family.
+     *
+     * @param fontFamily
+     *            The name of the font family.
+     */
+    void setFontFamily(String fontFamily) {
+        this.fontFamily = fontFamily;
     }
 }

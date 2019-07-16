@@ -37,6 +37,18 @@ public class Text implements GraphicsElement {
     }
 
     /**
+     * Sets the font family for the text.
+     *
+     * @param fontFamily
+     *            The font family for the text.
+     * @return The instance called.
+     */
+    public Text fontFamily(final String fontFamily) {
+        attributes.addStringAttribute("font-family", fontFamily);
+        return this;
+    }
+
+    /**
      * Sets the font size for the text.
      *
      * @param fontSize

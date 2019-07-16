@@ -148,4 +148,37 @@ public class SeatingPlanExporterTest {
                 + "</svg>";
         assertEquals(expected, actual);
     }
+
+    /**
+     * Test verifying the export of a seating plan with legend with two seats for
+     * the red group and one for the blue group using the default hemicycle layout
+     * to SVG, using the letter R for the red group and B for the blue group, and
+     * with a text font set.
+     */
+    @Test
+    void svgExportWithLegendForTwoRedAndOneBlueSeatsWithLettersInADefaultHemicycleLayoutWithASpecificFont() {
+        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
+        groups.add(new ParliamentaryGroup(2, RED, "Red", "R"));
+        groups.add(new ParliamentaryGroup(1, BLUE, "Blue", "B"));
+        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setDisplayLegend(true);
+        exporter.setFontFamily("Lato");
+        String actual = exporter.export(plan);
+        String expected = "<svg height=\"1900\" viewBox=\"-1 -1 2 1.9\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">R</text>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0\" y=\"-0.566667\">R</text>\n"
+                + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0.57735\" y=\"-0.233333\">B</text>\n"
+                + "  <circle cx=\"-0.7\" cy=\"0.6\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.7\" y=\"0.7\">R</text>\n"
+                + "  <text fill=\"#000000\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\" y=\"0.7\">Red</text>\n"
+                + "  <circle cx=\"0.3\" cy=\"0.6\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0.3\" y=\"0.7\">B</text>\n"
+                + "  <text fill=\"#000000\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"start\" x=\"0.75\" y=\"0.7\">Blue</text>\n"
+                + "</svg>";
+        assertEquals(expected, actual);
+    }
 }

@@ -36,15 +36,19 @@ public class CommandLineInterface {
         String groupsargument = args[0];
         String[] groupdefinitions = groupsargument.split(",");
         List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
+        boolean atLeastOneNamePresent = false;
         for (int i = 0; i < groupdefinitions.length; i++) {
             String[] attributes = groupdefinitions[i].split("\\.");
             int size = Integer.parseInt(attributes[0]);
             int color = Integer.parseInt(attributes[1], SIXTEEN);
-            String character = attributes[2];
-            groups.add(new ParliamentaryGroup(size, color, null, character));
+            String name = attributes[2];
+            atLeastOneNamePresent |= !name.isEmpty();
+            String character = attributes[3];
+            groups.add(new ParliamentaryGroup(size, color, name, character));
         }
         SeatingPlan plan = new SeatingPlan(groups);
         SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setDisplayLegend(atLeastOneNamePresent);
         return exporter.export(plan);
     }
 

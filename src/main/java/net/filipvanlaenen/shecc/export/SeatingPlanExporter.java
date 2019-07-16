@@ -130,7 +130,7 @@ public class SeatingPlanExporter {
      * @param displayLegend
      *            True if a legend should be displayed.
      */
-    void setDisplayLegend(final boolean displayLegend) {
+    public void setDisplayLegend(final boolean displayLegend) {
         this.displayLegend = displayLegend;
     }
 

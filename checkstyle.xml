@@ -158,6 +158,8 @@
         <module name="HiddenField">
           <!-- Modified for SHecC to ignore constructor parameters. -->
           <property name="ignoreConstructorParameter" value="true"/>
+          <!-- Modified for SHecC to ignore setter parameters. -->
+          <property name="ignoreSetter" value="true"/>
         </module>
         <module name="IllegalInstantiation"/>
         <module name="InnerAssignment"/>

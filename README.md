@@ -34,7 +34,7 @@ first seating plan as folows:
 
 ```
 cd target
-java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar 19.FF0000.R,11.00FF00.G,48.0000FF.B
+java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar 19.FF0000..R,11.00FF00..G,48.0000FF..B
 ```
 
 As you'll see, this will print the contents of an SVG file to the command line.

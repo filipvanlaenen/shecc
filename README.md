@@ -43,7 +43,7 @@ You can redirect the output to an SVG file, and if you have
 follows:
 
 ```
-java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar 19.FF0000.R,11.00FF00.G,48.0000FF.B > seating-plan.svg
+java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar 19.FF0000..R,11.00FF00..G,48.0000FF..B > seating-plan.svg
 inkscape -z -D seating-plan.svg -e seating-plan.png
 ```
 
@@ -57,19 +57,19 @@ green seats and 48 blue seats:
 
 The number of seats per parliamentary group can be specified as follows:
 * For each group, specify its size, followed by a dot, followed by its color as
-  a six-digit hexademical number, followed by a dot, followed by a character to
-  be used in the circle
+  a six-digit hexademical number, followed by a dot, followed by a name,
+  followed by a dot, followed by a character to be used in the circle
 * Join all groups together, separating them with a comma
 * Parliamentary groups will be placed in the hemicycle from left to right
 
-The example from above, `19.FF0000.R,11.00FF00.G,48.0000FF.B` can therefore be
+The example from above, `19.FF0000..R,11.00FF00..G,48.0000FF..B` can therefore be
 decoded as follows:
 
 | Group Specification | Size | Color            | Character |
 |:-------------------:|:----:|:----------------:|:---------:|
-| `19.FF0000.R`       | 19   | `FF0000` (red)   | R         |
-| `11.00FF00.G`       | 11   | `00FF00` (green) | G         |
-| `48.0000FF.B`       | 48   | `0000FF` (blue)  | B         |
+| `19.FF0000..R`      | 19   | `FF0000` (red)   | R         |
+| `11.00FF00..G`      | 11   | `00FF00` (green) | G         |
+| `48.0000FF..B`      | 48   | `0000FF` (blue)  | B         |
 
 Below is a more formal specification of the grammar in extended Backus-Naur
 form:
@@ -86,8 +86,10 @@ size                = integer ;
 color               = hexademical digit , hexademical digit , hexademical digit , hexademical digit ,
                       hexademical digit , hexademical digit ;
 character           = letter | digit ;
-dor                 = "." ;
-group specification = size , dot , color , dot , character ;
+space               = " " ;
+name                = { letter | digit | space } ;
+dot                 = "." ;
+group specification = size , dot , color , dot , name , dot , character ;
 comma               = "," ;
 seating plan        = group specification ,  { comma , group specification } ;
 ```

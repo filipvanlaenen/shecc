@@ -50,8 +50,7 @@ inkscape -z -D seating-plan.svg -e seating-plan.png
 The result should be something like this, a seating plan with 19 red seats, 11
 green seats and 48 blue seats:
 
-![Seating Plan with 19 red seats, 11 green seats and 48 blue seats](/README-seating-plan.png "Seating Plan with 19 red seats, 11 green seats and 48 blue seats")
-
+![Seating plan with 19 red seats, 11 green seats and 48 blue seats](/README-seating-plan.png "Seating plan with 19 red seats, 11 green seats and 48 blue seats")
 
 ## Seating Plan Specification
 
@@ -70,6 +69,16 @@ decoded as follows:
 | `19.FF0000..R`      | 19   | `FF0000` (red)   | R         |
 | `11.00FF00..G`      | 11   | `00FF00` (green) | G         |
 | `48.0000FF..B`      | 48   | `0000FF` (blue)  | B         |
+
+Now lets add names for the parliamentary groups. You can do this as follows 
+(notice that you have to use quotes around the command-line argument if any of
+the names contains a space):
+
+```
+java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar "19.FF0000.Red Party.R,11.00FF00.Green Party.G,48.0000FF.Blue Party.B" > seating-plan-with-legend.svg
+```
+
+![Seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend](/README-seating-plan-with-legend.png "Seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend")
 
 Below is a more formal specification of the grammar in extended Backus-Naur
 form:

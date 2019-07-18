@@ -33,26 +33,8 @@ public class CommandLineInterface {
      * @return Whatever was requested by the user from the command-line.
      */
     String perform(final String... args) {
-        String groupsDefinition = null;
-        String customCopyrightNotice = null;
-        String fontFamily = null;
-        Integer fontColor = null;
-        for (String argument : args) {
-            if (argument.startsWith("--")) {
-                String[] keyValue = argument.substring(2).split("=");
-                String key = keyValue[0];
-                String value = keyValue[1];
-                if (key.equals("copyright-notice")) {
-                    customCopyrightNotice = value;
-                } else if (key.equals("font-family")) {
-                    fontFamily = value;
-                } else if (key.equals("font-color")) {
-                    fontColor = Integer.parseInt(value, SIXTEEN);
-                }
-            } else {
-                groupsDefinition = argument;
-            }
-        }
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        String groupsDefinition = parseArgumentsAndReturnGroupsDefinitionString(exporter, args);
         String[] groupdefinitions = groupsDefinition.split(",");
         List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
         boolean atLeastOneNamePresent = false;
@@ -66,18 +48,39 @@ public class CommandLineInterface {
             groups.add(new ParliamentaryGroup(size, color, name, character));
         }
         SeatingPlan plan = new SeatingPlan(groups);
-        SeatingPlanExporter exporter = new SeatingPlanExporter();
-        if (customCopyrightNotice != null) {
-            exporter.setCustomCopyrightNotice(customCopyrightNotice);
-        }
         exporter.setDisplayLegend(atLeastOneNamePresent);
-        if (fontColor != null) {
-            exporter.setFontColor(fontColor);
-        }
-        if (fontFamily != null) {
-            exporter.setFontFamily(fontFamily);
-        }
         return exporter.export(plan);
+    }
+
+    /**
+     * Parses all arguments and sets them on the exporter, and returns the argument
+     * containing the groups definitions.
+     *
+     * @param exporter
+     *            The exporter on which to apply the arguments.
+     * @param args
+     *            The arguments from the command-line.
+     * @return The argument with the groups definition.
+     */
+    private String parseArgumentsAndReturnGroupsDefinitionString(SeatingPlanExporter exporter, final String... args) {
+        String groupsDefinition = null;
+        for (String argument : args) {
+            if (argument.startsWith("--")) {
+                String[] keyValue = argument.substring(2).split("=");
+                String key = keyValue[0];
+                String value = keyValue[1];
+                if (key.equals("copyright-notice")) {
+                    exporter.setCustomCopyrightNotice(value);
+                } else if (key.equals("font-color")) {
+                    exporter.setFontColor(Integer.parseInt(value, SIXTEEN));
+                } else if (key.equals("font-family")) {
+                    exporter.setFontFamily(value);
+                }
+            } else {
+                groupsDefinition = argument;
+            }
+        }
+        return groupsDefinition;
     }
 
 }

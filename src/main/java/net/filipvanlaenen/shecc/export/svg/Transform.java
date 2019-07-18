@@ -46,7 +46,18 @@ public abstract class Transform implements Attribute {
 
     }
 
-    public static Transform rotate(Number angle, Number cx, Number cy) {
+    /**
+     * Constructs a rotation.
+     *
+     * @param angle
+     *            The angle on which to rotate.
+     * @param cx
+     *            The x coordinate of the rotation center.
+     * @param cy
+     *            The y coordinate of the rotation center.
+     * @return A rotation.
+     */
+    public static Transform rotate(final Number angle, final Number cx, final Number cy) {
         return new Rotation(angle, cx, cy);
     }
 

@@ -45,7 +45,7 @@ public class HemicycleLayoutExporter extends Exporter {
             svg.addElement(
                     new Circle().cx(seatPosition.getX()).cy(-seatPosition.getY()).r(seatRadius).fill(NEUTRAL_GREY));
         }
-        svg.addElement(createCopyrightNotice(halfWidth, -1D, width, height));
+        svg.addElement(createCopyrightNotice(null, halfWidth, -1D, width, height));
         return svg.asString();
     }
 

@@ -35,6 +35,11 @@ public class SeatingPlanExporter extends Exporter {
      * the middle, relative to the font size.
      */
     private static final double FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY = 0.333333D;
+
+    /**
+     * A custom copyright notice text.
+     */
+    private String customCopyrightNotice;
     /**
      * Specifies whether a legend should be displayed.
      */
@@ -123,7 +128,7 @@ public class SeatingPlanExporter extends Exporter {
                 legendPositionNumber += 1;
             }
         }
-        svg.addElement(createCopyrightNotice(halfWidth, -1D, width, canvasHeight));
+        svg.addElement(createCopyrightNotice(customCopyrightNotice, halfWidth, -1D, width, canvasHeight));
         return svg.asString();
     }
 
@@ -145,6 +150,16 @@ public class SeatingPlanExporter extends Exporter {
      */
     void setRotateLetters(final boolean rotateLetters) {
         this.rotateLetters = rotateLetters;
+    }
+
+    /**
+     * Specifies a custom copyright notice text.
+     *
+     * @param customCopyrightNotice
+     *            The custom copyright notice text
+     */
+    public void setCustomCopyrightNotice(final String customCopyrightNotice) {
+        this.customCopyrightNotice = customCopyrightNotice;
     }
 
 }

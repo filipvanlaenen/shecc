@@ -1,5 +1,9 @@
 package net.filipvanlaenen.shecc.export;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import net.filipvanlaenen.shecc.export.svg.Text;
 import net.filipvanlaenen.shecc.export.svg.TextAnchorValues;
 import net.filipvanlaenen.shecc.export.svg.Transform;
@@ -44,8 +48,11 @@ abstract class Exporter {
     }
 
     /**
-     * Creates a copyright notice.
+     * Creates a copyright notice. If no custom notice is provided, only a message
+     * telling the chart was produced by SHecC will be created.
      *
+     * @param customNotice
+     *            Custom copyright notice.
      * @param x
      *            The x coordinate of the top right corner of the view box.
      * @param y
@@ -56,9 +63,12 @@ abstract class Exporter {
      *            The height of the view box.
      * @return A text element containing the copyright notice.
      */
-    protected Text createCopyrightNotice(final double x, final double y, final double width, final double height) {
-        double size = width > height ? width : height;
-        Text text = new Text("Produced using SHecC").x(x - size / 200D).y(y - size / 200D).fontSize(size / 100D)
+    protected Text createCopyrightNotice(final String customNotice, final double x, final double y, final double width,
+            final double height) {
+        double size = Math.max(width, height);
+        String fullNotice = customNotice == null ? "Chart produced using SHecC"
+                : "© " + getYear() + " " + customNotice + ", chart produced using SHecC";
+        Text text = new Text(fullNotice).x(x - size / 200D).y(y - size / 200D).fontSize(size / 100D)
                 .textAnchor(TextAnchorValues.END).transform(Transform.rotate(270D, x, y));
         if (fontColor == null) {
             text.fill(BLACK);
@@ -69,5 +79,14 @@ abstract class Exporter {
             text.fontFamily(fontFamily);
         }
         return text;
+    }
+
+    /**
+     * Returns the current year as a string.
+     *
+     * @return The current year as a string.
+     */
+    private String getYear() {
+        return new SimpleDateFormat("yyyy", Locale.US).format(new Date());
     }
 }

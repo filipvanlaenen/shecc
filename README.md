@@ -108,10 +108,11 @@ seating plan        = group specification ,  { comma , group specification } ;
 There are a few command-line options available to style the chart produced. The
 table below gives an overview.
 
-| Option              | Type   | Description          |
-|---------------------|--------|----------------------|             
-| font-color          | Color  | Sets the font color  |            
-| font-family         | String | Sets the font family |
+| Option              | Type   | Description                    |
+|---------------------|--------|--------------------------------|             
+| copyright-notice    | String | Sets a custom copyright notice |            
+| font-color          | Color  | Sets the font color            |            
+| font-family         | String | Sets the font family           |
 
 The following command will produce a chart using the Lato font, and with a dark
 blue as the font color:

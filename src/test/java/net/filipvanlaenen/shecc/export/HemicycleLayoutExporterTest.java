@@ -39,7 +39,7 @@ public class HemicycleLayoutExporterTest {
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#777777\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Produced using SHecC</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }
@@ -57,7 +57,7 @@ public class HemicycleLayoutExporterTest {
                 + "  <circle cx=\"-0.576058\" cy=\"-0.335562\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0.576058\" cy=\"-0.335562\" fill=\"#777777\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 0.999983,-1)\" x=\"0.989983\" y=\"-1.01\">Produced using SHecC</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 0.999983,-1)\" x=\"0.989983\" y=\"-1.01\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }
@@ -75,7 +75,7 @@ public class HemicycleLayoutExporterTest {
                 + "  <circle cx=\"-0.578282\" cy=\"-0.331714\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0.578282\" cy=\"-0.331714\" fill=\"#777777\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Produced using SHecC</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }

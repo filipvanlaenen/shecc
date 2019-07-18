@@ -34,6 +34,7 @@ public class CommandLineInterface {
      */
     String perform(final String... args) {
         String groupsDefinition = null;
+        String customCopyrightNotice = null;
         String fontFamily = null;
         Integer fontColor = null;
         for (String argument : args) {
@@ -41,7 +42,9 @@ public class CommandLineInterface {
                 String[] keyValue = argument.substring(2).split("=");
                 String key = keyValue[0];
                 String value = keyValue[1];
-                if (key.equals("font-family")) {
+                if (key.equals("copyright-notice")) {
+                    customCopyrightNotice = value;
+                } else if (key.equals("font-family")) {
                     fontFamily = value;
                 } else if (key.equals("font-color")) {
                     fontColor = Integer.parseInt(value, SIXTEEN);
@@ -64,6 +67,9 @@ public class CommandLineInterface {
         }
         SeatingPlan plan = new SeatingPlan(groups);
         SeatingPlanExporter exporter = new SeatingPlanExporter();
+        if (customCopyrightNotice != null) {
+            exporter.setCustomCopyrightNotice(customCopyrightNotice);
+        }
         exporter.setDisplayLegend(atLeastOneNamePresent);
         if (fontColor != null) {
             exporter.setFontColor(fontColor);

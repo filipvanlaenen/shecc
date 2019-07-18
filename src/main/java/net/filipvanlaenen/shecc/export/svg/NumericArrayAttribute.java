@@ -1,20 +1,12 @@
 package net.filipvanlaenen.shecc.export.svg;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * A class representing a numeric array attribute.
  */
 public class NumericArrayAttribute implements Attribute {
-    /**
-     * The decimal format.
-     */
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.######",
-            DecimalFormatSymbols.getInstance(Locale.US));
 
     /**
      * The name of the attribute.

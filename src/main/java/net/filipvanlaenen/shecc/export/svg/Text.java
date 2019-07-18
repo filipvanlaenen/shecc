@@ -79,8 +79,8 @@ public class Text implements GraphicsElement {
      *            The specification of the transformation, as a string.
      * @return The instance called.
      */
-    public Text transform(final String transformation) {
-        attributes.addStringAttribute("transform", transformation);
+    public Text transform(final Transform transformation) {
+        attributes.addTransformationAttribute("transform", transformation);
         return this;
     }
 

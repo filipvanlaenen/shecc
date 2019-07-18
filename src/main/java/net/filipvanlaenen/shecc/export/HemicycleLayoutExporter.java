@@ -10,7 +10,7 @@ import net.filipvanlaenen.shecc.export.svg.Svg;
 /**
  * A class exporting hemicycle layouts.
  */
-public class HemicycleLayoutExporter {
+public class HemicycleLayoutExporter extends Exporter {
     /**
      * The magic number for a neutral grey color.
      */
@@ -45,6 +45,7 @@ public class HemicycleLayoutExporter {
             svg.addElement(
                     new Circle().cx(seatPosition.getX()).cy(-seatPosition.getY()).r(seatRadius).fill(NEUTRAL_GREY));
         }
+        svg.addElement(createCopyrightNotice(halfWidth, -1D, width, height));
         return svg.asString();
     }
 

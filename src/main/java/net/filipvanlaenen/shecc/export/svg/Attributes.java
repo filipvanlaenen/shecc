@@ -81,6 +81,18 @@ public class Attributes {
     }
 
     /**
+     * Adds a transformation attribute to the set of attributes.
+     *
+     * @param name
+     *            The name of the attribute.
+     * @param transformation
+     *            The transformation.
+     */
+    public void addTransformationAttribute(final String name, final Transform transformation) {
+        attributes.put(name, transformation);
+    }
+
+    /**
      * Converts the set of attributes into a string.
      *
      * @return A string representing all the attributes.

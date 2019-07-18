@@ -1,10 +1,7 @@
 package net.filipvanlaenen.shecc.export;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import net.filipvanlaenen.shecc.HemicycleLayout;
 import net.filipvanlaenen.shecc.ParliamentaryGroup;
@@ -14,19 +11,16 @@ import net.filipvanlaenen.shecc.export.svg.Circle;
 import net.filipvanlaenen.shecc.export.svg.Svg;
 import net.filipvanlaenen.shecc.export.svg.Text;
 import net.filipvanlaenen.shecc.export.svg.TextAnchorValues;
+import net.filipvanlaenen.shecc.export.svg.Transform;
 
 /**
  * A class exporting seating plans.
  */
-public class SeatingPlanExporter {
+public class SeatingPlanExporter extends Exporter {
     /**
      * Magic number for the color white.
      */
     private static final int WHITE = 0xFFFFFF;
-    /**
-     * Magic number for the color black.
-     */
-    private static final int BLACK = 0x000000;
     /**
      * The ratio between the seat circle radius and the row width.
      */
@@ -42,22 +36,9 @@ public class SeatingPlanExporter {
      */
     private static final double FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY = 0.333333D;
     /**
-     * The decimal format.
-     */
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.######",
-            DecimalFormatSymbols.getInstance(Locale.US));
-    /**
      * Specifies whether a legend should be displayed.
      */
     private boolean displayLegend;
-    /**
-     * Specifies the font color.
-     */
-    private Integer fontColor;
-    /**
-     * Specifies the font family.
-     */
-    private String fontFamily;
     /**
      * Specifies whether the letters should be rotated towards the center.
      */
@@ -82,7 +63,7 @@ public class SeatingPlanExporter {
             canvasHeight += seatRadius * 3D;
         }
         double svgHeight = canvasHeight * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
-        Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, -1, width, canvasHeight);
+        Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, -1D, width, canvasHeight);
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
         int seatNumber = 0;
         while (seatPositions.hasNext()) {
@@ -98,8 +79,7 @@ public class SeatingPlanExporter {
                         .fontSize(seatRadius).fill(WHITE).textAnchor(TextAnchorValues.MIDDLE);
                 if (rotateLetters) {
                     double angle = 180D * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
-                    text.transform("rotate(" + DECIMAL_FORMAT.format(angle) + " " + DECIMAL_FORMAT.format(x) + ","
-                            + DECIMAL_FORMAT.format(-y) + ")");
+                    text.transform(Transform.rotate(angle, x, -y));
                 }
                 if (fontFamily != null) {
                     text.fontFamily(fontFamily);
@@ -143,6 +123,7 @@ public class SeatingPlanExporter {
                 legendPositionNumber += 1;
             }
         }
+        svg.addElement(createCopyrightNotice(halfWidth, -1D, width, canvasHeight));
         return svg.asString();
     }
 
@@ -166,23 +147,4 @@ public class SeatingPlanExporter {
         this.rotateLetters = rotateLetters;
     }
 
-    /**
-     * Specifies the font color.
-     *
-     * @param fontColor
-     *            The name of the font color.
-     */
-    public void setFontColor(final Integer fontColor) {
-        this.fontColor = fontColor;
-    }
-
-    /**
-     * Specifies the font family.
-     *
-     * @param fontFamily
-     *            The name of the font family.
-     */
-    public void setFontFamily(final String fontFamily) {
-        this.fontFamily = fontFamily;
-    }
 }

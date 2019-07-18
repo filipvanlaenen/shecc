@@ -114,8 +114,8 @@ public class SeatingPlanExporter extends Exporter {
                     }
                     svg.addElement(text);
                 }
-                Text text = new Text(parliamentaryGroup.getName()).x(x + 1.5D * seatRadius).y(textY)
-                        .fontSize(seatRadius).textAnchor(TextAnchorValues.START);
+                Text text = new Text(parliamentaryGroup.getName() + " (" + parliamentaryGroup.getSize() + ")")
+                        .x(x + 1.5D * seatRadius).y(textY).fontSize(seatRadius).textAnchor(TextAnchorValues.START);
                 if (fontColor == null) {
                     text.fill(BLACK);
                 } else {

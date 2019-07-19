@@ -62,14 +62,17 @@ public class CommandLineInterface {
      *            The arguments from the command-line.
      * @return The argument with the groups definition.
      */
-    private String parseArgumentsAndReturnGroupsDefinitionString(SeatingPlanExporter exporter, final String... args) {
+    private String parseArgumentsAndReturnGroupsDefinitionString(final SeatingPlanExporter exporter,
+            final String... args) {
         String groupsDefinition = null;
         for (String argument : args) {
             if (argument.startsWith("--")) {
                 String[] keyValue = argument.substring(2).split("=");
                 String key = keyValue[0];
                 String value = keyValue[1];
-                if (key.equals("copyright-notice")) {
+                if (key.equals("background-color")) {
+                    exporter.setBackgroundColor(Integer.parseInt(value, SIXTEEN));
+                } else if (key.equals("copyright-notice")) {
                     exporter.setCustomCopyrightNotice(value);
                 } else if (key.equals("font-color")) {
                     exporter.setFontColor(Integer.parseInt(value, SIXTEEN));

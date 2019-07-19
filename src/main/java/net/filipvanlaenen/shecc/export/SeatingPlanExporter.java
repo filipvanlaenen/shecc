@@ -8,6 +8,7 @@ import net.filipvanlaenen.shecc.ParliamentaryGroup;
 import net.filipvanlaenen.shecc.SeatPosition;
 import net.filipvanlaenen.shecc.SeatingPlan;
 import net.filipvanlaenen.shecc.export.svg.Circle;
+import net.filipvanlaenen.shecc.export.svg.Rect;
 import net.filipvanlaenen.shecc.export.svg.Svg;
 import net.filipvanlaenen.shecc.export.svg.Text;
 import net.filipvanlaenen.shecc.export.svg.TextAnchorValues;
@@ -22,6 +23,10 @@ public class SeatingPlanExporter extends Exporter {
      */
     private static final int WHITE = 0xFFFFFF;
     /**
+     * The magic number 180 for a straight angle.
+     */
+    private static final double STRAIGHT_ANGLE = 180D;
+    /**
      * The ratio between the seat circle radius and the row width.
      */
     private static final double RADIUS_ROW_WIDTH_RATIO = 0.45D;
@@ -29,13 +34,26 @@ public class SeatingPlanExporter extends Exporter {
      * The factor to scale up the view box to the SVG dimensions.
      */
     private static final double VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR = 1000D;
-
     /**
      * The factor used to move text down such that it appears vertically centered in
      * the middle, relative to the font size.
      */
-    private static final double FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY = 0.333333D;
+    private static final double FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY = 1D / 3D;
+    /**
+     * The factor used to calculate the height of the legend based on the seat
+     * radius.
+     */
+    private static final double SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR = 3D;
+    /**
+     * The factor used to calculate the gap between of the seat symbol and the
+     * legend text based on the seat radius.
+     */
+    private static final double SEAT_RADIUS_TO_LEGEND_GAP_FACTOR = 1.5D;
 
+    /**
+     * The background color as an integer.
+     */
+    private Integer backgroundColor;
     /**
      * A custom copyright notice text.
      */
@@ -65,10 +83,13 @@ public class SeatingPlanExporter extends Exporter {
         double canvasHeight = hemicycleHeight;
         double seatRadius = layout.getRowWidth() * RADIUS_ROW_WIDTH_RATIO;
         if (displayLegend) {
-            canvasHeight += seatRadius * 3D;
+            canvasHeight += seatRadius * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR;
         }
         double svgHeight = canvasHeight * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
         Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, -1D, width, canvasHeight);
+        if (backgroundColor != null) {
+            svg.addElement(new Rect().x(-halfWidth).y(-1D).width(width).height(canvasHeight).fill(backgroundColor));
+        }
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
         int seatNumber = 0;
         while (seatPositions.hasNext()) {
@@ -83,7 +104,7 @@ public class SeatingPlanExporter extends Exporter {
                 Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
                         .fontSize(seatRadius).fill(WHITE).textAnchor(TextAnchorValues.MIDDLE);
                 if (rotateLetters) {
-                    double angle = 180D * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
+                    double angle = STRAIGHT_ANGLE * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
                     text.transform(Transform.rotate(angle, x, -y));
                 }
                 if (fontFamily != null) {
@@ -115,7 +136,8 @@ public class SeatingPlanExporter extends Exporter {
                     svg.addElement(text);
                 }
                 Text text = new Text(parliamentaryGroup.getName() + " (" + parliamentaryGroup.getSize() + ")")
-                        .x(x + 1.5D * seatRadius).y(textY).fontSize(seatRadius).textAnchor(TextAnchorValues.START);
+                        .x(x + SEAT_RADIUS_TO_LEGEND_GAP_FACTOR * seatRadius).y(textY).fontSize(seatRadius)
+                        .textAnchor(TextAnchorValues.START);
                 if (fontColor == null) {
                     text.fill(BLACK);
                 } else {
@@ -160,6 +182,16 @@ public class SeatingPlanExporter extends Exporter {
      */
     public void setCustomCopyrightNotice(final String customCopyrightNotice) {
         this.customCopyrightNotice = customCopyrightNotice;
+    }
+
+    /**
+     * Specifies the background color.
+     *
+     * @param backgroundColor
+     *            The background color as an integer.
+     */
+    public void setBackgroundColor(final Integer backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
 }

@@ -110,6 +110,7 @@ table below gives an overview.
 
 | Option              | Type   | Description                    |
 |---------------------|--------|--------------------------------|             
+| background-color    | Color  | Sets the background color      |            
 | copyright-notice    | String | Sets a custom copyright notice |            
 | font-color          | Color  | Sets the font color            |            
 | font-family         | String | Sets the font family           |

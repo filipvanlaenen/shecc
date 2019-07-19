@@ -2,6 +2,10 @@ package net.filipvanlaenen.shecc.export.svg;
 
 /**
  * A class representing a circle.
+ *
+ * @see <a href="https://www.w3.org/TR/SVG/shapes.html#CircleElement">Basic
+ *      Shapes — SVG 2: 10.3. The ‘circle’ element</a>
+ *
  */
 public class Circle implements ShapeElement {
     /**

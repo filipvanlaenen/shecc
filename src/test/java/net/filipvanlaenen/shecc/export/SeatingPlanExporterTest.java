@@ -18,6 +18,10 @@ import net.filipvanlaenen.shecc.SeatingPlan;
  */
 public class SeatingPlanExporterTest {
     /**
+     * Magic number for the color white.
+     */
+    private static final int WHITE = 0xFFFFFF;
+    /**
      * Magic number for the color red.
      */
     private static final int RED = 0xFF0000;
@@ -25,6 +29,10 @@ public class SeatingPlanExporterTest {
      * Magic number for the color blue.
      */
     private static final int BLUE = 0x0000FF;
+    /**
+     * Magic number for the color magenta.
+     */
+    private static final int MAGENTA = 0xFF00FF;
 
     /**
      * Test verifying the export of a seating plan with two seats for the red group
@@ -206,7 +214,7 @@ public class SeatingPlanExporterTest {
         SeatingPlan plan = new SeatingPlan(groups);
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
-        exporter.setFontColor(0xFF00FF);
+        exporter.setFontColor(MAGENTA);
         String actual = exporter.export(plan);
         String expected = "<svg height=\"1900\" viewBox=\"-1 -1 2 1.9\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
@@ -232,7 +240,7 @@ public class SeatingPlanExporterTest {
      * hemicycle layout to SVG.
      */
     @Test
-    void svgExportWithCustomCopyrightNoticeForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
+    void svgExportsWithCustomCopyrightNoticeForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
         List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
         groups.add(new ParliamentaryGroup(2, RED));
         groups.add(new ParliamentaryGroup(1, BLUE));
@@ -247,6 +255,30 @@ public class SeatingPlanExporterTest {
                 + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
                 + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">© "
                 + year + " John Doe, chart produced using SHecC</text>\n" + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying the export of a seating plan with two seats for the red group
+     * and one for the blue group and a background color using the default hemicycle
+     * layout to SVG.
+     */
+    @Test
+    void svgExportsWithBackgroundColorForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
+        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
+        groups.add(new ParliamentaryGroup(2, RED));
+        groups.add(new ParliamentaryGroup(1, BLUE));
+        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setBackgroundColor(WHITE);
+        String actual = exporter.export(plan);
+        String expected = "<svg height=\"1000\" viewBox=\"-1 -1 2 1\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <rect fill=\"#FFFFFF\" height=\"1\" width=\"2\" x=\"-1\" y=\"-1\"/>\n"
+                + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Chart produced using SHecC</text>\n"
+                + "</svg>";
         assertEquals(expected, actual);
     }
 }

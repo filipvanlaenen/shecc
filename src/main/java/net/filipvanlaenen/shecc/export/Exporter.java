@@ -19,11 +19,11 @@ abstract class Exporter {
     protected static final int BLACK = 0x000000;
 
     /**
-     * Specifies the font color.
+     * The font color as an integer.
      */
     protected Integer fontColor;
     /**
-     * Specifies the font family.
+     * The font family.
      */
     protected String fontFamily;
 
@@ -31,7 +31,7 @@ abstract class Exporter {
      * Specifies the font color.
      *
      * @param fontColor
-     *            The name of the font color.
+     *            The font color as an integer.
      */
     public void setFontColor(final Integer fontColor) {
         this.fontColor = fontColor;

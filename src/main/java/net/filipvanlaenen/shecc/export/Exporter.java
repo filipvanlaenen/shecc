@@ -4,9 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import net.filipvanlaenen.shecc.export.svg.Text;
-import net.filipvanlaenen.shecc.export.svg.TextAnchorValues;
-import net.filipvanlaenen.shecc.export.svg.Transform;
+import net.filipvanlaenen.tsvgj.Text;
+import net.filipvanlaenen.tsvgj.TextAnchorValues;
+import net.filipvanlaenen.tsvgj.Transform;
 
 /**
  * Abstract superclass for exporter classes. Contains common methods shared by

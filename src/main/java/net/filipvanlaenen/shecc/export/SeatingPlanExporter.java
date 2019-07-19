@@ -7,12 +7,12 @@ import net.filipvanlaenen.shecc.HemicycleLayout;
 import net.filipvanlaenen.shecc.ParliamentaryGroup;
 import net.filipvanlaenen.shecc.SeatPosition;
 import net.filipvanlaenen.shecc.SeatingPlan;
-import net.filipvanlaenen.shecc.export.svg.Circle;
-import net.filipvanlaenen.shecc.export.svg.Rect;
-import net.filipvanlaenen.shecc.export.svg.Svg;
-import net.filipvanlaenen.shecc.export.svg.Text;
-import net.filipvanlaenen.shecc.export.svg.TextAnchorValues;
-import net.filipvanlaenen.shecc.export.svg.Transform;
+import net.filipvanlaenen.tsvgj.Circle;
+import net.filipvanlaenen.tsvgj.Rect;
+import net.filipvanlaenen.tsvgj.Svg;
+import net.filipvanlaenen.tsvgj.Text;
+import net.filipvanlaenen.tsvgj.TextAnchorValues;
+import net.filipvanlaenen.tsvgj.Transform;
 
 /**
  * A class exporting seating plans.

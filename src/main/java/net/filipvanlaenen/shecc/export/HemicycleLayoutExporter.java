@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 import net.filipvanlaenen.shecc.HemicycleLayout;
 import net.filipvanlaenen.shecc.SeatPosition;
-import net.filipvanlaenen.shecc.export.svg.Circle;
-import net.filipvanlaenen.shecc.export.svg.Svg;
+import net.filipvanlaenen.tsvgj.Circle;
+import net.filipvanlaenen.tsvgj.Svg;
 
 /**
  * A class exporting hemicycle layouts.

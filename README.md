@@ -119,7 +119,7 @@ The following command will produce a chart using the Lato font, and with a dark
 blue as the font color:
 
 ```
-java -jar target/shecc-1.0-SNAPSHOT-jar-with-dependencies.jar "19.FF0000.Red Party.R,11.00FF00.Green Party.G,48.0000FF.Blue Party.B" --font-family=Lato --font-color=000077 > styled-seating-plan-with-legend.svg
+java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar "19.FF0000.Red Party.R,11.00FF00.Green Party.G,48.0000FF.Blue Party.B" --font-family=Lato --font-color=000077 > styled-seating-plan-with-legend.svg
 ```
 
 ![Styled seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend](/README-styled-seating-plan-with-legend.png "Styled seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend")

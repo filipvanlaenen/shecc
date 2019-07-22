@@ -115,6 +115,8 @@ table below gives an overview.
 | copyright-notice    | String | Sets a custom copyright notice |            
 | font-color          | Color  | Sets the font color            |            
 | font-family         | String | Sets the font family           |
+| subtitle            | String | Sets the subtitle              |
+| title               | String | Sets the title                 |
 
 The following command will produce a chart using the Lato font, and with a dark
 blue as the font color:

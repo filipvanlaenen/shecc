@@ -52,7 +52,7 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * The height of the title.
      */
-    private static final double TITLE_HEIGHT = 0.03D;
+    private static final double TITLE_HEIGHT = 0.05D;
     /**
      * The height of the subtitle.
      */
@@ -208,7 +208,7 @@ public class SeatingPlanExporter extends Exporter {
                 legendPositionNumber += 1;
             }
         }
-        svg.addElement(createCopyrightNotice(customCopyrightNotice, halfWidth, -1D, width, canvasHeight));
+        svg.addElement(createCopyrightNotice(customCopyrightNotice, halfWidth, canvasTopEdge, width, canvasHeight));
         return svg.asString();
     }
 

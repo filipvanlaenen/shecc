@@ -49,6 +49,18 @@ public class SeatingPlanExporter extends Exporter {
      * legend text based on the seat radius.
      */
     private static final double SEAT_RADIUS_TO_LEGEND_GAP_FACTOR = 1.5D;
+    /**
+     * The height of the title.
+     */
+    private static final double TITLE_HEIGHT = 0.03D;
+    /**
+     * The height of the subtitle.
+     */
+    private static final double SUBTITLE_HEIGHT = TITLE_HEIGHT * 0.7D;
+    /**
+     * The margin between the layout and the title.
+     */
+    private static final double TITLE_MARGIN = 0.02D;
 
     /**
      * The background color as an integer.
@@ -66,6 +78,14 @@ public class SeatingPlanExporter extends Exporter {
      * Specifies whether the letters should be rotated towards the center.
      */
     private boolean rotateLetters;
+    /**
+     * A title.
+     */
+    private String title;
+    /**
+     * A subtitle.
+     */
+    private String subtitle;
 
     /**
      * Exports a seating plan to SVG.
@@ -85,10 +105,48 @@ public class SeatingPlanExporter extends Exporter {
         if (displayLegend) {
             canvasHeight += seatRadius * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR;
         }
+        double canvasTopEdge = -1D;
+        if (title != null) {
+            double titleSpace = TITLE_HEIGHT + TITLE_MARGIN;
+            canvasTopEdge -= titleSpace;
+            canvasHeight += titleSpace;
+            if (subtitle != null) {
+                double subtitleSpace = SUBTITLE_HEIGHT + TITLE_MARGIN;
+                canvasTopEdge -= subtitleSpace;
+                canvasHeight += subtitleSpace;
+            }
+        }
         double svgHeight = canvasHeight * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
-        Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, -1D, width, canvasHeight);
+        Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, canvasTopEdge, width, canvasHeight);
         if (backgroundColor != null) {
-            svg.addElement(new Rect().x(-halfWidth).y(-1D).width(width).height(canvasHeight).fill(backgroundColor));
+            svg.addElement(
+                    new Rect().x(-halfWidth).y(canvasTopEdge).width(width).height(canvasHeight).fill(backgroundColor));
+        }
+        if (title != null) {
+            double y = -1D - TITLE_MARGIN - (subtitle != null ? SUBTITLE_HEIGHT + TITLE_HEIGHT : 0D);
+            Text text = new Text(title).x(0D).y(y).fontSize(TITLE_HEIGHT).textAnchor(TextAnchorValues.MIDDLE);
+            if (fontColor == null) {
+                text.fill(BLACK);
+            } else {
+                text.fill(fontColor);
+            }
+            if (fontFamily != null) {
+                text.fontFamily(fontFamily);
+            }
+            svg.addElement(text);
+        }
+        if (subtitle != null) {
+            Text text = new Text(subtitle).x(0D).y(-1D - TITLE_MARGIN).fontSize(SUBTITLE_HEIGHT)
+                    .textAnchor(TextAnchorValues.MIDDLE);
+            if (fontColor == null) {
+                text.fill(BLACK);
+            } else {
+                text.fill(fontColor);
+            }
+            if (fontFamily != null) {
+                text.fontFamily(fontFamily);
+            }
+            svg.addElement(text);
         }
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
         int seatNumber = 0;
@@ -194,4 +252,23 @@ public class SeatingPlanExporter extends Exporter {
         this.backgroundColor = backgroundColor;
     }
 
+    /**
+     * Specifies the title.
+     *
+     * @param title
+     *            The title.
+     */
+    public void setTitle(final String title) {
+        this.title = title;
+    }
+
+    /**
+     * Specifies the subtitle.
+     *
+     * @param subtitle
+     *            The subtitle.
+     */
+    public void setSubtitle(final String subtitle) {
+        this.subtitle = subtitle;
+    }
 }

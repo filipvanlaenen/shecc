@@ -281,4 +281,58 @@ public class SeatingPlanExporterTest {
                 + "</svg>";
         assertEquals(expected, actual);
     }
+
+    /**
+     * Test verifying the export of a seating plan with two seats for the red group
+     * and one for the blue group, a title and a background color using the default
+     * hemicycle layout to SVG.
+     */
+    @Test
+    void svgExportsWithTitleAndBackgroundColorForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
+        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
+        groups.add(new ParliamentaryGroup(2, RED));
+        groups.add(new ParliamentaryGroup(1, BLUE));
+        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setBackgroundColor(WHITE);
+        exporter.setTitle("Lorem Ipsum");
+        String actual = exporter.export(plan);
+        String expected = "<svg height=\"1000\" viewBox=\"-1 -1 2 1\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <rect fill=\"#FFFFFF\" height=\"1\" width=\"2\" x=\"-1\" y=\"-1\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">Lorem Ipsum</text>\n"
+                + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Chart produced using SHecC</text>\n"
+                + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying the export of a seating plan with two seats for the red group
+     * and one for the blue group, a title, a subtitle and a background color using
+     * the default hemicycle layout to SVG.
+     */
+    @Test
+    void svgExportsWithTitleAndSubtitleAndBackgroundColorForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
+        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
+        groups.add(new ParliamentaryGroup(2, RED));
+        groups.add(new ParliamentaryGroup(1, BLUE));
+        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setBackgroundColor(WHITE);
+        exporter.setTitle("Lorem Ipsum");
+        exporter.setSubtitle("Dolor Sit Samet");
+        String actual = exporter.export(plan);
+        String expected = "<svg height=\"1000\" viewBox=\"-1 -1 2 1\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <rect fill=\"#FFFFFF\" height=\"1\" width=\"2\" x=\"-1\" y=\"-1\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">Lorem Ipsum</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.2\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">Dolor Sit Samet</text>\n"
+                + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Chart produced using SHecC</text>\n"
+                + "</svg>";
+        assertEquals(expected, actual);
+    }
 }

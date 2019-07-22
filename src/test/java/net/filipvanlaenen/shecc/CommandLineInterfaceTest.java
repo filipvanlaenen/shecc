@@ -109,7 +109,7 @@ public class CommandLineInterfaceTest {
 
     /**
      * Test verifying that the command-line interface produces a seating plan
-     * without a background colorwhen specified.
+     * without a background color when specified.
      */
     @Test
     void cliProducesSeatingPlanWithBackgroundColor() {
@@ -117,6 +117,54 @@ public class CommandLineInterfaceTest {
         String actual = cli.perform("2.FF0000..R,1.0000FF..B", "--background-color=FFFFFF");
         String expected = "<svg height=\"1000\" viewBox=\"-1 -1 2 1\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <rect fill=\"#FFFFFF\" height=\"1\" width=\"2\" x=\"-1\" y=\"-1\"/>\n"
+                + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">R</text>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0\" y=\"-0.566667\">R</text>\n"
+                + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0.57735\" y=\"-0.233333\">B</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Chart produced using SHecC</text>\n"
+                + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying that the command-line interface produces a seating plan
+     * without a title when specified, and the background rectangle scaled
+     * accordingly.
+     */
+    @Test
+    void cliProducesSeatingPlanWithTitle() {
+        CommandLineInterface cli = new CommandLineInterface();
+        String actual = cli.perform("2.FF0000..R,1.0000FF..B", "--background-color=FFFFFF", "--title=Lorem Ipsum");
+        String expected = "<svg height=\"1000\" viewBox=\"-1 -1 2 1\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <rect fill=\"#FFFFFF\" height=\"1\" width=\"2\" x=\"-1\" y=\"-1\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">Lorem Ipsum</text>\n"
+                + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">R</text>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0\" y=\"-0.566667\">R</text>\n"
+                + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0.57735\" y=\"-0.233333\">B</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Chart produced using SHecC</text>\n"
+                + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying that the command-line interface produces a seating plan
+     * without a title and a subtitle when specified, and the background rectangle
+     * scaled accordingly.
+     */
+    @Test
+    void cliProducesSeatingPlanWithTitleAndSubtitle() {
+        CommandLineInterface cli = new CommandLineInterface();
+        String actual = cli.perform("2.FF0000..R,1.0000FF..B", "--background-color=FFFFFF", "--title=Lorem Ipsum",
+                "--subtitle=Dolor Sit Samet");
+        String expected = "<svg height=\"1000\" viewBox=\"-1 -1 2 1\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <rect fill=\"#FFFFFF\" height=\"1\" width=\"2\" x=\"-1\" y=\"-1\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">Lorem Ipsum</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.2\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">Dolor Sit Samet</text>\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\" y=\"-0.233333\">R</text>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"

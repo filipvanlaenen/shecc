@@ -8,6 +8,7 @@ import net.filipvanlaenen.shecc.ParliamentaryGroup;
 import net.filipvanlaenen.shecc.SeatPosition;
 import net.filipvanlaenen.shecc.SeatingPlan;
 import net.filipvanlaenen.tsvgj.Circle;
+import net.filipvanlaenen.tsvgj.FontWeightValues;
 import net.filipvanlaenen.tsvgj.Rect;
 import net.filipvanlaenen.tsvgj.Svg;
 import net.filipvanlaenen.tsvgj.Text;
@@ -124,7 +125,8 @@ public class SeatingPlanExporter extends Exporter {
         }
         if (title != null) {
             double y = -1D - TITLE_MARGIN - (subtitle != null ? SUBTITLE_HEIGHT + TITLE_HEIGHT : 0D);
-            Text text = new Text(title).x(0D).y(y).fontSize(TITLE_HEIGHT).textAnchor(TextAnchorValues.MIDDLE);
+            Text text = new Text(title).x(0D).y(y).fontSize(TITLE_HEIGHT).fontWeight(FontWeightValues.BOLD)
+                    .textAnchor(TextAnchorValues.MIDDLE);
             if (fontColor == null) {
                 text.fill(BLACK);
             } else {
@@ -137,7 +139,7 @@ public class SeatingPlanExporter extends Exporter {
         }
         if (subtitle != null) {
             Text text = new Text(subtitle).x(0D).y(-1D - TITLE_MARGIN).fontSize(SUBTITLE_HEIGHT)
-                    .textAnchor(TextAnchorValues.MIDDLE);
+                    .fontWeight(FontWeightValues.BOLD).textAnchor(TextAnchorValues.MIDDLE);
             if (fontColor == null) {
                 text.fill(BLACK);
             } else {

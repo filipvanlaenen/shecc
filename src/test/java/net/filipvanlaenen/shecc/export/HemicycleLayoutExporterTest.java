@@ -35,11 +35,11 @@ public class HemicycleLayoutExporterTest {
         HemicycleLayout layout = new HemicycleLayout(THREE);
         HemicycleLayoutExporter exporter = new HemicycleLayoutExporter();
         String actual = exporter.export(layout);
-        String expected = "<svg height=\"1000\" viewBox=\"-1 -1 2 1\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+        String expected = "<svg height=\"1100\" viewBox=\"-1.05 -1.05 2.1 1.1\" width=\"2100\" xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#777777\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Chart produced using SHecC</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.021\" text-anchor=\"end\" transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }
@@ -53,11 +53,11 @@ public class HemicycleLayoutExporterTest {
         HemicycleLayout layout = new HemicycleLayout(THREE, JUST_BELOW_PI);
         HemicycleLayoutExporter exporter = new HemicycleLayoutExporter();
         String actual = exporter.export(layout);
-        String expected = "<svg height=\"1000\" viewBox=\"-0.999983 -1 1.999966 1\" width=\"1999.966403\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+        String expected = "<svg height=\"1100\" viewBox=\"-1.049983 -1.05 2.099966 1.1\" width=\"2099.966403\" xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <circle cx=\"-0.576058\" cy=\"-0.335562\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0.576058\" cy=\"-0.335562\" fill=\"#777777\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 0.999983,-1)\" x=\"0.989983\" y=\"-1.01\">Chart produced using SHecC</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.021\" text-anchor=\"end\" transform=\"rotate(270 1.049983,-1.05)\" x=\"1.039483\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }
@@ -71,11 +71,11 @@ public class HemicycleLayoutExporterTest {
         HemicycleLayout layout = new HemicycleLayout(THREE, JUST_ABOVE_PI);
         HemicycleLayoutExporter exporter = new HemicycleLayoutExporter();
         String actual = exporter.export(layout);
-        String expected = "<svg height=\"1004.203661\" viewBox=\"-1 -1 2 1.004204\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+        String expected = "<svg height=\"1104.203661\" viewBox=\"-1.05 -1.05 2.1 1.104204\" width=\"2100\" xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <circle cx=\"-0.578282\" cy=\"-0.331714\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#777777\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0.578282\" cy=\"-0.331714\" fill=\"#777777\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1)\" x=\"0.99\" y=\"-1.01\">Chart produced using SHecC</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.021\" text-anchor=\"end\" transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }

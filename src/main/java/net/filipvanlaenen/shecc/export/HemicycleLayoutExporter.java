@@ -24,12 +24,12 @@ public class HemicycleLayoutExporter extends Exporter {
      * @return A string representing the hemicycle layout in SVG.
      */
     String export(final HemicycleLayout layout) {
-        double width = layout.getWidth();
+        double width = layout.getWidth() + 2 * EDGES_MARGIN;
         double halfWidth = width / 2D;
         double svgWidth = width * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
-        double height = layout.getHeight();
+        double height = layout.getHeight() + 2 * EDGES_MARGIN;
         double svgHeight = height * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
-        Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, -1, width, height);
+        Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, -1 - EDGES_MARGIN, width, height);
         double seatRadius = layout.getRowWidth() * RADIUS_ROW_WIDTH_RATIO;
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
         while (seatPositions.hasNext()) {
@@ -37,7 +37,7 @@ public class HemicycleLayoutExporter extends Exporter {
             svg.addElement(
                     new Circle().cx(seatPosition.getX()).cy(-seatPosition.getY()).r(seatRadius).fill(NEUTRAL_GREY));
         }
-        svg.addElement(createCopyrightNotice(null, halfWidth, -1D, width, height));
+        svg.addElement(createCopyrightNotice(null, halfWidth, -1D - EDGES_MARGIN, width, height));
         return svg.asString();
     }
 

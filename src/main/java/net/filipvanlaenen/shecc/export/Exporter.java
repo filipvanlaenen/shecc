@@ -25,7 +25,10 @@ abstract class Exporter {
      * The factor to scale up the view box to the SVG dimensions.
      */
     protected static final double VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR = 1000D;
-
+    /**
+     * The margin between the actual drawing and the edges of the SVG document.
+     */
+    protected static final double EDGES_MARGIN = 0.05D;
 
     /**
      * The font color as an integer.

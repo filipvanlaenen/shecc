@@ -61,7 +61,7 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * The margin between the layout and the title.
      */
-    private static final double TITLE_MARGIN = 0.02D;
+    private static final double TITLE_MARGIN = 0.05D;
 
     /**
      * The background color as an integer.

@@ -297,13 +297,13 @@ public class SeatingPlanExporterTest {
         exporter.setBackgroundColor(WHITE);
         exporter.setTitle("Lorem Ipsum");
         String actual = exporter.export(plan);
-        String expected = "<svg height=\"1070\" viewBox=\"-1 -1.07 2 1.07\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <rect fill=\"#FFFFFF\" height=\"1.07\" width=\"2\" x=\"-1\" y=\"-1.07\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.05\" font-weight=\"bold\" text-anchor=\"middle\" x=\"0\" y=\"-1.02\">Lorem Ipsum</text>\n"
+        String expected = "<svg height=\"1100\" viewBox=\"-1 -1.1 2 1.1\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <rect fill=\"#FFFFFF\" height=\"1.1\" width=\"2\" x=\"-1\" y=\"-1.1\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.05\" font-weight=\"bold\" text-anchor=\"middle\" x=\"0\" y=\"-1.05\">Lorem Ipsum</text>\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1.07)\" x=\"0.99\" y=\"-1.08\">Chart produced using SHecC</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1.1)\" x=\"0.99\" y=\"-1.11\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }

@@ -28,14 +28,6 @@ public class SeatingPlanExporter extends Exporter {
      */
     private static final double STRAIGHT_ANGLE = 180D;
     /**
-     * The ratio between the seat circle radius and the row width.
-     */
-    private static final double RADIUS_ROW_WIDTH_RATIO = 0.45D;
-    /**
-     * The factor to scale up the view box to the SVG dimensions.
-     */
-    private static final double VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR = 1000D;
-    /**
      * The factor used to move text down such that it appears vertically centered in
      * the middle, relative to the font size.
      */

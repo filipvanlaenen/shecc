@@ -17,6 +17,15 @@ abstract class Exporter {
      * Magic number for the color black.
      */
     protected static final int BLACK = 0x000000;
+    /**
+     * The ratio between the seat circle radius and the row width.
+     */
+    protected static final double RADIUS_ROW_WIDTH_RATIO = 0.45D;
+    /**
+     * The factor to scale up the view box to the SVG dimensions.
+     */
+    protected static final double VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR = 1000D;
+
 
     /**
      * The font color as an integer.

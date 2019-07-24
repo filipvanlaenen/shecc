@@ -15,14 +15,6 @@ public class HemicycleLayoutExporter extends Exporter {
      * The magic number for a neutral grey color.
      */
     private static final int NEUTRAL_GREY = 0x777777;
-    /**
-     * The ratio between the seat circle radius and the row width.
-     */
-    private static final double RADIUS_ROW_WIDTH_RATIO = 0.45D;
-    /**
-     * The factor to scale up the view box to the SVG dimensions.
-     */
-    private static final double VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR = 1000D;
 
     /**
      * Exports a hemicycle layout to SVG.

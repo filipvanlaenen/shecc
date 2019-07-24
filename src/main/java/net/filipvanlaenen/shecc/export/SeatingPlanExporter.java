@@ -89,16 +89,18 @@ public class SeatingPlanExporter extends Exporter {
      */
     public String export(final SeatingPlan plan) {
         HemicycleLayout layout = new HemicycleLayout(plan.getNoOfSeats());
-        double width = layout.getWidth();
+        double layoutWidth = layout.getWidth();
+        double layoutHalfWidth = layoutWidth / 2D;
+        double width = layoutWidth + 2 * EDGES_MARGIN;
         double halfWidth = width / 2D;
         double svgWidth = width * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
         double hemicycleHeight = layout.getHeight();
-        double canvasHeight = hemicycleHeight;
+        double canvasHeight = hemicycleHeight + 2 * EDGES_MARGIN;
         double seatRadius = layout.getRowWidth() * RADIUS_ROW_WIDTH_RATIO;
         if (displayLegend) {
             canvasHeight += seatRadius * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR;
         }
-        double canvasTopEdge = -1D;
+        double canvasTopEdge = -1D - EDGES_MARGIN;
         if (title != null) {
             double titleSpace = TITLE_HEIGHT + TITLE_MARGIN;
             canvasTopEdge -= titleSpace;
@@ -175,7 +177,7 @@ public class SeatingPlanExporter extends Exporter {
             while (parliamentaryGroups.hasNext()) {
                 ParliamentaryGroup parliamentaryGroup = parliamentaryGroups.next();
                 int color = parliamentaryGroup.getColor();
-                double x = -halfWidth + seatRadius + width * legendPositionNumber / noOfParliamentaryGroups;
+                double x = -layoutHalfWidth + seatRadius + layoutWidth * legendPositionNumber / noOfParliamentaryGroups;
                 svg.addElement(new Circle().cx(x).cy(y).r(seatRadius).fill(color));
                 String character = parliamentaryGroup.getCharacter();
                 double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;

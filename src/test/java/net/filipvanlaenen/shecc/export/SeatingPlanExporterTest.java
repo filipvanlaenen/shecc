@@ -322,16 +322,16 @@ public class SeatingPlanExporterTest {
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         exporter.setTitle("Lorem Ipsum");
-        exporter.setSubtitle("Dolor Sit Samet");
+        exporter.setSubtitle("Dolor Sit Amet");
         String actual = exporter.export(plan);
-        String expected = "<svg height=\"1125\" viewBox=\"-1 -1.125 2 1.125\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <rect fill=\"#FFFFFF\" height=\"1.125\" width=\"2\" x=\"-1\" y=\"-1.125\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.05\" font-weight=\"bold\" text-anchor=\"middle\" x=\"0\" y=\"-1.105\">Lorem Ipsum</text>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.035\" font-weight=\"bold\" text-anchor=\"middle\" x=\"0\" y=\"-1.02\">Dolor Sit Samet</text>\n"
+        String expected = "<svg height=\"1185\" viewBox=\"-1 -1.185 2 1.185\" width=\"2000\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <rect fill=\"#FFFFFF\" height=\"1.185\" width=\"2\" x=\"-1\" y=\"-1.185\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.05\" font-weight=\"bold\" text-anchor=\"middle\" x=\"0\" y=\"-1.135\">Lorem Ipsum</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.035\" font-weight=\"bold\" text-anchor=\"middle\" x=\"0\" y=\"-1.05\">Dolor Sit Amet</text>\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1.125)\" x=\"0.99\" y=\"-1.135\">Chart produced using SHecC</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.02\" text-anchor=\"end\" transform=\"rotate(270 1,-1.185)\" x=\"0.99\" y=\"-1.195\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }

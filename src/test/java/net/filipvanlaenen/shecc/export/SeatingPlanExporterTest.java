@@ -117,9 +117,9 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with legen with two seats for the
-     * red group and one for the blue group using the default hemicycle layout to
-     * SVG.
+     * Test verifying the export of a seating plan with legend with two seats for
+     * the red group and one for the blue group using the default hemicycle layout
+     * to SVG.
      */
     @Test
     void svgExportWithLegendForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
@@ -139,6 +139,35 @@ public class SeatingPlanExporterTest {
                 + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\" y=\"0.7\">Red"
                 + " (2)</text>\n" + "  <circle cx=\"0.3\" cy=\"0.6\" fill=\"#0000FF\" r=\"0.3\"/>\n"
                 + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"start\" x=\"0.75\" y=\"0.7\">Blue"
+                + " (1)</text>\n" + "  <text fill=\"#000000\" font-size=\"0.021\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
+                + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying that the legend uses up only one line when there is place
+     * enough.
+     */
+    @Test
+    void svgExportsLegendOnOneLineWhenThereIsPlaceEnough() {
+        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
+        groups.add(new ParliamentaryGroup(3, RED, "Red"));
+        groups.add(new ParliamentaryGroup(1, BLUE, "Blue"));
+        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setDisplayLegend(true);
+        String actual = exporter.export(plan);
+        String expected = "<svg height=\"1550\" viewBox=\"-1.05 -1.05 2.1 1.55\" width=\"2100\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <circle cx=\"-0.721688\" cy=\"-0.416667\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.5\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.833333\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "  <circle cx=\"0.721688\" cy=\"-0.416667\" fill=\"#0000FF\" r=\"0.15\"/>\n"
+                + "  <circle cx=\"-0.85\" cy=\"0.3\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.15\" text-anchor=\"start\" x=\"-0.625\" y=\"0.35\">Red"
+                + " (3)</text>\n" + "  <circle cx=\"0.15\" cy=\"0.3\" fill=\"#0000FF\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.15\" text-anchor=\"start\" x=\"0.375\" y=\"0.35\">Blue"
                 + " (1)</text>\n" + "  <text fill=\"#000000\" font-size=\"0.021\" text-anchor=\"end\""
                 + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
                 + "</svg>";
@@ -195,7 +224,7 @@ public class SeatingPlanExporterTest {
         exporter.setDisplayLegend(true);
         exporter.setFontFamily("Lato");
         String actual = exporter.export(plan);
-        String expected = "<svg height=\"2000\" viewBox=\"-1.05 -1.05 2.1 2\" width=\"2100\""
+        String expected = "<svg height=\"2900\" viewBox=\"-1.05 -1.05 2.1 2.9\" width=\"2100\""
                 + " xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\""
@@ -209,13 +238,13 @@ public class SeatingPlanExporterTest {
                 + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.7\""
                 + " y=\"0.7\">R</text>\n"
                 + "  <text fill=\"#000000\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\""
-                + " y=\"0.7\">Red (2)</text>\n" + "  <circle cx=\"0.3\" cy=\"0.6\" fill=\"#0000FF\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0.3\""
-                + " y=\"0.7\">B</text>\n"
-                + "  <text fill=\"#000000\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"start\" x=\"0.75\""
-                + " y=\"0.7\">Blue (1)</text>\n"
-                + "  <text fill=\"#000000\" font-family=\"Lato\" font-size=\"0.021\" text-anchor=\"end\""
-                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
+                + " y=\"0.7\">Red (2)</text>\n" + "  <circle cx=\"-0.7\" cy=\"1.5\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.7\""
+                + " y=\"1.6\">B</text>\n"
+                + "  <text fill=\"#000000\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\""
+                + " y=\"1.6\">Blue (1)</text>\n"
+                + "  <text fill=\"#000000\" font-family=\"Lato\" font-size=\"0.029\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0355\" y=\"-1.0645\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }

@@ -38,10 +38,15 @@ public class SeatingPlanExporter extends Exporter {
      */
     private static final double SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR = 3D;
     /**
-     * The factor used to calculate the gap between of the seat symbol and the
-     * legend text based on the seat radius.
+     * The factor used to calculate the gap between the seat symbol and the legend
+     * text based on the seat radius.
      */
     private static final double SEAT_RADIUS_TO_LEGEND_GAP_FACTOR = 1.5D;
+    /**
+     * The factor used to calculate the width of the slot in the legend for the
+     * names, based on the seat radius.
+     */
+    private static final double SEAT_RADIUS_TO_LEGEND_SLOT_FACTOR = 6D;
     /**
      * The height of the title.
      */
@@ -97,8 +102,12 @@ public class SeatingPlanExporter extends Exporter {
         double hemicycleHeight = layout.getHeight();
         double canvasHeight = hemicycleHeight + 2 * EDGES_MARGIN;
         double seatRadius = layout.getRowWidth() * RADIUS_ROW_WIDTH_RATIO;
+        List<ParliamentaryGroup> parliamentaryGroupsList = plan.getParliamentaryGroups();
+        int noOfParliamentaryGroups = parliamentaryGroupsList.size();
+        int noOfLegendRows = 1
+                + (int) (SEAT_RADIUS_TO_LEGEND_SLOT_FACTOR * seatRadius * noOfParliamentaryGroups / layoutWidth);
         if (displayLegend) {
-            canvasHeight += seatRadius * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR;
+            canvasHeight += seatRadius * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * noOfLegendRows;
         }
         double canvasTopEdge = -1D - EDGES_MARGIN;
         if (title != null) {
@@ -169,15 +178,21 @@ public class SeatingPlanExporter extends Exporter {
             seatNumber += 1;
         }
         if (displayLegend) {
-            List<ParliamentaryGroup> parliamentaryGroupsList = plan.getParliamentaryGroups();
-            int noOfParliamentaryGroups = parliamentaryGroupsList.size();
             Iterator<ParliamentaryGroup> parliamentaryGroups = parliamentaryGroupsList.iterator();
             int legendPositionNumber = 0;
-            double y = -1D + hemicycleHeight + seatRadius * 2D;
+            int noOfSlotsPerLegendRow = noOfParliamentaryGroups / noOfLegendRows;
+            if (noOfParliamentaryGroups % noOfLegendRows > 0) {
+                noOfSlotsPerLegendRow += 1;
+            }
+            double legendSlotWidth = layoutWidth / noOfSlotsPerLegendRow;
             while (parliamentaryGroups.hasNext()) {
                 ParliamentaryGroup parliamentaryGroup = parliamentaryGroups.next();
                 int color = parliamentaryGroup.getColor();
-                double x = -layoutHalfWidth + seatRadius + layoutWidth * legendPositionNumber / noOfParliamentaryGroups;
+                int legendColumn = legendPositionNumber % noOfSlotsPerLegendRow;
+                int legendRow = legendPositionNumber / noOfSlotsPerLegendRow;
+                double x = -layoutHalfWidth + seatRadius + legendSlotWidth * legendColumn;
+                double y = -1D + hemicycleHeight + seatRadius * 2D
+                        + legendRow * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
                 svg.addElement(new Circle().cx(x).cy(y).r(seatRadius).fill(color));
                 String character = parliamentaryGroup.getCharacter();
                 double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;

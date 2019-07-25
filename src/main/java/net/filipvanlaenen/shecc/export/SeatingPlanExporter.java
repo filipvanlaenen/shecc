@@ -191,6 +191,9 @@ public class SeatingPlanExporter extends Exporter {
                 int legendColumn = legendPositionNumber % noOfSlotsPerLegendRow;
                 int legendRow = legendPositionNumber / noOfSlotsPerLegendRow;
                 double x = -layoutHalfWidth + seatRadius + legendSlotWidth * legendColumn;
+                if (legendRow == noOfLegendRows - 1) {
+                    x += (noOfSlotsPerLegendRow * noOfLegendRows - noOfParliamentaryGroups) * legendSlotWidth / 2D;
+                }
                 double y = -1D + hemicycleHeight + seatRadius * 2D
                         + legendRow * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
                 svg.addElement(new Circle().cx(x).cy(y).r(seatRadius).fill(color));

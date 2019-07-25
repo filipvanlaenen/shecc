@@ -175,6 +175,37 @@ public class SeatingPlanExporterTest {
     }
 
     /**
+     * Test verifying that the last row of the legend is centered.
+     */
+    @Test
+    void svgExportsCentersLastRowOfLegend() {
+        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
+        groups.add(new ParliamentaryGroup(2, RED, "Red"));
+        groups.add(new ParliamentaryGroup(1, BLUE, "Blue"));
+        groups.add(new ParliamentaryGroup(1, MAGENTA, "Magenta"));
+        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setDisplayLegend(true);
+        String actual = exporter.export(plan);
+        String expected = "<svg height=\"2000\" viewBox=\"-1.05 -1.05 2.1 2\" width=\"2100\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <circle cx=\"-0.721688\" cy=\"-0.416667\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.5\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.833333\" fill=\"#0000FF\" r=\"0.15\"/>\n"
+                + "  <circle cx=\"0.721688\" cy=\"-0.416667\" fill=\"#FF00FF\" r=\"0.15\"/>\n"
+                + "  <circle cx=\"-0.85\" cy=\"0.3\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.15\" text-anchor=\"start\" x=\"-0.625\" y=\"0.35\">Red"
+                + " (2)</text>\n" + "  <circle cx=\"0.15\" cy=\"0.3\" fill=\"#0000FF\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.15\" text-anchor=\"start\" x=\"0.375\" y=\"0.35\">Blue"
+                + " (1)</text>\n" + "  <circle cx=\"-0.35\" cy=\"0.75\" fill=\"#FF00FF\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.15\" text-anchor=\"start\" x=\"-0.125\" y=\"0.8\">Magenta"
+                + " (1)</text>\n" + "  <text fill=\"#000000\" font-size=\"0.021\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
+                + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
      * Test verifying the export of a seating plan with legend with two seats for
      * the red group and one for the blue group using the default hemicycle layout
      * to SVG, using the letter R for the red group and B for the blue group.

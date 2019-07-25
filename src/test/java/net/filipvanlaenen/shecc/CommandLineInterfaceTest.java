@@ -62,17 +62,17 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithLegendIfNamesArePresent() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000.Red.,1.0000FF.Blue.");
-        String expected = "<svg height=\"2000\" viewBox=\"-1.05 -1.05 2.1 2\" width=\"2100\""
+        String expected = "<svg height=\"2900\" viewBox=\"-1.05 -1.05 2.1 2.9\" width=\"2100\""
                 + " xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"-0.7\" cy=\"0.6\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\" y=\"0.7\">Red"
-                + " (2)</text>\n" + "  <circle cx=\"0.3\" cy=\"0.6\" fill=\"#0000FF\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"start\" x=\"0.75\" y=\"0.7\">Blue"
-                + " (1)</text>\n" + "  <text fill=\"#000000\" font-size=\"0.021\" text-anchor=\"end\""
-                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
+                + " (2)</text>\n" + "  <circle cx=\"-0.7\" cy=\"1.5\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\" y=\"1.6\">Blue"
+                + " (1)</text>\n" + "  <text fill=\"#000000\" font-size=\"0.029\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0355\" y=\"-1.0645\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }
@@ -85,7 +85,7 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithCharactersAndLegendIfNamesArePresent() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000.Red.R,1.0000FF.Blue.B");
-        String expected = "<svg height=\"2000\" viewBox=\"-1.05 -1.05 2.1 2\" width=\"2100\""
+        String expected = "<svg height=\"2900\" viewBox=\"-1.05 -1.05 2.1 2.9\" width=\"2100\""
                 + " xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\""
@@ -96,11 +96,11 @@ public class CommandLineInterfaceTest {
                 + " y=\"-0.233333\">B</text>\n" + "  <circle cx=\"-0.7\" cy=\"0.6\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.7\" y=\"0.7\">R</text>\n"
                 + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\" y=\"0.7\">Red"
-                + " (2)</text>\n" + "  <circle cx=\"0.3\" cy=\"0.6\" fill=\"#0000FF\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0.3\" y=\"0.7\">B</text>\n"
-                + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"start\" x=\"0.75\" y=\"0.7\">Blue"
-                + " (1)</text>\n" + "  <text fill=\"#000000\" font-size=\"0.021\" text-anchor=\"end\""
-                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
+                + " (2)</text>\n" + "  <circle cx=\"-0.7\" cy=\"1.5\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.7\" y=\"1.6\">B</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\" y=\"1.6\">Blue"
+                + " (1)</text>\n" + "  <text fill=\"#000000\" font-size=\"0.029\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0355\" y=\"-1.0645\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }
@@ -114,7 +114,7 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithLegendInCorrectFontFamilyAndColor() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000.Red.R,1.0000FF.Blue.B", "--font-family=Lato", "--font-color=FF00FF");
-        String expected = "<svg height=\"2000\" viewBox=\"-1.05 -1.05 2.1 2\" width=\"2100\""
+        String expected = "<svg height=\"2900\" viewBox=\"-1.05 -1.05 2.1 2.9\" width=\"2100\""
                 + " xmlns=\"http://www.w3.org/2000/svg\">\n"
                 + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
                 + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\""
@@ -128,13 +128,13 @@ public class CommandLineInterfaceTest {
                 + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.7\""
                 + " y=\"0.7\">R</text>\n"
                 + "  <text fill=\"#FF00FF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\""
-                + " y=\"0.7\">Red (2)</text>\n" + "  <circle cx=\"0.3\" cy=\"0.6\" fill=\"#0000FF\" r=\"0.3\"/>\n"
-                + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0.3\""
-                + " y=\"0.7\">B</text>\n"
-                + "  <text fill=\"#FF00FF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"start\" x=\"0.75\""
-                + " y=\"0.7\">Blue (1)</text>\n"
-                + "  <text fill=\"#FF00FF\" font-family=\"Lato\" font-size=\"0.021\" text-anchor=\"end\""
-                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
+                + " y=\"0.7\">Red (2)</text>\n" + "  <circle cx=\"-0.7\" cy=\"1.5\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.7\""
+                + " y=\"1.6\">B</text>\n"
+                + "  <text fill=\"#FF00FF\" font-family=\"Lato\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\""
+                + " y=\"1.6\">Blue (1)</text>\n"
+                + "  <text fill=\"#FF00FF\" font-family=\"Lato\" font-size=\"0.029\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0355\" y=\"-1.0645\">Chart produced using SHecC</text>\n"
                 + "</svg>";
         assertEquals(expected, actual);
     }

@@ -14,6 +14,25 @@ import org.junit.jupiter.api.Test;
 public class CommandLineInterfaceTest {
 
     /**
+     * Test verifying that the command-line interface produces a simple seating plan
+     * without a legend if the names and the letters are missing.
+     */
+    @Test
+    void cliProducesSimpleSeatingPlanIfNamesAndLettersAreMissing() {
+        CommandLineInterface cli = new CommandLineInterface();
+        String actual = cli.perform("2.FF0000..,1.0000FF..");
+        String expected = "<svg height=\"1100\" viewBox=\"-1.05 -1.05 2.1 1.1\" width=\"2100\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.021\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
+                + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
      * Test verifying that the command-line interface produces a seating plan
      * without a legend if the names are missing.
      */

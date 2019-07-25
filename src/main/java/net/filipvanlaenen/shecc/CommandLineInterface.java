@@ -11,6 +11,22 @@ import net.filipvanlaenen.shecc.export.SeatingPlanExporter;
 public class CommandLineInterface {
 
     /**
+     * The index of the size in the parliamentary group encoding.
+     */
+    private static final int SIZE_INDEX = 0;
+    /**
+     * The index of the color in the parliamentary group encoding.
+     */
+    private static final int COLOR_INDEX = 1;
+    /**
+     * The index of the name in the parliamentary group encoding.
+     */
+    private static final int NAME_INDEX = 2;
+    /**
+     * The index of the character in the parliamentary group encoding.
+     */
+    private static final int CHARACTER_INDEX = 3;
+    /**
      * Magic number sixteen, the base for parsing hexadecimal numbers.
      */
     private static final int SIXTEEN = 16;
@@ -40,11 +56,11 @@ public class CommandLineInterface {
         boolean atLeastOneNamePresent = false;
         for (int i = 0; i < groupdefinitions.length; i++) {
             String[] attributes = groupdefinitions[i].split("\\.");
-            int size = Integer.parseInt(attributes[0]);
-            int color = Integer.parseInt(attributes[1], SIXTEEN);
-            String name = attributes[2];
-            atLeastOneNamePresent |= !name.isEmpty();
-            String character = attributes[3];
+            int size = Integer.parseInt(attributes[SIZE_INDEX]);
+            int color = Integer.parseInt(attributes[COLOR_INDEX], SIXTEEN);
+            String name = attributes.length > NAME_INDEX ? attributes[NAME_INDEX] : null;
+            atLeastOneNamePresent |= name != null && !name.isEmpty();
+            String character = attributes.length > CHARACTER_INDEX ? attributes[CHARACTER_INDEX] : null;
             groups.add(new ParliamentaryGroup(size, color, name, character));
         }
         SeatingPlan plan = new SeatingPlan(groups);

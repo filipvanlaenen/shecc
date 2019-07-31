@@ -16,12 +16,34 @@ public class ParliamentaryGroupTest {
 
     /**
      * Test verifying that the size is wired correctly from the constructor to the
-     * getter.
+     * getter if it is provided as an integer.
      */
     @Test
-    void sizeIsWiredCorrectlyFromTheConstructorToTheGetter() {
+    void integerSizeIsWiredCorrectlyFromTheConstructorToTheGetter() {
         ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, RED);
-        assertEquals(1, parliamentaryGroup.getSize());
+        assertEquals(new SimpleGroupSize(1), parliamentaryGroup.getSize());
+    }
+
+    /**
+     * Test verifying that the size is wired correctly from the constructor to the
+     * getter if it is provided as a simple size.
+     */
+    @Test
+    void simpleSizeIsWiredCorrectlyFromTheConstructorToTheGetter() {
+        SimpleGroupSize simpleSize = new SimpleGroupSize(1);
+        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(simpleSize, RED);
+        assertEquals(simpleSize, parliamentaryGroup.getSize());
+    }
+    
+    /**
+     * Test verifying that the size is wired correctly from the constructor to the
+     * getter if it is provided as a differentiated size.
+     */
+    @Test
+    void differentiatedSizeIsWiredCorrectlyFromTheConstructorToTheGetter() {
+        DifferentiatedGroupSize differentiatedSize = new DifferentiatedGroupSize(1, 2, 3);
+        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(differentiatedSize, RED);
+        assertEquals(differentiatedSize, parliamentaryGroup.getSize());
     }
 
     /**
@@ -45,8 +67,8 @@ public class ParliamentaryGroupTest {
     }
 
     /**
-     * Test verifying that the character is wired correctly from the constructor to the
-     * getter.
+     * Test verifying that the character is wired correctly from the constructor to
+     * the getter.
      */
     @Test
     void characterIsWiredCorrectlyFromTheConstructorToTheGetter() {
@@ -55,8 +77,7 @@ public class ParliamentaryGroupTest {
     }
 
     /**
-     * Test verifying that by default, the name of a parliamentary group is
-     * null.
+     * Test verifying that by default, the name of a parliamentary group is null.
      */
     @Test
     void byDefaultTheNameIsNull() {

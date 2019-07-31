@@ -106,6 +106,49 @@ public class CommandLineInterfaceTest {
     }
 
     /**
+     * Test verifying that the command-line interface produces a seating plan and
+     * legend according to the differentiated sizes.
+     */
+    @Test
+    void cliProducesSeatingPlanWithDifferentiatedGroupSizes() {
+        CommandLineInterface cli = new CommandLineInterface();
+        String actual = cli.perform("1:2:3.FF0000.Red.R,1:2.00FF00.Green.G,1.0000FF.Blue.B");
+        String expected = "<svg height=\"2000\" viewBox=\"-1.05 -1.05 2.1 2\" width=\"2100\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <circle cx=\"-0.7699\" cy=\"-0.318903\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.7699\""
+                + " y=\"-0.268903\">R</text>\n"
+                + "  <circle cx=\"-0.353553\" cy=\"-0.353553\" fill=\"#FF0000\" opacity=\"0.5\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.353553\""
+                + " y=\"-0.303553\">R</text>\n"
+                + "  <circle cx=\"-0.318903\" cy=\"-0.7699\" fill=\"#FF0000\" opacity=\"0.2\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.318903\""
+                + " y=\"-0.7199\">R</text>\n"
+                + "  <circle cx=\"0.318903\" cy=\"-0.7699\" fill=\"#00FF00\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.318903\""
+                + " y=\"-0.7199\">G</text>\n"
+                + "  <circle cx=\"0.353553\" cy=\"-0.353553\" fill=\"#00FF00\" opacity=\"0.5\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.353553\""
+                + " y=\"-0.303553\">G</text>\n"
+                + "  <circle cx=\"0.7699\" cy=\"-0.318903\" fill=\"#0000FF\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.7699\""
+                + " y=\"-0.268903\">B</text>\n" + "  <circle cx=\"-0.85\" cy=\"0.3\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.85\""
+                + " y=\"0.35\">R</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.15\" text-anchor=\"start\" x=\"-0.625\" y=\"0.35\">Red"
+                + " (3)</text>\n" + "  <circle cx=\"0.15\" cy=\"0.3\" fill=\"#00FF00\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.15\" y=\"0.35\">G</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.15\" text-anchor=\"start\" x=\"0.375\" y=\"0.35\">Green"
+                + " (2)</text>\n" + "  <circle cx=\"-0.35\" cy=\"0.75\" fill=\"#0000FF\" r=\"0.15\"/>\n"
+                + "  <text fill=\"#FFFFFF\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.35\" y=\"0.8\">B</text>\n"
+                + "  <text fill=\"#000000\" font-size=\"0.15\" text-anchor=\"start\" x=\"-0.125\" y=\"0.8\">Blue"
+                + " (1)</text>\n" + "  <text fill=\"#000000\" font-size=\"0.021\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
+                + "" + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
      * Test verifying that the command-line interface produces a seating plan with a
      * legend if the names are present, with all text in the right font family and
      * color.

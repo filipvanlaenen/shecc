@@ -6,6 +6,7 @@ import java.util.List;
 import net.filipvanlaenen.shecc.HemicycleLayout;
 import net.filipvanlaenen.shecc.ParliamentaryGroup;
 import net.filipvanlaenen.shecc.SeatPosition;
+import net.filipvanlaenen.shecc.SeatStatus;
 import net.filipvanlaenen.shecc.SeatingPlan;
 import net.filipvanlaenen.tsvgj.Circle;
 import net.filipvanlaenen.tsvgj.FontWeightValues;
@@ -161,7 +162,14 @@ public class SeatingPlanExporter extends Exporter {
             int color = parliamentaryGroup.getColor();
             double x = seatPosition.getX();
             double y = seatPosition.getY();
-            svg.addElement(new Circle().cx(x).cy(-y).r(seatRadius).fill(color));
+            Circle circle = new Circle().cx(x).cy(-y).r(seatRadius).fill(color);
+            SeatStatus seatStatus = plan.getSeatStatus(seatNumber);
+            if (seatStatus == SeatStatus.LIKELY) {
+                circle.opacity(0.5D);
+            } else if (seatStatus == SeatStatus.UNCERTAIN) {
+                circle.opacity(0.2D);
+            }
+            svg.addElement(circle);
             String character = parliamentaryGroup.getCharacter();
             if (character != null) {
                 Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
@@ -207,9 +215,10 @@ public class SeatingPlanExporter extends Exporter {
                     }
                     svg.addElement(text);
                 }
-                Text text = new Text(parliamentaryGroup.getName() + " (" + parliamentaryGroup.getSize() + ")")
-                        .x(x + SEAT_RADIUS_TO_LEGEND_GAP_FACTOR * seatRadius).y(textY).fontSize(seatRadius)
-                        .textAnchor(TextAnchorValues.START);
+                Text text = new Text(
+                        parliamentaryGroup.getName() + " (" + parliamentaryGroup.getSize().getFullSize() + ")")
+                                .x(x + SEAT_RADIUS_TO_LEGEND_GAP_FACTOR * seatRadius).y(textY).fontSize(seatRadius)
+                                .textAnchor(TextAnchorValues.START);
                 if (fontColor == null) {
                     text.fill(BLACK);
                 } else {

@@ -56,7 +56,7 @@ public class CommandLineInterface {
         boolean atLeastOneNamePresent = false;
         for (int i = 0; i < groupdefinitions.length; i++) {
             String[] attributes = groupdefinitions[i].split("\\.");
-            int size = Integer.parseInt(attributes[SIZE_INDEX]);
+            GroupSize size = GroupSize.parseGroupSize(attributes[SIZE_INDEX]);
             int color = Integer.parseInt(attributes[COLOR_INDEX], SIXTEEN);
             String name = attributes.length > NAME_INDEX ? attributes[NAME_INDEX] : null;
             atLeastOneNamePresent |= name != null && !name.isEmpty();

@@ -24,6 +24,7 @@ public class SeatingPlan {
      * initialization.
      */
     private ParliamentaryGroup[] seats;
+    private SeatStatus[] seatStatuses;
 
     /**
      * Constructs a seating plan based on an ordered list of parliamentary groups.
@@ -53,7 +54,7 @@ public class SeatingPlan {
         Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
         int total = 0;
         while (iterator.hasNext()) {
-            total += iterator.next().getSize();
+            total += iterator.next().getSize().getFullSize();
         }
         return total;
     }
@@ -82,7 +83,7 @@ public class SeatingPlan {
         int total = 0;
         while (iterator.hasNext()) {
             ParliamentaryGroup group = iterator.next();
-            total += group.getSize();
+            total += group.getSize().getFullSize();
             if (total > seatNumber) {
                 return group;
             }
@@ -105,6 +106,43 @@ public class SeatingPlan {
             seats[seatNumber] = calculateParliamentaryGroupAtSeat(seatNumber);
         }
         return seats[seatNumber];
+    }
+
+    public SeatStatus getSeatStatus(final int seatNumber) {
+        if (seatStatuses == null) {
+            seatStatuses = new SeatStatus[getNoOfSeats()];
+        }
+        if (seatStatuses[seatNumber] == null) {
+            seatStatuses[seatNumber] = calculateSeatStatus(seatNumber);
+        }
+        return seatStatuses[seatNumber];
+    }
+
+    private SeatStatus calculateSeatStatus(int seatNumber) {
+        ParliamentaryGroup group = getParliamentaryGroupAtSeat(seatNumber);
+        if (group.getSize() instanceof SimpleGroupSize) {
+            return SeatStatus.CERTAIN;
+        } else {
+            Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
+            int total = 0;
+            boolean groupReached = false;
+            while (!groupReached && iterator.hasNext()) {
+                ParliamentaryGroup currentGroup = iterator.next();
+                if (currentGroup.equals(group)) {
+                    groupReached = true;
+                } else {
+                    total += currentGroup.getSize().getFullSize();
+                }
+            }
+            DifferentiatedGroupSize size = (DifferentiatedGroupSize) group.getSize();
+            if (total + size.getLowerBound() > seatNumber) {
+                return SeatStatus.CERTAIN;
+            } else if (total + size.getMedian() > seatNumber) {
+                return SeatStatus.LIKELY;
+            } else {
+                return SeatStatus.UNCERTAIN;
+            }
+        }
     }
 
 }

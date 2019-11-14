@@ -10,6 +10,7 @@ import net.filipvanlaenen.shecc.SeatStatus;
 import net.filipvanlaenen.shecc.SeatingPlan;
 import net.filipvanlaenen.tsvgj.Circle;
 import net.filipvanlaenen.tsvgj.FontWeightValues;
+import net.filipvanlaenen.tsvgj.G;
 import net.filipvanlaenen.tsvgj.Rect;
 import net.filipvanlaenen.tsvgj.Svg;
 import net.filipvanlaenen.tsvgj.Text;
@@ -204,16 +205,21 @@ public class SeatingPlanExporter extends Exporter {
                 }
                 double y = -1D + hemicycleHeight + seatRadius * 2D
                         + legendRow * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
-                svg.addElement(new Circle().cx(x).cy(y).r(seatRadius).fill(color));
+                Circle circle = new Circle().cx(x).cy(y).r(seatRadius).fill(color);
                 String character = parliamentaryGroup.getCharacter();
                 double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
-                if (character != null) {
+                if (character == null) {
+                    svg.addElement(circle);
+                } else {
                     Text text = new Text(character).x(x).y(textY).fill(WHITE).fontSize(seatRadius)
                             .textAnchor(TextAnchorValues.MIDDLE);
                     if (fontFamily != null) {
                         text.fontFamily(fontFamily);
                     }
-                    svg.addElement(text);
+                    G g = new G();
+                    g.addElement(circle);
+                    g.addElement(text);
+                    svg.addElement(g);
                 }
                 Text text = new Text(
                         parliamentaryGroup.getName() + " (" + parliamentaryGroup.getSize().getFullSize() + ")")

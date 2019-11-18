@@ -195,6 +195,7 @@ public class SeatingPlanExporter extends Exporter {
             }
             double legendSlotWidth = layoutWidth / noOfSlotsPerLegendRow;
             while (parliamentaryGroups.hasNext()) {
+                G parliamentaryGroupGrouping = new G();
                 ParliamentaryGroup parliamentaryGroup = parliamentaryGroups.next();
                 int color = parliamentaryGroup.getColor();
                 int legendColumn = legendPositionNumber % noOfSlotsPerLegendRow;
@@ -209,17 +210,17 @@ public class SeatingPlanExporter extends Exporter {
                 String character = parliamentaryGroup.getCharacter();
                 double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
                 if (character == null) {
-                    svg.addElement(circle);
+                    parliamentaryGroupGrouping.addElement(circle);
                 } else {
                     Text text = new Text(character).x(x).y(textY).fill(WHITE).fontSize(seatRadius)
                             .textAnchor(TextAnchorValues.MIDDLE);
                     if (fontFamily != null) {
                         text.fontFamily(fontFamily);
                     }
-                    G g = new G();
-                    g.addElement(circle);
-                    g.addElement(text);
-                    svg.addElement(g);
+                    G seatGrouping = new G();
+                    seatGrouping.addElement(circle);
+                    seatGrouping.addElement(text);
+                    parliamentaryGroupGrouping.addElement(seatGrouping);
                 }
                 Text text = new Text(
                         parliamentaryGroup.getName() + " (" + parliamentaryGroup.getSize().getFullSize() + ")")
@@ -233,7 +234,8 @@ public class SeatingPlanExporter extends Exporter {
                 if (fontFamily != null) {
                     text.fontFamily(fontFamily);
                 }
-                svg.addElement(text);
+                parliamentaryGroupGrouping.addElement(text);
+                svg.addElement(parliamentaryGroupGrouping);
                 legendPositionNumber += 1;
             }
         }

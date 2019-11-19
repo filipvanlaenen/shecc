@@ -17,7 +17,7 @@ public abstract class GroupSize {
      * @return An instance of one of the subclasses representing the group size as
      *         defined by the provided string.
      */
-    static GroupSize parseGroupSize(String string) {
+    static GroupSize parseGroupSize(final String string) {
         if (string.contains(":")) {
             int[] sizes = Arrays.stream(string.split(":")).mapToInt(Integer::parseInt).toArray();
             return new DifferentiatedGroupSize(sizes);

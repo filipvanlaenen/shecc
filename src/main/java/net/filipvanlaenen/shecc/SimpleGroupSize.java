@@ -2,14 +2,31 @@ package net.filipvanlaenen.shecc;
 
 import java.util.Objects;
 
+/**
+ * A group size having a total number of seats only.
+ */
 class SimpleGroupSize extends GroupSize {
 
+    /**
+     * The size of the group.
+     */
     private final int size;
 
-    SimpleGroupSize(int size) {
+    /**
+     * Constructs a simple group size with the provided size.
+     *
+     * @param size
+     *            The size of the group.
+     */
+    SimpleGroupSize(final int size) {
         this.size = size;
     }
 
+    /**
+     * Returns the size of the group.
+     *
+     * @return The size of the group.
+     */
     int getSize() {
         return size;
     }

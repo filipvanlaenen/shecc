@@ -109,14 +109,15 @@ seating plan        = group specification ,  { comma , group specification } ;
 There are a few command-line options available to style and configure the chart
 produced. The table below gives an overview.
 
-| Option              | Type   | Description                    |
-|---------------------|--------|--------------------------------|             
-| background-color    | Color  | Sets the background color      |            
-| copyright-notice    | String | Sets a custom copyright notice |            
-| font-color          | Color  | Sets the font color            |            
-| font-family         | String | Sets the font family           |
-| subtitle            | String | Sets the subtitle              |
-| title               | String | Sets the title                 |
+| Option                   | Type    | Description                                                             |
+|--------------------------|---------|-------------------------------------------------------------------------|             
+| background-color         | Color   | Sets the background color                                               |            
+| copyright-notice         | String  | Sets a custom copyright notice                                          |            
+| font-color               | Color   | Sets the font color                                                     |            
+| font-family              | String  | Sets the font family                                                    |
+| legend-label-width-ratio | Integer | Sets the width of the legend labels in terms of number of seat radiuses | 
+| subtitle                 | String  | Sets the subtitle                                                       |
+| title                    | String  | Sets the title                                                          |
 
 The following command will produce a chart using the Lato font, and with a dark
 blue as the font color, with a title and a subtitle:

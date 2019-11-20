@@ -45,10 +45,10 @@ public class SeatingPlanExporter extends Exporter {
      */
     private static final double SEAT_RADIUS_TO_LEGEND_GAP_FACTOR = 1.5D;
     /**
-     * The factor used to calculate the width of the slot in the legend for the
-     * names, based on the seat radius.
+     * The default ratio used to calculate the width of the slot in the legend for
+     * the names, based on the seat radius.
      */
-    private static final double SEAT_RADIUS_TO_LEGEND_SLOT_FACTOR = 6D;
+    private static final int DEFAULT_SEAT_RADIUS_TO_LEGEND_LABEL_WIDTH_RATIO = 6;
     /**
      * The height of the title.
      */
@@ -74,6 +74,11 @@ public class SeatingPlanExporter extends Exporter {
      * Specifies whether a legend should be displayed.
      */
     private boolean displayLegend;
+    /**
+     * Overrides the default legend label width ratio, defined in terms of number of
+     * seat radiuses.
+     */
+    private Integer legendLabelWidthRatio;
     /**
      * Specifies whether the letters should be rotated towards the center.
      */
@@ -107,7 +112,7 @@ public class SeatingPlanExporter extends Exporter {
         List<ParliamentaryGroup> parliamentaryGroupsList = plan.getParliamentaryGroups();
         int noOfParliamentaryGroups = parliamentaryGroupsList.size();
         int noOfLegendRows = 1
-                + (int) (SEAT_RADIUS_TO_LEGEND_SLOT_FACTOR * seatRadius * noOfParliamentaryGroups / layoutWidth);
+                + (int) (getLegendLabelWidthRatio() * seatRadius * noOfParliamentaryGroups / layoutWidth);
         if (displayLegend) {
             canvasHeight += seatRadius * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * noOfLegendRows;
         }
@@ -301,5 +306,31 @@ public class SeatingPlanExporter extends Exporter {
      */
     public void setSubtitle(final String subtitle) {
         this.subtitle = subtitle;
+    }
+
+    /**
+     * Overrides the default legend label width ratio. The legend label width ratio
+     * is defined in terms of number of seat radiuses.
+     *
+     * @param legendLabelWidthRatio
+     *            The width of the legend labels in terms of number of seat
+     *            radiuses.
+     */
+    public void setLegendLabelWidthRatio(final int legendLabelWidthRatio) {
+        this.legendLabelWidthRatio = legendLabelWidthRatio;
+    }
+
+    /**
+     * Returns the legend label width ratio to be used, i.e. the provided one, or if
+     * no ratio has been provided, the default one.
+     *
+     * @return The legend label width ratio to be used.
+     */
+    private int getLegendLabelWidthRatio() {
+        if (legendLabelWidthRatio == null) {
+            return DEFAULT_SEAT_RADIUS_TO_LEGEND_LABEL_WIDTH_RATIO;
+        } else {
+            return legendLabelWidthRatio;
+        }
     }
 }

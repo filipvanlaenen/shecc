@@ -94,6 +94,8 @@ public class CommandLineInterface {
                     exporter.setFontColor(Integer.parseInt(value, SIXTEEN));
                 } else if (key.equals("font-family")) {
                     exporter.setFontFamily(value);
+                } else if (key.equals("legend-label-width-ratio")) {
+                    exporter.setLegendLabelWidthRatio(Integer.parseInt(value));
                 } else if (key.equals("subtitle")) {
                     exporter.setSubtitle(value);
                 } else if (key.equals("title")) {

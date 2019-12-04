@@ -268,9 +268,13 @@ public class SeatingPlanExporter extends Exporter {
             double y1 = y - radius * Math.cos(angle1);
             double x2 = x + radius * Math.sin(angle2);
             double y2 = y - radius * Math.cos(angle2);
-            g.addElement(
-                    new Path().moveTo(x, y).lineTo(x1, y1).arcTo(radius, radius, 0, Path.LargeArcFlagValues.LARGE_ARC,
-                            Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2).closePath().fill(colors[i]));
+            Path path = new Path().moveTo(x, y).lineTo(x1, y1).arcTo(radius, radius, 0,
+                    Path.LargeArcFlagValues.LARGE_ARC, Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2).closePath()
+                    .fill(colors[i]);
+            if (opacity != 1D) {
+                path.opacity(opacity);
+            }
+            g.addElement(path);
         }
         return g;
     }

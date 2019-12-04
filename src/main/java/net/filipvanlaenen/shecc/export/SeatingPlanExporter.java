@@ -170,13 +170,8 @@ public class SeatingPlanExporter extends Exporter {
             double x = seatPosition.getX();
             double y = seatPosition.getY();
             SeatStatus seatStatus = plan.getSeatStatus(seatNumber);
-            double opacity = 1D;
-            if (seatStatus == SeatStatus.LIKELY) {
-                opacity = 0.5D;
-            } else if (seatStatus == SeatStatus.UNCERTAIN) {
-                opacity = 0.2D;
-            }
-            addColoredCircleOrSectors(hemicycleGrouping, x, -y, seatRadius, parliamentaryGroup.getColors(), opacity);
+            addColoredCircleOrSectors(hemicycleGrouping, x, -y, seatRadius, parliamentaryGroup.getColors(),
+                    seatStatus.getOpacity());
             String character = parliamentaryGroup.getCharacter();
             if (character != null) {
                 Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
@@ -249,6 +244,21 @@ public class SeatingPlanExporter extends Exporter {
         return svg.asString();
     }
 
+    /**
+     * Creates a circle with a color.
+     *
+     * @param x
+     *            The x coordinate of the center.
+     * @param y
+     *            The y coordinate of the center.
+     * @param radius
+     *            The radius.
+     * @param color
+     *            The color.
+     * @param opacity
+     *            The opacity.
+     * @return A colored circle.
+     */
     private Circle createColoredCircle(final double x, final double y, final double radius, final int color,
             final double opacity) {
         Circle circle = new Circle().cx(x).cy(y).r(radius).fill(color);
@@ -258,6 +268,21 @@ public class SeatingPlanExporter extends Exporter {
         return circle;
     }
 
+    /**
+     * Creates a grouping with colored sectors.
+     *
+     * @param x
+     *            The x coordinate of the center.
+     * @param y
+     *            The y coordinate of the center.
+     * @param radius
+     *            The radius.
+     * @param colors
+     *            An array with the colors.
+     * @param opacity
+     *            The opacity.
+     * @return A grouping with colored sectors.
+     */
     private G createColoredSectors(final double x, final double y, final double radius, final int[] colors,
             final double opacity) {
         G g = new G();
@@ -279,6 +304,24 @@ public class SeatingPlanExporter extends Exporter {
         return g;
     }
 
+    /**
+     * Adds a colored circle or a grouping with colored sectors, depending on the
+     * number of colors.
+     *
+     * @param g
+     *            The grouping to which the circle or the grouping with the sectors
+     *            should be added.
+     * @param x
+     *            The x coordinate of the center.
+     * @param y
+     *            The y coordinate of the center.
+     * @param radius
+     *            The radius.
+     * @param colors
+     *            An array with the colors.
+     * @param opacity
+     *            The opacity.
+     */
     private void addColoredCircleOrSectors(final G g, final double x, final double y, final double radius,
             final int[] colors, final double opacity) {
         if (colors.length == 1) {

@@ -24,6 +24,10 @@ public class SeatingPlan {
      * initialization.
      */
     private ParliamentaryGroup[] seats;
+    /**
+     * An array holding the statuses of the seats. The elements in the array are
+     * calculated and set through lazy initialization.
+     */
     private SeatStatus[] seatStatuses;
 
     /**
@@ -108,6 +112,13 @@ public class SeatingPlan {
         return seats[seatNumber];
     }
 
+    /**
+     * Returns the status of a seat.
+     *
+     * @param seatNumber
+     *            The number of the seat in the hemicycle.
+     * @return The seat's status.
+     */
     public SeatStatus getSeatStatus(final int seatNumber) {
         if (seatStatuses == null) {
             seatStatuses = new SeatStatus[getNoOfSeats()];
@@ -118,7 +129,14 @@ public class SeatingPlan {
         return seatStatuses[seatNumber];
     }
 
-    private SeatStatus calculateSeatStatus(int seatNumber) {
+    /**
+     * Calculates the status of a seat.
+     *
+     * @param seatNumber
+     *            The number of the seat in the hemicycle.
+     * @return The seat's status.
+     */
+    private SeatStatus calculateSeatStatus(final int seatNumber) {
         ParliamentaryGroup group = getParliamentaryGroupAtSeat(seatNumber);
         if (group.getSize() instanceof SimpleGroupSize) {
             return SeatStatus.CERTAIN;

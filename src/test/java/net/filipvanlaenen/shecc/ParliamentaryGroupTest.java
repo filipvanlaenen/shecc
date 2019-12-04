@@ -42,7 +42,7 @@ public class ParliamentaryGroupTest {
         ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(simpleSize, RED);
         assertEquals(simpleSize, parliamentaryGroup.getSize());
     }
-    
+
     /**
      * Test verifying that the size is wired correctly from the constructor to the
      * getter if it is provided as a differentiated size.
@@ -63,10 +63,10 @@ public class ParliamentaryGroupTest {
         ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, RED);
         assertArrayEquals(new int[] {RED}, parliamentaryGroup.getColors());
     }
-    
+
     /**
      * Test verifying that a set of colors is wired correctly from the constructor to the
-     * getter
+     * getter.
      */
     @Test
     void colorsAreWiredCorrectlyFromTheConstructorToTheGetter() {

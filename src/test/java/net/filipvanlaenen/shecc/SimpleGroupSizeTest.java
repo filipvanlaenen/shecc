@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit tests on the <code>SimpleGroupSize</code> class.
+ */
 public class SimpleGroupSizeTest {
     /**
      * Test verifying that the size is wired correctly from the constructor to the
@@ -15,7 +18,7 @@ public class SimpleGroupSizeTest {
         SimpleGroupSize size = new SimpleGroupSize(1);
         assertEquals(1, size.getSize());
     }
-    
+
     /**
      * Test verifying that getFullSize returns the size.
      */

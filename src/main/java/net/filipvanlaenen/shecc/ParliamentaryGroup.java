@@ -11,9 +11,9 @@ public class ParliamentaryGroup {
     private final GroupSize size;
 
     /**
-     * The color of the parliamentary group.
+     * The colors of the parliamentary group.
      */
-    private final int color;
+    private final int[] colors;
 
     /**
      * The character of the parliamentary group.
@@ -26,7 +26,7 @@ public class ParliamentaryGroup {
     private final String name;
 
     /**
-     * Constructs a parliamentary group with a size and a color.
+     * Constructs a parliamentary group with a size and one color.
      *
      * @param size
      *            The size of the parliamentary group as an integer.
@@ -38,7 +38,19 @@ public class ParliamentaryGroup {
     }
 
     /**
-     * Constructs a parliamentary group with a size and a color.
+     * Constructs a parliamentary group with a size and a set of colors.
+     *
+     * @param size
+     *            The size of the parliamentary group as an integer.
+     * @param colors
+     *            The colors of the parliamentary group.
+     */
+    public ParliamentaryGroup(final int size, final int[] colors) {
+        this(size, colors, null);
+    }
+
+    /**
+     * Constructs a parliamentary group with a size and one color.
      *
      * @param size
      *            The size of the parliamentary group.
@@ -50,7 +62,7 @@ public class ParliamentaryGroup {
     }
 
     /**
-     * Constructs a parliamentary group with a size, color and name.
+     * Constructs a parliamentary group with a size, one color and name.
      *
      * @param size
      *            The size of the parliamentary group as an integer.
@@ -64,7 +76,21 @@ public class ParliamentaryGroup {
     }
 
     /**
-     * Constructs a parliamentary group with a size, color and name.
+     * Constructs a parliamentary group with a size, a set of colors and name.
+     *
+     * @param size
+     *            The size of the parliamentary group as an integer.
+     * @param colors
+     *            The colors of the parliamentary group.
+     * @param name
+     *            The name of the parliamentary group.
+     */
+    public ParliamentaryGroup(final int size, final int[] colors, final String name) {
+        this(size, colors, name, null);
+    }
+
+    /**
+     * Constructs a parliamentary group with a size, one color and name.
      *
      * @param size
      *            The size of the parliamentary group.
@@ -78,7 +104,8 @@ public class ParliamentaryGroup {
     }
 
     /**
-     * Constructs a parliamentary group with a size, color, name and a character.
+     * Constructs a parliamentary group with a size, one color, name and a
+     * character.
      *
      * @param size
      *            The size of the parliamentary group as an integer.
@@ -94,7 +121,25 @@ public class ParliamentaryGroup {
     }
 
     /**
-     * Constructs a parliamentary group with a size, color, name and a character.
+     * Constructs a parliamentary group with a size, a set of colors, name and a
+     * character.
+     *
+     * @param size
+     *            The size of the parliamentary group as an integer.
+     * @param colors
+     *            The colors of the parliamentary group.
+     * @param name
+     *            The name of the parliamentary group.
+     * @param character
+     *            The character of the parliamentary group.
+     */
+    public ParliamentaryGroup(final int size, final int[] colors, final String name, final String character) {
+        this(new SimpleGroupSize(size), colors, name, character);
+    }
+
+    /**
+     * Constructs a parliamentary group with a size, one color, name and a
+     * character.
      *
      * @param size
      *            The size of the parliamentary group.
@@ -106,8 +151,25 @@ public class ParliamentaryGroup {
      *            The character of the parliamentary group.
      */
     public ParliamentaryGroup(final GroupSize size, final int color, final String name, final String character) {
+        this(size, new int[] {color}, name, character);
+    }
+
+    /**
+     * Constructs a parliamentary group with a size, a set of colors, name and a
+     * character.
+     *
+     * @param size
+     *            The size of the parliamentary group.
+     * @param colors
+     *            The colors of the parliamentary group.
+     * @param name
+     *            The name of the parliamentary group.
+     * @param character
+     *            The character of the parliamentary group.
+     */
+    public ParliamentaryGroup(final GroupSize size, final int[] colors, final String name, final String character) {
         this.size = size;
-        this.color = color;
+        this.colors = colors;
         this.name = name;
         this.character = character;
     }
@@ -122,12 +184,12 @@ public class ParliamentaryGroup {
     }
 
     /**
-     * Returns the color of the parliamentary group.
+     * Returns the colors of the parliamentary group.
      *
-     * @return The color of the parliamentary group.
+     * @return The colors of the parliamentary group.
      */
-    public int getColor() {
-        return color;
+    public int[] getColors() {
+        return colors;
     }
 
     /**

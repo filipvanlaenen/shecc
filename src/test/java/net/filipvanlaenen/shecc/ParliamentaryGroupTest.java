@@ -1,5 +1,6 @@
 package net.filipvanlaenen.shecc;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -13,7 +14,14 @@ public class ParliamentaryGroupTest {
      * Magic number for the color red.
      */
     private static final int RED = 0xFF0000;
-
+    /**
+     * Magic number for the color magenta.
+     */
+    private static final int MAGENTA = 0xFF00FF;
+    /**
+     * Array representing the red/magenta color combination.
+     */
+    private static final int[] RED_MAGENTA = new int[] {RED, MAGENTA};
     /**
      * Test verifying that the size is wired correctly from the constructor to the
      * getter if it is provided as an integer.
@@ -48,12 +56,22 @@ public class ParliamentaryGroupTest {
 
     /**
      * Test verifying that the color is wired correctly from the constructor to the
-     * getter.
+     * getter if only one color is specified.
      */
     @Test
-    void colorIsWiredCorrectlyFromTheConstructorToTheGetter() {
+    void singleColorIsWiredCorrectlyFromTheConstructorToTheGetter() {
         ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, RED);
-        assertEquals(RED, parliamentaryGroup.getColor());
+        assertArrayEquals(new int[] {RED}, parliamentaryGroup.getColors());
+    }
+    
+    /**
+     * Test verifying that a set of colors is wired correctly from the constructor to the
+     * getter
+     */
+    @Test
+    void colorsAreWiredCorrectlyFromTheConstructorToTheGetter() {
+        ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(1, RED_MAGENTA);
+        assertArrayEquals(RED_MAGENTA, parliamentaryGroup.getColors());
     }
 
     /**

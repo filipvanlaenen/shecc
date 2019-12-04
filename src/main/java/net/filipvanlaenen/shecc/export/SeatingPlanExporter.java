@@ -11,6 +11,7 @@ import net.filipvanlaenen.shecc.SeatingPlan;
 import net.filipvanlaenen.tsvgj.Circle;
 import net.filipvanlaenen.tsvgj.FontWeightValues;
 import net.filipvanlaenen.tsvgj.G;
+import net.filipvanlaenen.tsvgj.Path;
 import net.filipvanlaenen.tsvgj.Rect;
 import net.filipvanlaenen.tsvgj.Svg;
 import net.filipvanlaenen.tsvgj.Text;
@@ -161,21 +162,21 @@ public class SeatingPlanExporter extends Exporter {
             svg.addElement(text);
         }
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
+        G hemicycleGrouping = new G();
         int seatNumber = 0;
         while (seatPositions.hasNext()) {
             SeatPosition seatPosition = seatPositions.next();
             ParliamentaryGroup parliamentaryGroup = plan.getParliamentaryGroupAtSeat(seatNumber);
-            int color = parliamentaryGroup.getColor();
             double x = seatPosition.getX();
             double y = seatPosition.getY();
-            Circle circle = new Circle().cx(x).cy(-y).r(seatRadius).fill(color);
             SeatStatus seatStatus = plan.getSeatStatus(seatNumber);
+            double opacity = 1D;
             if (seatStatus == SeatStatus.LIKELY) {
-                circle.opacity(0.5D);
+                opacity = 0.5D;
             } else if (seatStatus == SeatStatus.UNCERTAIN) {
-                circle.opacity(0.2D);
+                opacity = 0.2D;
             }
-            svg.addElement(circle);
+            addColoredCircleOrSectors(hemicycleGrouping, x, -y, seatRadius, parliamentaryGroup.getColors(), opacity);
             String character = parliamentaryGroup.getCharacter();
             if (character != null) {
                 Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
@@ -187,10 +188,11 @@ public class SeatingPlanExporter extends Exporter {
                 if (fontFamily != null) {
                     text.fontFamily(fontFamily);
                 }
-                svg.addElement(text);
+                hemicycleGrouping.addElement(text);
             }
             seatNumber += 1;
         }
+        svg.addElement(hemicycleGrouping);
         if (displayLegend) {
             Iterator<ParliamentaryGroup> parliamentaryGroups = parliamentaryGroupsList.iterator();
             int legendPositionNumber = 0;
@@ -202,7 +204,6 @@ public class SeatingPlanExporter extends Exporter {
             while (parliamentaryGroups.hasNext()) {
                 G parliamentaryGroupGrouping = new G();
                 ParliamentaryGroup parliamentaryGroup = parliamentaryGroups.next();
-                int color = parliamentaryGroup.getColor();
                 int legendColumn = legendPositionNumber % noOfSlotsPerLegendRow;
                 int legendRow = legendPositionNumber / noOfSlotsPerLegendRow;
                 double x = -layoutHalfWidth + seatRadius + legendSlotWidth * legendColumn;
@@ -211,11 +212,11 @@ public class SeatingPlanExporter extends Exporter {
                 }
                 double y = -1D + hemicycleHeight + seatRadius * 2D
                         + legendRow * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
-                Circle circle = new Circle().cx(x).cy(y).r(seatRadius).fill(color);
                 String character = parliamentaryGroup.getCharacter();
                 double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
                 if (character == null) {
-                    parliamentaryGroupGrouping.addElement(circle);
+                    addColoredCircleOrSectors(parliamentaryGroupGrouping, x, y, seatRadius,
+                            parliamentaryGroup.getColors(), 1D);
                 } else {
                     Text text = new Text(character).x(x).y(textY).fill(WHITE).fontSize(seatRadius)
                             .textAnchor(TextAnchorValues.MIDDLE);
@@ -223,7 +224,7 @@ public class SeatingPlanExporter extends Exporter {
                         text.fontFamily(fontFamily);
                     }
                     G seatGrouping = new G();
-                    seatGrouping.addElement(circle);
+                    addColoredCircleOrSectors(seatGrouping, x, y, seatRadius, parliamentaryGroup.getColors(), 1D);
                     seatGrouping.addElement(text);
                     parliamentaryGroupGrouping.addElement(seatGrouping);
                 }
@@ -246,6 +247,41 @@ public class SeatingPlanExporter extends Exporter {
         }
         svg.addElement(createCopyrightNotice(customCopyrightNotice, halfWidth, canvasTopEdge, width, canvasHeight));
         return svg.asString();
+    }
+
+    private Circle createColoredCircle(final double x, final double y, final double radius, final int color,
+            final double opacity) {
+        Circle circle = new Circle().cx(x).cy(y).r(radius).fill(color);
+        if (opacity != 1D) {
+            circle.opacity(opacity);
+        }
+        return circle;
+    }
+
+    private G createColoredSectors(final double x, final double y, final double radius, final int[] colors,
+            final double opacity) {
+        G g = new G();
+        for (int i = 0; i < colors.length; i++) {
+            double angle1 = 2 * Math.PI * i / colors.length;
+            double angle2 = 2 * Math.PI * (i + 1) / colors.length;
+            double x1 = x + radius * Math.sin(angle1);
+            double y1 = y - radius * Math.cos(angle1);
+            double x2 = x + radius * Math.sin(angle2);
+            double y2 = y - radius * Math.cos(angle2);
+            g.addElement(
+                    new Path().moveTo(x, y).lineTo(x1, y1).arcTo(radius, radius, 0, Path.LargeArcFlagValues.LARGE_ARC,
+                            Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2).closePath().fill(colors[i]));
+        }
+        return g;
+    }
+
+    private void addColoredCircleOrSectors(final G g, final double x, final double y, final double radius,
+            final int[] colors, final double opacity) {
+        if (colors.length == 1) {
+            g.addElement(createColoredCircle(x, y, radius, colors[0], opacity));
+        } else {
+            g.addElement(createColoredSectors(x, y, radius, colors, opacity));
+        }
     }
 
     /**

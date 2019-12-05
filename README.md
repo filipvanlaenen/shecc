@@ -95,11 +95,13 @@ integer             = digit , { digit } ;
 size                = integer ;
 color               = hexademical digit , hexademical digit , hexademical digit , hexademical digit ,
                       hexademical digit , hexademical digit ;
+colon               = ":" ;
+colors              = color , { colon , color } ;
 character           = letter | digit ;
 space               = " " ;
 name                = { letter | digit | space } ;
 dot                 = "." ;
-group specification = size , dot , color , dot , name , dot , character ;
+group specification = size , dot , colors , dot , name , dot , character ;
 comma               = "," ;
 seating plan        = group specification ,  { comma , group specification } ;
 ```

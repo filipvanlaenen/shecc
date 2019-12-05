@@ -187,6 +187,43 @@ public class CommandLineInterfaceTest {
     }
 
     /**
+     * Test verifying that the command-line interface produces a seating plan and
+     * legend for groups with multiple colors.
+     */
+    @Test
+    void cliProducesSeatingPlanForGroupsWithMultipleColors() {
+        CommandLineInterface cli = new CommandLineInterface();
+        String actual = cli.perform("1.FF0000:00FF00.Red/Green.R,2.0000FF.Blue.B");
+        String expected = "<svg height=\"2900\" viewBox=\"-1.05 -1.05 2.1 2.9\" width=\"2100\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                + "      <path d=\"M -0.57735 -0.333333 L -0.57735 -0.633333 A 0.3 0.3 0 0 1 -0.57735 -0.033333 Z\""
+                + " fill=\"#FF0000\"/>\n"
+                + "      <path d=\"M -0.57735 -0.333333 L -0.57735 -0.033333 A 0.3 0.3 0 0 1 -0.57735 -0.633333 Z\""
+                + " fill=\"#00FF00\"/>\n" + "    </g>\n"
+                + "    <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.57735\""
+                + " y=\"-0.233333\">R</text>\n" + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "    <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0\""
+                + " y=\"-0.566667\">B</text>\n"
+                + "    <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "    <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"0.57735\""
+                + " y=\"-0.233333\">B</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n" + "      <g>\n"
+                + "        <path d=\"M -0.7 0.6 L -0.7 0.3 A 0.3 0.3 0 0 1 -0.7 0.9 Z\" fill=\"#FF0000\"/>\n"
+                + "        <path d=\"M -0.7 0.6 L -0.7 0.9 A 0.3 0.3 0 0 1 -0.7 0.3 Z\" fill=\"#00FF00\"/>\n"
+                + "      </g>\n" + "      <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.7\""
+                + " y=\"0.7\">R</text>\n" + "    </g>\n"
+                + "    <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\" y=\"0.7\">Red/Green"
+                + " (1)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                + "      <circle cx=\"-0.7\" cy=\"1.5\" fill=\"#0000FF\" r=\"0.3\"/>\n"
+                + "      <text fill=\"#FFFFFF\" font-size=\"0.3\" text-anchor=\"middle\" x=\"-0.7\""
+                + " y=\"1.6\">B</text>\n" + "    </g>\n"
+                + "    <text fill=\"#000000\" font-size=\"0.3\" text-anchor=\"start\" x=\"-0.25\" y=\"1.6\">Blue"
+                + " (2)</text>\n" + "  </g>\n" + "  <text fill=\"#000000\" font-size=\"0.029\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0355\" y=\"-1.0645\">Chart produced using SHecC</text>\n"
+                + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
      * Test verifying that the command-line interface produces a seating plan with a
      * legend if the names are present, with all text in the right font family and
      * color.

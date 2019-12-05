@@ -1,6 +1,7 @@
 package net.filipvanlaenen.shecc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.filipvanlaenen.shecc.export.SeatingPlanExporter;
@@ -42,6 +43,17 @@ public class CommandLineInterface {
     }
 
     /**
+     * Parses a string representing a hexadecimal integer into an integer.
+     *
+     * @param s
+     *            The string to be parsed.
+     * @return An integer.
+     */
+    private static int parseHexadecimal(final String s) {
+        return Integer.parseInt(s, SIXTEEN);
+    }
+
+    /**
      * Performs the action requested from the command-line.
      *
      * @param args
@@ -57,11 +69,12 @@ public class CommandLineInterface {
         for (int i = 0; i < groupdefinitions.length; i++) {
             String[] attributes = groupdefinitions[i].split("\\.");
             GroupSize size = GroupSize.parseGroupSize(attributes[SIZE_INDEX]);
-            int color = Integer.parseInt(attributes[COLOR_INDEX], SIXTEEN);
+            int[] colors = Arrays.stream(attributes[COLOR_INDEX].split(":"))
+                    .mapToInt(CommandLineInterface::parseHexadecimal).toArray();
             String name = attributes.length > NAME_INDEX ? attributes[NAME_INDEX] : null;
             atLeastOneNamePresent |= name != null && !name.isEmpty();
             String character = attributes.length > CHARACTER_INDEX ? attributes[CHARACTER_INDEX] : null;
-            groups.add(new ParliamentaryGroup(size, color, name, character));
+            groups.add(new ParliamentaryGroup(size, colors, name, character));
         }
         SeatingPlan plan = new SeatingPlan(groups);
         exporter.setDisplayLegend(atLeastOneNamePresent);

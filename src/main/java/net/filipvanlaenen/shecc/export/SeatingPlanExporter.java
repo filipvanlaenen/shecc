@@ -294,7 +294,7 @@ public class SeatingPlanExporter extends Exporter {
             double x2 = x + radius * Math.sin(angle2);
             double y2 = y - radius * Math.cos(angle2);
             Path path = new Path().moveTo(x, y).lineTo(x1, y1).arcTo(radius, radius, 0,
-                    Path.LargeArcFlagValues.LARGE_ARC, Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2).closePath()
+                    Path.LargeArcFlagValues.SMALL_ARC, Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2).closePath()
                     .fill(colors[i]);
             if (opacity != 1D) {
                 path.opacity(opacity);

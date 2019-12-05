@@ -61,8 +61,8 @@ The number of seats per parliamentary group can be specified as follows:
 * Join all groups together, separating them with a comma
 * Parliamentary groups will be placed in the hemicycle from left to right
 
-The example from above, `19.FF0000..R,11.00FF00..G,48.0000FF..B` can therefore be
-decoded as follows:
+The example from above, `19.FF0000..R,11.00FF00..G,48.0000FF..B` can therefore
+be decoded as follows:
 
 | Group Specification | Size | Color            | Character |
 |:-------------------:|:----:|:----------------:|:---------:|
@@ -80,6 +80,17 @@ java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar \
 ```
 
 ![Seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend](/README-seating-plan-with-legend.png "Seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend")
+
+And finally, lets merge the red and the green party together with a yellow party
+into a red-green-yellow party. You can specify a set of colors for a
+parliamentary by concatenating each of the colors with a colon in between:
+
+```
+java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar \
+  "30.FF0000:00FF00:FFFF00.Red-green-yellow Party.R,48.0000FF.Blue Party.B" > seating-plan-with-red-green-yellow-party.svg
+```
+
+![Seating plan with 30 red-green-yellow seats and 48 blue seats, together with a legend](/README-seating-plan-with-red-green-yellow-party.png "Seating plan with 30 red-green-yellow seats and 48 blue seats, together with a legend")
 
 Below is a more formal specification of the grammar in extended Backus-Naur
 form:

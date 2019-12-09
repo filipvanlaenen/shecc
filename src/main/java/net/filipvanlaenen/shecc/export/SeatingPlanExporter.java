@@ -15,7 +15,7 @@ import net.filipvanlaenen.tsvgj.Path;
 import net.filipvanlaenen.tsvgj.Rect;
 import net.filipvanlaenen.tsvgj.Svg;
 import net.filipvanlaenen.tsvgj.Text;
-import net.filipvanlaenen.tsvgj.TextAnchorValues;
+import net.filipvanlaenen.tsvgj.TextAnchorValue;
 import net.filipvanlaenen.tsvgj.Transform;
 
 /**
@@ -137,7 +137,7 @@ public class SeatingPlanExporter extends Exporter {
         if (title != null) {
             double y = -1D - TITLE_MARGIN - (subtitle != null ? SUBTITLE_HEIGHT + TITLE_HEIGHT : 0D);
             Text text = new Text(title).x(0D).y(y).fontSize(TITLE_HEIGHT).fontWeight(FontWeightValues.BOLD)
-                    .textAnchor(TextAnchorValues.MIDDLE);
+                    .textAnchor(TextAnchorValue.MIDDLE);
             if (fontColor == null) {
                 text.fill(BLACK);
             } else {
@@ -150,7 +150,7 @@ public class SeatingPlanExporter extends Exporter {
         }
         if (subtitle != null) {
             Text text = new Text(subtitle).x(0D).y(-1D - TITLE_MARGIN).fontSize(SUBTITLE_HEIGHT)
-                    .fontWeight(FontWeightValues.BOLD).textAnchor(TextAnchorValues.MIDDLE);
+                    .fontWeight(FontWeightValues.BOLD).textAnchor(TextAnchorValue.MIDDLE);
             if (fontColor == null) {
                 text.fill(BLACK);
             } else {
@@ -175,7 +175,7 @@ public class SeatingPlanExporter extends Exporter {
             String character = parliamentaryGroup.getCharacter();
             if (character != null) {
                 Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
-                        .fontSize(seatRadius).fill(WHITE).textAnchor(TextAnchorValues.MIDDLE);
+                        .fontSize(seatRadius).fill(WHITE).textAnchor(TextAnchorValue.MIDDLE);
                 if (rotateLetters) {
                     double angle = STRAIGHT_ANGLE * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
                     text.transform(Transform.rotate(angle, x, -y));
@@ -214,7 +214,7 @@ public class SeatingPlanExporter extends Exporter {
                             parliamentaryGroup.getColors(), 1D);
                 } else {
                     Text text = new Text(character).x(x).y(textY).fill(WHITE).fontSize(seatRadius)
-                            .textAnchor(TextAnchorValues.MIDDLE);
+                            .textAnchor(TextAnchorValue.MIDDLE);
                     if (fontFamily != null) {
                         text.fontFamily(fontFamily);
                     }
@@ -226,7 +226,7 @@ public class SeatingPlanExporter extends Exporter {
                 Text text = new Text(
                         parliamentaryGroup.getName() + " (" + parliamentaryGroup.getSize().getFullSize() + ")")
                                 .x(x + SEAT_RADIUS_TO_LEGEND_GAP_FACTOR * seatRadius).y(textY).fontSize(seatRadius)
-                                .textAnchor(TextAnchorValues.START);
+                                .textAnchor(TextAnchorValue.START);
                 if (fontColor == null) {
                     text.fill(BLACK);
                 } else {

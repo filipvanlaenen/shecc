@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import net.filipvanlaenen.tsvgj.Text;
-import net.filipvanlaenen.tsvgj.TextAnchorValues;
+import net.filipvanlaenen.tsvgj.TextAnchorValue;
 import net.filipvanlaenen.tsvgj.Transform;
 
 /**
@@ -81,7 +81,7 @@ abstract class Exporter {
         String fullNotice = customNotice == null ? "Chart produced using SHecC"
                 : "© " + getYear() + " " + customNotice + ", chart produced using SHecC";
         Text text = new Text(fullNotice).x(x - size / 200D).y(y - size / 200D).fontSize(size / 100D)
-                .textAnchor(TextAnchorValues.END).transform(Transform.rotate(270D, x, y));
+                .textAnchor(TextAnchorValue.END).transform(Transform.rotate(270D, x, y));
         if (fontColor == null) {
             text.fill(BLACK);
         } else {

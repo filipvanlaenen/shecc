@@ -12,6 +12,7 @@ import net.filipvanlaenen.tsvgj.Circle;
 import net.filipvanlaenen.tsvgj.ColorKeyword;
 import net.filipvanlaenen.tsvgj.FontWeightValues;
 import net.filipvanlaenen.tsvgj.G;
+import net.filipvanlaenen.tsvgj.NoneValue;
 import net.filipvanlaenen.tsvgj.Path;
 import net.filipvanlaenen.tsvgj.Rect;
 import net.filipvanlaenen.tsvgj.Svg;
@@ -276,7 +277,7 @@ public class SeatingPlanExporter extends Exporter {
                 Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
                         .fontSize(seatRadius).fill(ColorKeyword.WHITE).textAnchor(TextAnchorValue.MIDDLE);
                 if (seatStatus == SeatStatus.UNLIKELY) {
-                   text.fill(parliamentaryGroup.getColors()[0]);
+                    text.fill(parliamentaryGroup.getColors()[0]);
                 } else {
                     text.fill(ColorKeyword.WHITE);
                 }
@@ -310,7 +311,7 @@ public class SeatingPlanExporter extends Exporter {
     private Circle createColoredCircle(final double x, final double y, final double radius, final int color) {
         return new Circle().cx(x).cy(y).r(radius).fill(color);
     }
-    
+
     /**
      * Creates a circle hatched with a color.
      *
@@ -344,7 +345,8 @@ public class SeatingPlanExporter extends Exporter {
      */
     private Circle createOutlinedCircle(final double x, final double y, final double radius, final int color) {
         double strokeWidth = radius / 5D;
-        return new Circle().cx(x).cy(y).r(radius - strokeWidth / 2D).stroke(color).strokeWidth(strokeWidth);
+        return new Circle().cx(x).cy(y).r(radius - strokeWidth / 2D).fill(NoneValue.NONE).stroke(color)
+                .strokeWidth(strokeWidth);
     }
 
     /**
@@ -427,7 +429,7 @@ public class SeatingPlanExporter extends Exporter {
             g.addElement(createColoredSectors(x, y, radius, colors));
         }
     }
-    
+
     /**
      * Adds an outlined circle or a grouping with outlined sectors, depending on the
      * number of colors.
@@ -449,7 +451,7 @@ public class SeatingPlanExporter extends Exporter {
         if (colors.length == 1) {
             g.addElement(createOutlinedCircle(x, y, radius, colors[0]));
         } else {
-         // TODO: Issue #45
+            // TODO: Issue #45
             g.addElement(createColoredSectors(x, y, radius, colors));
         }
     }

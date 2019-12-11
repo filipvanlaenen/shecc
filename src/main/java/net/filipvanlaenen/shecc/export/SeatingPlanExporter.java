@@ -128,63 +128,15 @@ public class SeatingPlanExporter extends Exporter {
         double svgHeight = canvasHeight * VIEW_BOX_TO_SVG_DIMENSIONS_FACTOR;
         Svg svg = new Svg().width(svgWidth).height(svgHeight).viewBox(-halfWidth, canvasTopEdge, width, canvasHeight);
         if (backgroundColor != null) {
-            svg.addElement(
-                    new Rect().x(-halfWidth).y(canvasTopEdge).width(width).height(canvasHeight).fill(backgroundColor));
+            svg.addElement(createBackgroundRectangle(width, canvasHeight, canvasTopEdge));
         }
         if (title != null) {
-            double y = -1D - TITLE_MARGIN - (subtitle != null ? SUBTITLE_HEIGHT + TITLE_HEIGHT : 0D);
-            Text text = new Text(title).x(0D).y(y).fontSize(TITLE_HEIGHT).fontWeight(FontWeightValues.BOLD)
-                    .textAnchor(TextAnchorValue.MIDDLE);
-            if (fontColor == null) {
-                text.fill(ColorKeyword.BLACK);
-            } else {
-                text.fill(fontColor);
-            }
-            if (fontFamily != null) {
-                text.fontFamily(fontFamily);
-            }
-            svg.addElement(text);
+            svg.addElement(createTitleText());
         }
         if (subtitle != null) {
-            Text text = new Text(subtitle).x(0D).y(-1D - TITLE_MARGIN).fontSize(SUBTITLE_HEIGHT)
-                    .fontWeight(FontWeightValues.BOLD).textAnchor(TextAnchorValue.MIDDLE);
-            if (fontColor == null) {
-                text.fill(ColorKeyword.BLACK);
-            } else {
-                text.fill(fontColor);
-            }
-            if (fontFamily != null) {
-                text.fontFamily(fontFamily);
-            }
-            svg.addElement(text);
+            svg.addElement(createSubtitleText());
         }
-        Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
-        G hemicycleGrouping = new G();
-        int seatNumber = 0;
-        while (seatPositions.hasNext()) {
-            SeatPosition seatPosition = seatPositions.next();
-            ParliamentaryGroup parliamentaryGroup = plan.getParliamentaryGroupAtSeat(seatNumber);
-            double x = seatPosition.getX();
-            double y = seatPosition.getY();
-            SeatStatus seatStatus = plan.getSeatStatus(seatNumber);
-            addColoredCircleOrSectors(hemicycleGrouping, x, -y, seatRadius, parliamentaryGroup.getColors(),
-                    seatStatus.getOpacity());
-            String character = parliamentaryGroup.getCharacter();
-            if (character != null) {
-                Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
-                        .fontSize(seatRadius).fill(ColorKeyword.WHITE).textAnchor(TextAnchorValue.MIDDLE);
-                if (rotateLetters) {
-                    double angle = STRAIGHT_ANGLE * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
-                    text.transform(Transform.rotate(angle, x, -y));
-                }
-                if (fontFamily != null) {
-                    text.fontFamily(fontFamily);
-                }
-                hemicycleGrouping.addElement(text);
-            }
-            seatNumber += 1;
-        }
-        svg.addElement(hemicycleGrouping);
+        svg.addElement(createHemicycleGrouping(layout, plan, seatRadius));
         if (displayLegend) {
             Iterator<ParliamentaryGroup> parliamentaryGroups = parliamentaryGroupsList.iterator();
             int legendPositionNumber = 0;
@@ -239,6 +191,102 @@ public class SeatingPlanExporter extends Exporter {
         }
         svg.addElement(createCopyrightNotice(customCopyrightNotice, halfWidth, canvasTopEdge, width, canvasHeight));
         return svg.asString();
+    }
+
+    /**
+     * Creates the rectangle for the background for the diagram. The rectangle is
+     * horizontally centered around the Y axis.
+     *
+     * @param width
+     *            The width of the canvas.
+     * @param canvasHeight
+     *            The height of the canvas
+     * @param canvasTopEdge
+     *            The y coordinate for the top edge of the canvas.
+     * @return A rectangle that serves as the background for the diagram.
+     */
+    private Rect createBackgroundRectangle(final double width, final double canvasHeight, final double canvasTopEdge) {
+        return new Rect().x(-width / 2D).y(canvasTopEdge).width(width).height(canvasHeight).fill(backgroundColor);
+    }
+
+    /**
+     * Creates a text element for the title.
+     *
+     * @return A text for the title.
+     */
+    private Text createTitleText() {
+        double y = -1D - TITLE_MARGIN - (subtitle != null ? SUBTITLE_HEIGHT + TITLE_HEIGHT : 0D);
+        Text text = new Text(title).x(0D).y(y).fontSize(TITLE_HEIGHT).fontWeight(FontWeightValues.BOLD)
+                .textAnchor(TextAnchorValue.MIDDLE);
+        if (fontColor == null) {
+            text.fill(ColorKeyword.BLACK);
+        } else {
+            text.fill(fontColor);
+        }
+        if (fontFamily != null) {
+            text.fontFamily(fontFamily);
+        }
+        return text;
+    }
+
+    /**
+     * Creates a text element for the subtitle.
+     *
+     * @return A text for the subtitle.
+     */
+    private Text createSubtitleText() {
+        Text text = new Text(subtitle).x(0D).y(-1D - TITLE_MARGIN).fontSize(SUBTITLE_HEIGHT)
+                .fontWeight(FontWeightValues.BOLD).textAnchor(TextAnchorValue.MIDDLE);
+        if (fontColor == null) {
+            text.fill(ColorKeyword.BLACK);
+        } else {
+            text.fill(fontColor);
+        }
+        if (fontFamily != null) {
+            text.fontFamily(fontFamily);
+        }
+        return text;
+    }
+
+    /**
+     * Creates a grouping for a hemicycle and its content.
+     *
+     * @param layout
+     *            The layout for the hemicycle.
+     * @param plan
+     *            The seating plan for the hemicycle.
+     * @param seatRadius
+     *            The seat radius.
+     * @return A grouping for the hemicycle and its content.
+     */
+    private G createHemicycleGrouping(final HemicycleLayout layout, final SeatingPlan plan, final double seatRadius) {
+        Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
+        G hemicycleGrouping = new G();
+        int seatNumber = 0;
+        while (seatPositions.hasNext()) {
+            SeatPosition seatPosition = seatPositions.next();
+            ParliamentaryGroup parliamentaryGroup = plan.getParliamentaryGroupAtSeat(seatNumber);
+            double x = seatPosition.getX();
+            double y = seatPosition.getY();
+            SeatStatus seatStatus = plan.getSeatStatus(seatNumber);
+            addColoredCircleOrSectors(hemicycleGrouping, x, -y, seatRadius, parliamentaryGroup.getColors(),
+                    seatStatus.getOpacity());
+            String character = parliamentaryGroup.getCharacter();
+            if (character != null) {
+                Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
+                        .fontSize(seatRadius).fill(ColorKeyword.WHITE).textAnchor(TextAnchorValue.MIDDLE);
+                if (rotateLetters) {
+                    double angle = STRAIGHT_ANGLE * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
+                    text.transform(Transform.rotate(angle, x, -y));
+                }
+                if (fontFamily != null) {
+                    text.fontFamily(fontFamily);
+                }
+                hemicycleGrouping.addElement(text);
+            }
+            seatNumber += 1;
+        }
+        return hemicycleGrouping;
     }
 
     /**

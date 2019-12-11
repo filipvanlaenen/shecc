@@ -160,7 +160,7 @@ public class SeatingPlanExporter extends Exporter {
                 double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
                 if (character == null) {
                     addColoredCircleOrSectors(parliamentaryGroupGrouping, x, y, seatRadius,
-                            parliamentaryGroup.getColors(), 1D);
+                            parliamentaryGroup.getColors());
                 } else {
                     Text text = new Text(character).x(x).y(textY).fill(ColorKeyword.WHITE).fontSize(seatRadius)
                             .textAnchor(TextAnchorValue.MIDDLE);
@@ -168,7 +168,7 @@ public class SeatingPlanExporter extends Exporter {
                         text.fontFamily(fontFamily);
                     }
                     G seatGrouping = new G();
-                    addColoredCircleOrSectors(seatGrouping, x, y, seatRadius, parliamentaryGroup.getColors(), 1D);
+                    addColoredCircleOrSectors(seatGrouping, x, y, seatRadius, parliamentaryGroup.getColors());
                     seatGrouping.addElement(text);
                     parliamentaryGroupGrouping.addElement(seatGrouping);
                 }
@@ -269,12 +269,17 @@ public class SeatingPlanExporter extends Exporter {
             double x = seatPosition.getX();
             double y = seatPosition.getY();
             SeatStatus seatStatus = plan.getSeatStatus(seatNumber);
-            addColoredCircleOrSectors(hemicycleGrouping, x, -y, seatRadius, parliamentaryGroup.getColors(),
-                    seatStatus.getOpacity());
+            addDecoratedCircleOrSectors(hemicycleGrouping, x, -y, seatRadius, parliamentaryGroup.getColors(),
+                    seatStatus);
             String character = parliamentaryGroup.getCharacter();
             if (character != null) {
                 Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
                         .fontSize(seatRadius).fill(ColorKeyword.WHITE).textAnchor(TextAnchorValue.MIDDLE);
+                if (seatStatus == SeatStatus.UNLIKELY) {
+                   text.fill(parliamentaryGroup.getColors()[0]);
+                } else {
+                    text.fill(ColorKeyword.WHITE);
+                }
                 if (rotateLetters) {
                     double angle = STRAIGHT_ANGLE * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
                     text.transform(Transform.rotate(angle, x, -y));
@@ -300,17 +305,46 @@ public class SeatingPlanExporter extends Exporter {
      *            The radius.
      * @param color
      *            The color.
-     * @param opacity
-     *            The opacity.
      * @return A colored circle.
      */
-    private Circle createColoredCircle(final double x, final double y, final double radius, final int color,
-            final double opacity) {
-        Circle circle = new Circle().cx(x).cy(y).r(radius).fill(color);
-        if (opacity != 1D) {
-            circle.opacity(opacity);
-        }
-        return circle;
+    private Circle createColoredCircle(final double x, final double y, final double radius, final int color) {
+        return new Circle().cx(x).cy(y).r(radius).fill(color);
+    }
+    
+    /**
+     * Creates a circle hatched with a color.
+     *
+     * @param x
+     *            The x coordinate of the center.
+     * @param y
+     *            The y coordinate of the center.
+     * @param radius
+     *            The radius.
+     * @param color
+     *            The color.
+     * @return A colored circle.
+     */
+    private Circle createHatchedCircle(final double x, final double y, final double radius, final int color) {
+        // TODO: Issue #44
+        return new Circle().cx(x).cy(y).r(radius).fill(color).opacity(0.5D);
+    }
+
+    /**
+     * Creates a circle outlined with a color.
+     *
+     * @param x
+     *            The x coordinate of the center.
+     * @param y
+     *            The y coordinate of the center.
+     * @param radius
+     *            The radius.
+     * @param color
+     *            The color.
+     * @return A colored circle.
+     */
+    private Circle createOutlinedCircle(final double x, final double y, final double radius, final int color) {
+        double strokeWidth = radius / 5D;
+        return new Circle().cx(x).cy(y).r(radius - strokeWidth / 2D).stroke(color).strokeWidth(strokeWidth);
     }
 
     /**
@@ -324,12 +358,9 @@ public class SeatingPlanExporter extends Exporter {
      *            The radius.
      * @param colors
      *            An array with the colors.
-     * @param opacity
-     *            The opacity.
      * @return A grouping with colored sectors.
      */
-    private G createColoredSectors(final double x, final double y, final double radius, final int[] colors,
-            final double opacity) {
+    private G createColoredSectors(final double x, final double y, final double radius, final int[] colors) {
         G g = new G();
         for (int i = 0; i < colors.length; i++) {
             double angle1 = 2 * Math.PI * i / colors.length;
@@ -341,9 +372,6 @@ public class SeatingPlanExporter extends Exporter {
             Path path = new Path().moveTo(x, y).lineTo(x1, y1).arcTo(radius, radius, 0,
                     Path.LargeArcFlagValues.SMALL_ARC, Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2).closePath()
                     .fill(colors[i]);
-            if (opacity != 1D) {
-                path.opacity(opacity);
-            }
             g.addElement(path);
         }
         return g;
@@ -364,15 +392,98 @@ public class SeatingPlanExporter extends Exporter {
      *            The radius.
      * @param colors
      *            An array with the colors.
-     * @param opacity
-     *            The opacity.
      */
     private void addColoredCircleOrSectors(final G g, final double x, final double y, final double radius,
-            final int[] colors, final double opacity) {
+            final int[] colors) {
         if (colors.length == 1) {
-            g.addElement(createColoredCircle(x, y, radius, colors[0], opacity));
+            g.addElement(createColoredCircle(x, y, radius, colors[0]));
         } else {
-            g.addElement(createColoredSectors(x, y, radius, colors, opacity));
+            g.addElement(createColoredSectors(x, y, radius, colors));
+        }
+    }
+
+    /**
+     * Adds a hatched circle or a grouping with hatched sectors, depending on the
+     * number of colors.
+     *
+     * @param g
+     *            The grouping to which the circle or the grouping with the sectors
+     *            should be added.
+     * @param x
+     *            The x coordinate of the center.
+     * @param y
+     *            The y coordinate of the center.
+     * @param radius
+     *            The radius.
+     * @param colors
+     *            An array with the colors.
+     */
+    private void addHatchedCircleOrSectors(final G g, final double x, final double y, final double radius,
+            final int[] colors) {
+        if (colors.length == 1) {
+            g.addElement(createHatchedCircle(x, y, radius, colors[0]));
+        } else {
+            // TODO: Issue #44
+            g.addElement(createColoredSectors(x, y, radius, colors));
+        }
+    }
+    
+    /**
+     * Adds an outlined circle or a grouping with outlined sectors, depending on the
+     * number of colors.
+     *
+     * @param g
+     *            The grouping to which the circle or the grouping with the sectors
+     *            should be added.
+     * @param x
+     *            The x coordinate of the center.
+     * @param y
+     *            The y coordinate of the center.
+     * @param radius
+     *            The radius.
+     * @param colors
+     *            An array with the colors.
+     */
+    private void addOutlinedCircleOrSectors(final G g, final double x, final double y, final double radius,
+            final int[] colors) {
+        if (colors.length == 1) {
+            g.addElement(createOutlinedCircle(x, y, radius, colors[0]));
+        } else {
+         // TODO: Issue #45
+            g.addElement(createColoredSectors(x, y, radius, colors));
+        }
+    }
+
+    /**
+     * Adds a decorated circle or a grouping with decorated sectors, depending on
+     * the number of colors and the status of the seat.
+     *
+     * @param g
+     *            The grouping to which the circle or the grouping with the sectors
+     *            should be added.
+     * @param x
+     *            The x coordinate of the center.
+     * @param y
+     *            The y coordinate of the center.
+     * @param radius
+     *            The radius.
+     * @param colors
+     *            An array with the colors.
+     * @param seatStatus
+     *            The status of the seat.
+     */
+    private void addDecoratedCircleOrSectors(final G g, final double x, final double y, final double radius,
+            final int[] colors, final SeatStatus seatStatus) {
+        switch (seatStatus) {
+        case CERTAIN:
+            addColoredCircleOrSectors(g, x, y, radius, colors);
+            break;
+        case LIKELY:
+            addHatchedCircleOrSectors(g, x, y, radius, colors);
+            break;
+        case UNLIKELY:
+            addOutlinedCircleOrSectors(g, x, y, radius, colors);
+            break;
         }
     }
 

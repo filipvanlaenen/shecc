@@ -13,9 +13,9 @@ public enum SeatStatus {
      */
     LIKELY(0.5D),
     /**
-     * An uncertain seat, i.e. in the upper half of the confidence interval.
+     * An unlikely seat, i.e. in the upper half of the confidence interval.
      */
-    UNCERTAIN(0.2D);
+    UNLIKELY(0.2D);
 
     /**
      * The opacity for the seat status.

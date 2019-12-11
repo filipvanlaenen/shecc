@@ -158,7 +158,7 @@ public class SeatingPlan {
             } else if (total + size.getMedian() > seatNumber) {
                 return SeatStatus.LIKELY;
             } else {
-                return SeatStatus.UNCERTAIN;
+                return SeatStatus.UNLIKELY;
             }
         }
     }

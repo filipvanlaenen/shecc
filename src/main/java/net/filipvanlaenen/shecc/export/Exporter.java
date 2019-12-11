@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import net.filipvanlaenen.tsvgj.ColorKeyword;
 import net.filipvanlaenen.tsvgj.Text;
 import net.filipvanlaenen.tsvgj.TextAnchorValue;
 import net.filipvanlaenen.tsvgj.Transform;
@@ -13,10 +14,6 @@ import net.filipvanlaenen.tsvgj.Transform;
  * all exporters.
  */
 abstract class Exporter {
-    /**
-     * Magic number for the color black.
-     */
-    protected static final int BLACK = 0x000000;
     /**
      * The ratio between the seat circle radius and the row width.
      */
@@ -83,7 +80,7 @@ abstract class Exporter {
         Text text = new Text(fullNotice).x(x - size / 200D).y(y - size / 200D).fontSize(size / 100D)
                 .textAnchor(TextAnchorValue.END).transform(Transform.rotate(270D, x, y));
         if (fontColor == null) {
-            text.fill(BLACK);
+            text.fill(ColorKeyword.BLACK);
         } else {
             text.fill(fontColor);
         }

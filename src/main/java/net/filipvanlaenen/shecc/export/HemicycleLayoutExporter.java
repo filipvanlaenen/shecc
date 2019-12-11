@@ -5,16 +5,13 @@ import java.util.Iterator;
 import net.filipvanlaenen.shecc.HemicycleLayout;
 import net.filipvanlaenen.shecc.SeatPosition;
 import net.filipvanlaenen.tsvgj.Circle;
+import net.filipvanlaenen.tsvgj.ColorKeyword;
 import net.filipvanlaenen.tsvgj.Svg;
 
 /**
  * A class exporting hemicycle layouts.
  */
 public class HemicycleLayoutExporter extends Exporter {
-    /**
-     * The magic number for a neutral grey color.
-     */
-    private static final int NEUTRAL_GREY = 0x777777;
 
     /**
      * Exports a hemicycle layout to SVG.
@@ -34,8 +31,8 @@ public class HemicycleLayoutExporter extends Exporter {
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
         while (seatPositions.hasNext()) {
             SeatPosition seatPosition = seatPositions.next();
-            svg.addElement(
-                    new Circle().cx(seatPosition.getX()).cy(-seatPosition.getY()).r(seatRadius).fill(NEUTRAL_GREY));
+            svg.addElement(new Circle().cx(seatPosition.getX()).cy(-seatPosition.getY()).r(seatRadius)
+                    .fill(ColorKeyword.GREY));
         }
         svg.addElement(createCopyrightNotice(null, halfWidth, -1D - EDGES_MARGIN, width, height));
         return svg.asString();

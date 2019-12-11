@@ -9,6 +9,7 @@ import net.filipvanlaenen.shecc.SeatPosition;
 import net.filipvanlaenen.shecc.SeatStatus;
 import net.filipvanlaenen.shecc.SeatingPlan;
 import net.filipvanlaenen.tsvgj.Circle;
+import net.filipvanlaenen.tsvgj.ColorKeyword;
 import net.filipvanlaenen.tsvgj.FontWeightValues;
 import net.filipvanlaenen.tsvgj.G;
 import net.filipvanlaenen.tsvgj.Path;
@@ -22,10 +23,6 @@ import net.filipvanlaenen.tsvgj.Transform;
  * A class exporting seating plans.
  */
 public class SeatingPlanExporter extends Exporter {
-    /**
-     * Magic number for the color white.
-     */
-    private static final int WHITE = 0xFFFFFF;
     /**
      * The magic number 180 for a straight angle.
      */
@@ -139,7 +136,7 @@ public class SeatingPlanExporter extends Exporter {
             Text text = new Text(title).x(0D).y(y).fontSize(TITLE_HEIGHT).fontWeight(FontWeightValues.BOLD)
                     .textAnchor(TextAnchorValue.MIDDLE);
             if (fontColor == null) {
-                text.fill(BLACK);
+                text.fill(ColorKeyword.BLACK);
             } else {
                 text.fill(fontColor);
             }
@@ -152,7 +149,7 @@ public class SeatingPlanExporter extends Exporter {
             Text text = new Text(subtitle).x(0D).y(-1D - TITLE_MARGIN).fontSize(SUBTITLE_HEIGHT)
                     .fontWeight(FontWeightValues.BOLD).textAnchor(TextAnchorValue.MIDDLE);
             if (fontColor == null) {
-                text.fill(BLACK);
+                text.fill(ColorKeyword.BLACK);
             } else {
                 text.fill(fontColor);
             }
@@ -175,7 +172,7 @@ public class SeatingPlanExporter extends Exporter {
             String character = parliamentaryGroup.getCharacter();
             if (character != null) {
                 Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
-                        .fontSize(seatRadius).fill(WHITE).textAnchor(TextAnchorValue.MIDDLE);
+                        .fontSize(seatRadius).fill(ColorKeyword.WHITE).textAnchor(TextAnchorValue.MIDDLE);
                 if (rotateLetters) {
                     double angle = STRAIGHT_ANGLE * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
                     text.transform(Transform.rotate(angle, x, -y));
@@ -213,7 +210,7 @@ public class SeatingPlanExporter extends Exporter {
                     addColoredCircleOrSectors(parliamentaryGroupGrouping, x, y, seatRadius,
                             parliamentaryGroup.getColors(), 1D);
                 } else {
-                    Text text = new Text(character).x(x).y(textY).fill(WHITE).fontSize(seatRadius)
+                    Text text = new Text(character).x(x).y(textY).fill(ColorKeyword.WHITE).fontSize(seatRadius)
                             .textAnchor(TextAnchorValue.MIDDLE);
                     if (fontFamily != null) {
                         text.fontFamily(fontFamily);
@@ -228,7 +225,7 @@ public class SeatingPlanExporter extends Exporter {
                                 .x(x + SEAT_RADIUS_TO_LEGEND_GAP_FACTOR * seatRadius).y(textY).fontSize(seatRadius)
                                 .textAnchor(TextAnchorValue.START);
                 if (fontColor == null) {
-                    text.fill(BLACK);
+                    text.fill(ColorKeyword.BLACK);
                 } else {
                     text.fill(fontColor);
                 }

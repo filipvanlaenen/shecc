@@ -49,6 +49,14 @@ public class SeatingPlanExporter extends Exporter {
      */
     private static final int DEFAULT_SEAT_RADIUS_TO_LEGEND_LABEL_WIDTH_RATIO = 6;
     /**
+     * Factor to calculate the stroke width based on a circle's radius.
+     */
+    private static final double RADIUS_TO_STROKE_FACTOR = 0.2D;
+    /**
+     * The opacity for a transparent seat.
+     */
+    private static final double SEMITRANSPARENT_SEAT_OPACITY = 0.3D;
+    /**
      * The height of the title.
      */
     private static final double TITLE_HEIGHT = 0.05D;
@@ -276,10 +284,10 @@ public class SeatingPlanExporter extends Exporter {
             if (character != null) {
                 Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
                         .fontSize(seatRadius).fill(ColorKeyword.WHITE).textAnchor(TextAnchorValue.MIDDLE);
-                if (seatStatus == SeatStatus.UNLIKELY) {
-                    text.fill(parliamentaryGroup.getColors()[0]);
-                } else {
+                if (seatStatus == SeatStatus.CERTAIN) {
                     text.fill(ColorKeyword.WHITE);
+                } else {
+                    text.fill(parliamentaryGroup.getColors()[0]);
                 }
                 if (rotateLetters) {
                     double angle = STRAIGHT_ANGLE * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
@@ -313,7 +321,7 @@ public class SeatingPlanExporter extends Exporter {
     }
 
     /**
-     * Creates a circle hatched with a color.
+     * Creates a semi-transparent circle outlined with a color.
      *
      * @param x
      *            The x coordinate of the center.
@@ -325,9 +333,10 @@ public class SeatingPlanExporter extends Exporter {
      *            The color.
      * @return A colored circle.
      */
-    private Circle createHatchedCircle(final double x, final double y, final double radius, final int color) {
-        // TODO: Issue #44
-        return new Circle().cx(x).cy(y).r(radius).fill(color).opacity(0.5D);
+    private Circle createSemitransparentCircle(final double x, final double y, final double radius, final int color) {
+        double strokeWidth = radius * RADIUS_TO_STROKE_FACTOR;
+        return new Circle().cx(x).cy(y).r(radius - strokeWidth / 2D).fill(color)
+                .fillOpacity(SEMITRANSPARENT_SEAT_OPACITY).stroke(color).strokeWidth(strokeWidth);
     }
 
     /**
@@ -344,7 +353,7 @@ public class SeatingPlanExporter extends Exporter {
      * @return A colored circle.
      */
     private Circle createOutlinedCircle(final double x, final double y, final double radius, final int color) {
-        double strokeWidth = radius / 5D;
+        double strokeWidth = radius * RADIUS_TO_STROKE_FACTOR;
         return new Circle().cx(x).cy(y).r(radius - strokeWidth / 2D).fill(NoneValue.NONE).stroke(color)
                 .strokeWidth(strokeWidth);
     }
@@ -405,8 +414,8 @@ public class SeatingPlanExporter extends Exporter {
     }
 
     /**
-     * Adds a hatched circle or a grouping with hatched sectors, depending on the
-     * number of colors.
+     * Adds a semi-transparent circle or a grouping with semi-transparent sectors,
+     * depending on the number of colors.
      *
      * @param g
      *            The grouping to which the circle or the grouping with the sectors
@@ -420,12 +429,12 @@ public class SeatingPlanExporter extends Exporter {
      * @param colors
      *            An array with the colors.
      */
-    private void addHatchedCircleOrSectors(final G g, final double x, final double y, final double radius,
+    private void addSemitransparentCircleOrSectors(final G g, final double x, final double y, final double radius,
             final int[] colors) {
         if (colors.length == 1) {
-            g.addElement(createHatchedCircle(x, y, radius, colors[0]));
+            g.addElement(createSemitransparentCircle(x, y, radius, colors[0]));
         } else {
-            // TODO: Issue #44
+            // TODO: Issue #55
             g.addElement(createColoredSectors(x, y, radius, colors));
         }
     }
@@ -481,7 +490,7 @@ public class SeatingPlanExporter extends Exporter {
             addColoredCircleOrSectors(g, x, y, radius, colors);
             break;
         case LIKELY:
-            addHatchedCircleOrSectors(g, x, y, radius, colors);
+            addSemitransparentCircleOrSectors(g, x, y, radius, colors);
             break;
         case UNLIKELY:
             addOutlinedCircleOrSectors(g, x, y, radius, colors);

@@ -12,6 +12,7 @@ of the features it intends to implement:
   * The party color, or for electoral alliances, a set of colors
   * A circle or a polygon, a person shape or a seat shape
   * A character
+  * Transparency to indicate probability
 * Optionally, add a legend displaying:
   * The shape, the colors and the character per party
   * Party name
@@ -82,12 +83,13 @@ java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar \
 ![Seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend](/README-seating-plan-with-legend.png "Seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend")
 
 And finally, lets merge the red and the green party together with a yellow party
-into a red-green-yellow party. You can specify a set of colors for a
-parliamentary by concatenating each of the colors with a colon in between:
+into a red-green-yellow electoral alliance. You can specify a set of colors for
+a parliamentary group by concatenating each of the colors with a colon in
+between:
 
 ```
 java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar \
-  "30.FF0000:00FF00:FFFF00.Red-green-yellow Party.R,48.0000FF.Blue Party.B" > seating-plan-with-red-green-yellow-party.svg
+  "30.FF0000:00FF00:FFFF00.Red-green-yellow Alliance.A,48.0000FF.Blue Party.B" > seating-plan-with-red-green-yellow-party.svg
 ```
 
 ![Seating plan with 30 red-green-yellow seats and 48 blue seats, together with a legend](/README-seating-plan-with-red-green-yellow-party.png "Seating plan with 30 red-green-yellow seats and 48 blue seats, together with a legend")

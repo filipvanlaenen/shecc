@@ -82,10 +82,9 @@ java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar \
 
 ![Seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend](/README-seating-plan-with-legend.png "Seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend")
 
-And finally, lets merge the red and the green party together with a yellow party
-into a red-green-yellow electoral alliance. You can specify a set of colors for
-a parliamentary group by concatenating each of the colors with a colon in
-between:
+Next, lets merge the red and the green party together with a yellow party into
+a red-green-yellow electoral alliance. You can specify a set of colors for a
+parliamentary group by concatenating each of the colors with a colon in between:
 
 ```
 java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar \

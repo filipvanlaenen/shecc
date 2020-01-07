@@ -416,8 +416,13 @@ public class SeatingPlanExporter extends Exporter {
                     .closePath().fill(colors[i]).opacity(SEMITRANSPARENT_SEAT_OPACITY);
             g.addElement(fillPath);
             double strokeWidth = radius * RADIUS_TO_STROKE_FACTOR;
-            Path strokePath = new Path()
-                    .moveTo(x1, y1).arcTo(radius, radius, 0, Path.LargeArcFlagValues.SMALL_ARC,
+            double smallerRadius = radius - strokeWidth / 2D;
+            x1 = x + smallerRadius * Math.sin(angle1);
+            y1 = y - smallerRadius * Math.cos(angle1);
+            x2 = x + smallerRadius * Math.sin(angle2);
+            y2 = y - smallerRadius * Math.cos(angle2);
+            Path strokePath = new Path().moveTo(x1, y1)
+                    .arcTo(smallerRadius, smallerRadius, 0, Path.LargeArcFlagValues.SMALL_ARC,
                             Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2)
                     .fill(NoneValue.NONE).stroke(colors[i]).strokeWidth(strokeWidth);
             g.addElement(strokePath);
@@ -443,13 +448,14 @@ public class SeatingPlanExporter extends Exporter {
         for (int i = 0; i < colors.length; i++) {
             double angle1 = 2 * Math.PI * i / colors.length;
             double angle2 = 2 * Math.PI * (i + 1) / colors.length;
-            double x1 = x + radius * Math.sin(angle1);
-            double y1 = y - radius * Math.cos(angle1);
-            double x2 = x + radius * Math.sin(angle2);
-            double y2 = y - radius * Math.cos(angle2);
             double strokeWidth = radius * RADIUS_TO_STROKE_FACTOR;
+            double smallerRadius = radius - strokeWidth / 2D;
+            double x1 = x + smallerRadius * Math.sin(angle1);
+            double y1 = y - smallerRadius * Math.cos(angle1);
+            double x2 = x + smallerRadius * Math.sin(angle2);
+            double y2 = y - smallerRadius * Math.cos(angle2);
             Path strokePath = new Path()
-                    .moveTo(x1, y1).arcTo(radius, radius, 0, Path.LargeArcFlagValues.SMALL_ARC,
+                    .moveTo(x1, y1).arcTo(smallerRadius, smallerRadius, 0, Path.LargeArcFlagValues.SMALL_ARC,
                             Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2)
                     .fill(NoneValue.NONE).stroke(colors[i]).strokeWidth(strokeWidth);
             g.addElement(strokePath);

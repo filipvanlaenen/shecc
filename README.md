@@ -91,7 +91,15 @@ java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar \
   "30.FF0000:00FF00:FFFF00.Red-green-yellow Alliance.A,48.0000FF.Blue Party.B" > seating-plan-with-red-green-yellow-party.svg
 ```
 
-![Seating plan with 30 red-green-yellow seats and 48 blue seats, together with a legend](/README-seating-plan-with-red-green-yellow-party.png "Seating plan with 30 red-green-yellow seats and 48 blue seats, together with a legend")
+Finally, differentiate between the seats that are certain, those that are
+likely, and those that are unlikely:
+
+```
+java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar \
+  "24:29:30.FF0000:00FF00:FFFF00.Red-green-yellow Alliance.A,41:46:48.0000FF.Blue Party.B" > seating-plan-with-red-green-yellow-party-and-likelihoods.svg
+```
+
+![Seating plan with 24:29:30 red-green-yellow seats and 41:46:48 blue seats, together with a legend](/README-seating-plan-with-red-green-yellow-party-and-likelihoods.png "Seating plan with 24:29:30 red-green-yellow seats and 41:46:48 blue seats, together with a legend")
 
 Below is a more formal specification of the grammar in extended Backus-Naur
 form:
@@ -105,6 +113,7 @@ digit               = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" 
 hexademical digit   = digit | "A" | "a" | "B" | "b" | "C" | "c" | "D" | "d" | "E" | "e" | "F" | "f" ;
 integer             = digit , { digit } ;
 size                = integer ;
+sizes               = size , { colon , color } ;
 color               = hexademical digit , hexademical digit , hexademical digit , hexademical digit ,
                       hexademical digit , hexademical digit ;
 colon               = ":" ;
@@ -113,7 +122,7 @@ character           = letter | digit ;
 space               = " " ;
 name                = { letter | digit | space } ;
 dot                 = "." ;
-group specification = size , dot , colors , dot , name , dot , character ;
+group specification = sizes , dot , colors , dot , name , dot , character ;
 comma               = "," ;
 seating plan        = group specification ,  { comma , group specification } ;
 ```

@@ -227,6 +227,97 @@ public class CommandLineInterfaceTest {
     }
 
     /**
+     * Test verifying that the command-line interface produces a seating plan and
+     * legend for groups with multiple colors and differentiated group sizes.
+     */
+    @Test
+    void cliProducesSeatingPlanForGroupsWithMultipleColorsAndDifferentiatedGroupSizes() {
+        CommandLineInterface cli = new CommandLineInterface();
+        String actual = cli.perform("1:2:3.FF0000:00FF00:777777.Red/Green/Grey.R,1:2.0000FF:FFFF00.Blue/Yellow.B,"
+                + "1.FF00FF:00FFFF.Pink/Magenta.P");
+        String expected = "<svg height=\"2000\" viewBox=\"-1.05 -1.05 2.1 2\" width=\"2100\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                + "      <path d=\"M -0.7699 -0.318903 L -0.7699 -0.468903 A 0.15 0.15 0 0 1 -0.639996 -0.243903 Z\""
+                + " fill=\"#FF0000\"/>\n"
+                + "      <path d=\"M -0.7699 -0.318903 L -0.639996 -0.243903 A 0.15 0.15 0 0 1 -0.899803 -0.243903 Z\""
+                + " fill=\"#00FF00\"/>\n"
+                + "      <path d=\"M -0.7699 -0.318903 L -0.899803 -0.243903 A 0.15 0.15 0 0 1 -0.7699 -0.468903 Z\""
+                + " fill=\"#777777\"/>\n" + "    </g>\n"
+                + "    <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.7699\""
+                + " y=\"-0.268903\">R</text>\n" + "    <g>\n"
+                + "      <path d=\"M -0.353553 -0.353553 L -0.353553 -0.503553 A 0.15 0.15 0 0 1 -0.22365 -0.278553"
+                + " Z\" fill=\"#FF0000\" opacity=\"0.3\"/>\n"
+                + "      <path d=\"M -0.353553 -0.503553 A 0.15 0.15 0 0 1 -0.22365 -0.278553\" fill=\"none\""
+                + " stroke=\"#FF0000\" stroke-width=\"0.03\"/>\n"
+                + "      <path d=\"M -0.353553 -0.353553 L -0.22365 -0.278553 A 0.15 0.15 0 0 1 -0.483457 -0.278553"
+                + " Z\" fill=\"#00FF00\" opacity=\"0.3\"/>\n"
+                + "      <path d=\"M -0.22365 -0.278553 A 0.15 0.15 0 0 1 -0.483457 -0.278553\" fill=\"none\""
+                + " stroke=\"#00FF00\" stroke-width=\"0.03\"/>\n"
+                + "      <path d=\"M -0.353553 -0.353553 L -0.483457 -0.278553 A 0.15 0.15 0 0 1 -0.353553 -0.503553"
+                + " Z\" fill=\"#777777\" opacity=\"0.3\"/>\n"
+                + "      <path d=\"M -0.483457 -0.278553 A 0.15 0.15 0 0 1 -0.353553 -0.503553\" fill=\"none\""
+                + " stroke=\"#777777\" stroke-width=\"0.03\"/>\n" + "    </g>\n"
+                + "    <text fill=\"#FF0000\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.353553\""
+                + " y=\"-0.303553\">R</text>\n" + "    <g>\n"
+                + "      <path d=\"M -0.318903 -0.9199 A 0.15 0.15 0 0 1 -0.188999 -0.6949\" fill=\"none\""
+                + " stroke=\"#FF0000\" stroke-width=\"0.03\"/>\n"
+                + "      <path d=\"M -0.188999 -0.6949 A 0.15 0.15 0 0 1 -0.448807 -0.6949\" fill=\"none\""
+                + " stroke=\"#00FF00\" stroke-width=\"0.03\"/>\n"
+                + "      <path d=\"M -0.448807 -0.6949 A 0.15 0.15 0 0 1 -0.318903 -0.9199\" fill=\"none\""
+                + " stroke=\"#777777\" stroke-width=\"0.03\"/>\n" + "    </g>\n"
+                + "    <text fill=\"#FF0000\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.318903\""
+                + " y=\"-0.7199\">R</text>\n" + "    <g>\n"
+                + "      <path d=\"M 0.318903 -0.7699 L 0.318903 -0.9199 A 0.15 0.15 0 0 1 0.318903 -0.6199 Z\""
+                + " fill=\"#0000FF\"/>\n"
+                + "      <path d=\"M 0.318903 -0.7699 L 0.318903 -0.6199 A 0.15 0.15 0 0 1 0.318903 -0.9199 Z\""
+                + " fill=\"#FFFF00\"/>\n" + "    </g>\n"
+                + "    <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.318903\""
+                + " y=\"-0.7199\">B</text>\n" + "    <g>\n"
+                + "      <path d=\"M 0.353553 -0.353553 L 0.353553 -0.503553 A 0.15 0.15 0 0 1 0.353553 -0.203553 Z\""
+                + " fill=\"#0000FF\" opacity=\"0.3\"/>\n"
+                + "      <path d=\"M 0.353553 -0.503553 A 0.15 0.15 0 0 1 0.353553 -0.203553\" fill=\"none\""
+                + " stroke=\"#0000FF\" stroke-width=\"0.03\"/>\n"
+                + "      <path d=\"M 0.353553 -0.353553 L 0.353553 -0.203553 A 0.15 0.15 0 0 1 0.353553 -0.503553 Z\""
+                + " fill=\"#FFFF00\" opacity=\"0.3\"/>\n"
+                + "      <path d=\"M 0.353553 -0.203553 A 0.15 0.15 0 0 1 0.353553 -0.503553\" fill=\"none\""
+                + " stroke=\"#FFFF00\" stroke-width=\"0.03\"/>\n" + "    </g>\n"
+                + "    <text fill=\"#0000FF\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.353553\""
+                + " y=\"-0.303553\">B</text>\n" + "    <g>\n"
+                + "      <path d=\"M 0.7699 -0.318903 L 0.7699 -0.468903 A 0.15 0.15 0 0 1 0.7699 -0.168903 Z\""
+                + " fill=\"#FF00FF\"/>\n"
+                + "      <path d=\"M 0.7699 -0.318903 L 0.7699 -0.168903 A 0.15 0.15 0 0 1 0.7699 -0.468903 Z\""
+                + " fill=\"#00FFFF\"/>\n" + "    </g>\n"
+                + "    <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.7699\""
+                + " y=\"-0.268903\">P</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n" + "      <g>\n"
+                + "        <path d=\"M -0.85 0.3 L -0.85 0.15 A 0.15 0.15 0 0 1 -0.720096 0.375 Z\""
+                + " fill=\"#FF0000\"/>\n"
+                + "        <path d=\"M -0.85 0.3 L -0.720096 0.375 A 0.15 0.15 0 0 1 -0.979904 0.375 Z\""
+                + " fill=\"#00FF00\"/>\n"
+                + "        <path d=\"M -0.85 0.3 L -0.979904 0.375 A 0.15 0.15 0 0 1 -0.85 0.15 Z\""
+                + " fill=\"#777777\"/>\n" + "      </g>\n"
+                + "      <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.85\""
+                + " y=\"0.35\">R</text>\n" + "    </g>\n"
+                + "    <text fill=\"black\" font-size=\"0.15\" text-anchor=\"start\" x=\"-0.625\""
+                + " y=\"0.35\">Red/Green/Grey (3)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n" + "      <g>\n"
+                + "        <path d=\"M 0.15 0.3 L 0.15 0.15 A 0.15 0.15 0 0 1 0.15 0.45 Z\" fill=\"#0000FF\"/>\n"
+                + "        <path d=\"M 0.15 0.3 L 0.15 0.45 A 0.15 0.15 0 0 1 0.15 0.15 Z\" fill=\"#FFFF00\"/>\n"
+                + "      </g>\n" + "      <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.15\""
+                + " y=\"0.35\">B</text>\n" + "    </g>\n"
+                + "    <text fill=\"black\" font-size=\"0.15\" text-anchor=\"start\" x=\"0.375\""
+                + " y=\"0.35\">Blue/Yellow (2)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n" + "      <g>\n"
+                + "        <path d=\"M -0.35 0.75 L -0.35 0.6 A 0.15 0.15 0 0 1 -0.35 0.9 Z\" fill=\"#FF00FF\"/>\n"
+                + "        <path d=\"M -0.35 0.75 L -0.35 0.9 A 0.15 0.15 0 0 1 -0.35 0.6 Z\" fill=\"#00FFFF\"/>\n"
+                + "      </g>\n" + "      <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.35\""
+                + " y=\"0.8\">P</text>\n" + "    </g>\n"
+                + "    <text fill=\"black\" font-size=\"0.15\" text-anchor=\"start\" x=\"-0.125\""
+                + " y=\"0.8\">Pink/Magenta (1)</text>\n" + "  </g>\n"
+                + "  <text fill=\"black\" font-size=\"0.021\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
+                + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
      * Test verifying that the command-line interface produces a seating plan with a
      * legend if the names are present, with all text in the right font family and
      * color.

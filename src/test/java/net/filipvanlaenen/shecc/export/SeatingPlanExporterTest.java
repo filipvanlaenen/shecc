@@ -40,7 +40,7 @@ public class SeatingPlanExporterTest {
     /**
      * Array representing the red/magenta color combination.
      */
-    private static final int[] RED_MAGENTA = new int[] {RED, MAGENTA, GREEN};
+    private static final int[] RED_MAGENTA_GREEN = new int[] {RED, MAGENTA, GREEN};
     /**
      * The magic number ten.
      */
@@ -498,7 +498,7 @@ public class SeatingPlanExporterTest {
     @Test
     void svgExportWithLegendForTwoRedMagentaAndOneBlueSeatsInADefaultHemicycleLayout() {
         List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(1, RED_MAGENTA, "Red/Magenta/Green"));
+        groups.add(new ParliamentaryGroup(1, RED_MAGENTA_GREEN, "Red/Magenta/Green"));
         groups.add(new ParliamentaryGroup(2, BLUE, "Blue"));
         SeatingPlan plan = new SeatingPlan(groups);
         SeatingPlanExporter exporter = new SeatingPlanExporter();

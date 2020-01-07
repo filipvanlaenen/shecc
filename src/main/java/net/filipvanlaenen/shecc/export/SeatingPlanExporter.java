@@ -389,6 +389,75 @@ public class SeatingPlanExporter extends Exporter {
     }
 
     /**
+     * Creates a grouping with semi-transparent sectors.
+     *
+     * @param x
+     *            The x coordinate of the center.
+     * @param y
+     *            The y coordinate of the center.
+     * @param radius
+     *            The radius.
+     * @param colors
+     *            An array with the colors.
+     * @return A grouping with semi-transparent sectors.
+     */
+    private G createSemitransparentSectors(final double x, final double y, final double radius, final int[] colors) {
+        G g = new G();
+        for (int i = 0; i < colors.length; i++) {
+            double angle1 = 2 * Math.PI * i / colors.length;
+            double angle2 = 2 * Math.PI * (i + 1) / colors.length;
+            double x1 = x + radius * Math.sin(angle1);
+            double y1 = y - radius * Math.cos(angle1);
+            double x2 = x + radius * Math.sin(angle2);
+            double y2 = y - radius * Math.cos(angle2);
+            Path fillPath = new Path()
+                    .moveTo(x, y).lineTo(x1, y1).arcTo(radius, radius, 0, Path.LargeArcFlagValues.SMALL_ARC,
+                            Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2)
+                    .closePath().fill(colors[i]).opacity(SEMITRANSPARENT_SEAT_OPACITY);
+            g.addElement(fillPath);
+            double strokeWidth = radius * RADIUS_TO_STROKE_FACTOR;
+            Path strokePath = new Path()
+                    .moveTo(x1, y1).arcTo(radius, radius, 0, Path.LargeArcFlagValues.SMALL_ARC,
+                            Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2)
+                    .fill(NoneValue.NONE).stroke(colors[i]).strokeWidth(strokeWidth);
+            g.addElement(strokePath);
+        }
+        return g;
+    }
+
+    /**
+     * Creates a grouping with outlined sectors.
+     *
+     * @param x
+     *            The x coordinate of the center.
+     * @param y
+     *            The y coordinate of the center.
+     * @param radius
+     *            The radius.
+     * @param colors
+     *            An array with the colors.
+     * @return A grouping with outlined sectors.
+     */
+    private G createOutlinedSectors(final double x, final double y, final double radius, final int[] colors) {
+        G g = new G();
+        for (int i = 0; i < colors.length; i++) {
+            double angle1 = 2 * Math.PI * i / colors.length;
+            double angle2 = 2 * Math.PI * (i + 1) / colors.length;
+            double x1 = x + radius * Math.sin(angle1);
+            double y1 = y - radius * Math.cos(angle1);
+            double x2 = x + radius * Math.sin(angle2);
+            double y2 = y - radius * Math.cos(angle2);
+            double strokeWidth = radius * RADIUS_TO_STROKE_FACTOR;
+            Path strokePath = new Path()
+                    .moveTo(x1, y1).arcTo(radius, radius, 0, Path.LargeArcFlagValues.SMALL_ARC,
+                            Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2)
+                    .fill(NoneValue.NONE).stroke(colors[i]).strokeWidth(strokeWidth);
+            g.addElement(strokePath);
+        }
+        return g;
+    }
+
+    /**
      * Adds a colored circle or a grouping with colored sectors, depending on the
      * number of colors.
      *
@@ -434,8 +503,7 @@ public class SeatingPlanExporter extends Exporter {
         if (colors.length == 1) {
             g.addElement(createSemitransparentCircle(x, y, radius, colors[0]));
         } else {
-            // TODO: Issue #55
-            g.addElement(createColoredSectors(x, y, radius, colors));
+            g.addElement(createSemitransparentSectors(x, y, radius, colors));
         }
     }
 
@@ -460,8 +528,7 @@ public class SeatingPlanExporter extends Exporter {
         if (colors.length == 1) {
             g.addElement(createOutlinedCircle(x, y, radius, colors[0]));
         } else {
-            // TODO: Issue #45
-            g.addElement(createColoredSectors(x, y, radius, colors));
+            g.addElement(createOutlinedSectors(x, y, radius, colors));
         }
     }
 

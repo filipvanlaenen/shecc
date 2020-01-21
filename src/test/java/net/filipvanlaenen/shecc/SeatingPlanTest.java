@@ -25,9 +25,22 @@ public class SeatingPlanTest {
      */
     private static final ParliamentaryGroup BLUE_GROUP_WITH_ONE_SEAT = new ParliamentaryGroup(1, 0x0000FF);
     /**
+     * A parliamentary group with three differentiated seats using the color green.
+     */
+    private static final ParliamentaryGroup GREEN_GROUP_WITH_ONE_TWO_THREE_SEATS = new ParliamentaryGroup(
+            new DifferentiatedGroupSize(1, 2, 3), 0x0000FF);
+    /**
      * A list with two red seats and one blue seat to run the tests on.
      */
     private static List<ParliamentaryGroup> twoRedSeatsAndOneBlue;
+    /**
+     * A list with one-two-three green seats and one blue seat to run the tests on.
+     */
+    private static List<ParliamentaryGroup> oneTwoThreeGreenSeatsAndOneBlue;
+    /**
+     * A list with one blue seat and one-two-three green seats to run the tests on.
+     */
+    private static List<ParliamentaryGroup> oneBlueAndOneTwoThreeGreenSeats;
 
     /**
      * Initialization method creating a list of groups with two red seats and one
@@ -38,6 +51,28 @@ public class SeatingPlanTest {
         twoRedSeatsAndOneBlue = new ArrayList<ParliamentaryGroup>();
         twoRedSeatsAndOneBlue.add(RED_GROUP_WITH_TWO_SEATS);
         twoRedSeatsAndOneBlue.add(BLUE_GROUP_WITH_ONE_SEAT);
+    }
+
+    /**
+     * Initialization method creating a list of groups with one-two-three green
+     * seats and one blue.
+     */
+    @BeforeAll
+    static void createListWithOneTwoThreeGreenSeatsAndOneBlueSeat() {
+        oneTwoThreeGreenSeatsAndOneBlue = new ArrayList<ParliamentaryGroup>();
+        oneTwoThreeGreenSeatsAndOneBlue.add(GREEN_GROUP_WITH_ONE_TWO_THREE_SEATS);
+        oneTwoThreeGreenSeatsAndOneBlue.add(BLUE_GROUP_WITH_ONE_SEAT);
+    }
+
+    /**
+     * Initialization method creating a list of groups with one blue and
+     * one-two-three green seats.
+     */
+    @BeforeAll
+    static void createListWithOneBlueSeatAndOneTwoThreeGreenSeats() {
+        oneBlueAndOneTwoThreeGreenSeats = new ArrayList<ParliamentaryGroup>();
+        oneBlueAndOneTwoThreeGreenSeats.add(BLUE_GROUP_WITH_ONE_SEAT);
+        oneBlueAndOneTwoThreeGreenSeats.add(GREEN_GROUP_WITH_ONE_TWO_THREE_SEATS);
     }
 
     /**
@@ -75,5 +110,65 @@ public class SeatingPlanTest {
     void thirdSeatIsForTheBlueGroupForTwoRedSeatsAndOneBlue() {
         SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
         assertEquals(BLUE_GROUP_WITH_ONE_SEAT, seatingPlan.getParliamentaryGroupAtSeat(2));
+    }
+
+    /**
+     * Test verifying that the first seat of the green group is certain if green is
+     * to the left.
+     */
+    @Test
+    void firstGreenSeatIsCertainInTheLeftHalfOfTheHemicycle() {
+        SeatingPlan seatingPlan = new SeatingPlan(oneTwoThreeGreenSeatsAndOneBlue);
+        assertEquals(SeatStatus.CERTAIN, seatingPlan.getSeatStatus(0));
+    }
+
+    /**
+     * Test verifying that the second seat of the green group is likely if green is
+     * to the left.
+     */
+    @Test
+    void secondGreenSeatIsLikelyInTheLeftHalfOfTheHemicycle() {
+        SeatingPlan seatingPlan = new SeatingPlan(oneTwoThreeGreenSeatsAndOneBlue);
+        assertEquals(SeatStatus.LIKELY, seatingPlan.getSeatStatus(1));
+    }
+
+    /**
+     * Test verifying that the third seat of the green group is unlikely if green is
+     * to the left.
+     */
+    @Test
+    void thirdGreenSeatIsUnlikelyInTheLeftHalfOfTheHemicycle() {
+        SeatingPlan seatingPlan = new SeatingPlan(oneTwoThreeGreenSeatsAndOneBlue);
+        assertEquals(SeatStatus.UNLIKELY, seatingPlan.getSeatStatus(2));
+    }
+
+    /**
+     * Test verifying that the last seat of the green group is certain if green is
+     * to the right.
+     */
+    @Test
+    void lastGreenSeatIsCertainInTheRightHalfOfTheHemicycle() {
+        SeatingPlan seatingPlan = new SeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
+        assertEquals(SeatStatus.CERTAIN, seatingPlan.getSeatStatus(THREE));
+    }
+
+    /**
+     * Test verifying that the second seat of the green group is likely if green is
+     * to the right.
+     */
+    @Test
+    void secondGreenSeatIsLikelyInTheRightHalfOfTheHemicycle() {
+        SeatingPlan seatingPlan = new SeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
+        assertEquals(SeatStatus.LIKELY, seatingPlan.getSeatStatus(2));
+    }
+
+    /**
+     * Test verifying that the third seat of the green group is unlikely if green is
+     * to the right.
+     */
+    @Test
+    void firstGreenSeatIsUnlikelyInTheRightHalfOfTheHemicycle() {
+        SeatingPlan seatingPlan = new SeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
+        assertEquals(SeatStatus.UNLIKELY, seatingPlan.getSeatStatus(1));
     }
 }

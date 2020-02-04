@@ -118,8 +118,9 @@ public class SeatingPlanExporter extends Exporter {
         double seatRadius = layout.getRowWidth() * RADIUS_ROW_WIDTH_RATIO;
         List<ParliamentaryGroup> parliamentaryGroupsList = plan.getParliamentaryGroups();
         int noOfParliamentaryGroups = parliamentaryGroupsList.size();
-        int noOfLegendRows = 1
+        int noOfParliamentaryGroupLegendRows = 1
                 + (int) (getLegendLabelWidthRatio() * seatRadius * noOfParliamentaryGroups / layoutWidth);
+        int noOfLegendRows = noOfParliamentaryGroupLegendRows + (plan.hasLikelyOrUnlikelySeats() ? 1 : 0);
         if (displayLegend) {
             canvasHeight += seatRadius * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * noOfLegendRows;
         }
@@ -149,57 +150,173 @@ public class SeatingPlanExporter extends Exporter {
         if (displayLegend) {
             Iterator<ParliamentaryGroup> parliamentaryGroups = parliamentaryGroupsList.iterator();
             int legendPositionNumber = 0;
-            int noOfSlotsPerLegendRow = noOfParliamentaryGroups / noOfLegendRows;
-            if (noOfParliamentaryGroups % noOfLegendRows > 0) {
+            int noOfSlotsPerLegendRow = noOfParliamentaryGroups / noOfParliamentaryGroupLegendRows;
+            if (noOfParliamentaryGroups % noOfParliamentaryGroupLegendRows > 0) {
                 noOfSlotsPerLegendRow += 1;
             }
             double legendSlotWidth = layoutWidth / noOfSlotsPerLegendRow;
             while (parliamentaryGroups.hasNext()) {
-                G parliamentaryGroupGrouping = new G();
-                ParliamentaryGroup parliamentaryGroup = parliamentaryGroups.next();
-                int legendColumn = legendPositionNumber % noOfSlotsPerLegendRow;
-                int legendRow = legendPositionNumber / noOfSlotsPerLegendRow;
-                double x = -layoutHalfWidth + seatRadius + legendSlotWidth * legendColumn;
-                if (legendRow == noOfLegendRows - 1) {
-                    x += (noOfSlotsPerLegendRow * noOfLegendRows - noOfParliamentaryGroups) * legendSlotWidth / 2D;
-                }
-                double y = -1D + hemicycleHeight + seatRadius * 2D
-                        + legendRow * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
-                String character = parliamentaryGroup.getCharacter();
-                double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
-                if (character == null) {
-                    addColoredCircleOrSectors(parliamentaryGroupGrouping, x, y, seatRadius,
-                            parliamentaryGroup.getColors());
-                } else {
-                    Text text = new Text(character).x(x).y(textY).fill(ColorKeyword.WHITE).fontSize(seatRadius)
-                            .textAnchor(TextAnchorValue.MIDDLE);
-                    if (fontFamily != null) {
-                        text.fontFamily(fontFamily);
-                    }
-                    G seatGrouping = new G();
-                    addColoredCircleOrSectors(seatGrouping, x, y, seatRadius, parliamentaryGroup.getColors());
-                    seatGrouping.addElement(text);
-                    parliamentaryGroupGrouping.addElement(seatGrouping);
-                }
-                Text text = new Text(
-                        parliamentaryGroup.getName() + " (" + parliamentaryGroup.getSize().getFullSize() + ")")
-                                .x(x + SEAT_RADIUS_TO_LEGEND_GAP_FACTOR * seatRadius).y(textY).fontSize(seatRadius)
-                                .textAnchor(TextAnchorValue.START);
-                if (fontColor == null) {
-                    text.fill(ColorKeyword.BLACK);
-                } else {
-                    text.fill(fontColor);
-                }
-                if (fontFamily != null) {
-                    text.fontFamily(fontFamily);
-                }
-                parliamentaryGroupGrouping.addElement(text);
+                G parliamentaryGroupGrouping = createLegendSlotGrouping(parliamentaryGroups.next(), layoutHalfWidth,
+                        hemicycleHeight, seatRadius, noOfParliamentaryGroups, noOfParliamentaryGroupLegendRows,
+                        legendPositionNumber, noOfSlotsPerLegendRow, legendSlotWidth);
                 svg.addElement(parliamentaryGroupGrouping);
                 legendPositionNumber += 1;
+            }
+            if (plan.hasLikelyOrUnlikelySeats()) {
+                double seatStatuslegendSlotWidth = layoutWidth / 3D;
+                svg.addElement(createCertainSeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
+                        noOfLegendRows, seatStatuslegendSlotWidth));
+                svg.addElement(createLikelySeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
+                        noOfLegendRows, seatStatuslegendSlotWidth));
+                svg.addElement(createUnlikelySeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
+                        noOfLegendRows, seatStatuslegendSlotWidth));
             }
         }
         svg.addElement(createCopyrightNotice(customCopyrightNotice, halfWidth, canvasTopEdge, width, canvasHeight));
         return svg.asString();
+    }
+
+    private G createLegendSlotGrouping(ParliamentaryGroup parliamentaryGroup, double layoutHalfWidth,
+            double hemicycleHeight, double seatRadius, int noOfParliamentaryGroups, int noOfLegendRows,
+            int legendPositionNumber, int noOfSlotsPerLegendRow, double legendSlotWidth) {
+        G parliamentaryGroupGrouping = new G();
+        int legendColumn = legendPositionNumber % noOfSlotsPerLegendRow;
+        int legendRow = legendPositionNumber / noOfSlotsPerLegendRow;
+        double x = -layoutHalfWidth + seatRadius + legendSlotWidth * legendColumn;
+        if (legendRow == noOfLegendRows - 1) {
+            x += (noOfSlotsPerLegendRow * noOfLegendRows - noOfParliamentaryGroups) * legendSlotWidth / 2D;
+        }
+        double y = -1D + hemicycleHeight + seatRadius * 2D
+                + legendRow * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
+        String character = parliamentaryGroup.getCharacter();
+        double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
+        if (character == null) {
+            addColoredCircleOrSectors(parliamentaryGroupGrouping, x, y, seatRadius, parliamentaryGroup.getColors());
+        } else {
+            Text text = new Text(character).x(x).y(textY).fill(ColorKeyword.WHITE).fontSize(seatRadius)
+                    .textAnchor(TextAnchorValue.MIDDLE);
+            if (fontFamily != null) {
+                text.fontFamily(fontFamily);
+            }
+            G seatGrouping = new G();
+            addColoredCircleOrSectors(seatGrouping, x, y, seatRadius, parliamentaryGroup.getColors());
+            seatGrouping.addElement(text);
+            parliamentaryGroupGrouping.addElement(seatGrouping);
+        }
+        Text text = new Text(parliamentaryGroup.getName() + " (" + parliamentaryGroup.getSize().getFullSize() + ")")
+                .x(x + SEAT_RADIUS_TO_LEGEND_GAP_FACTOR * seatRadius).y(textY).fontSize(seatRadius)
+                .textAnchor(TextAnchorValue.START);
+        if (fontColor == null) {
+            text.fill(ColorKeyword.BLACK);
+        } else {
+            text.fill(fontColor);
+        }
+        if (fontFamily != null) {
+            text.fontFamily(fontFamily);
+        }
+        parliamentaryGroupGrouping.addElement(text);
+        return parliamentaryGroupGrouping;
+    }
+
+    private G createCertainSeatsLegendSlotGrouping(double layoutHalfWidth, double hemicycleHeight, double seatRadius,
+            int noOfLegendRows, double legendSlotWidth) {
+        G certainSeatsLegendSlotGrouping = new G();
+        double x = -layoutHalfWidth + seatRadius + legendSlotWidth * 0;
+        double y = -1D + hemicycleHeight + seatRadius * 2D
+                + (noOfLegendRows - 1) * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
+        double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
+        Text text = new Text("X").x(x).y(textY).fill(ColorKeyword.WHITE).fontSize(seatRadius)
+                .textAnchor(TextAnchorValue.MIDDLE);
+        if (fontFamily != null) {
+            text.fontFamily(fontFamily);
+        }
+        G seatGrouping = new G();
+        int color = fontColor == null ? 0 : fontColor;
+        seatGrouping.addElement(createColoredCircle(x, y, seatRadius, color));
+        seatGrouping.addElement(text);
+        certainSeatsLegendSlotGrouping.addElement(seatGrouping);
+        Text legendText = new Text("Certain (P ≥ 97.5%)").x(x + SEAT_RADIUS_TO_LEGEND_GAP_FACTOR * seatRadius).y(textY)
+                .fontSize(seatRadius).textAnchor(TextAnchorValue.START);
+        if (fontColor == null) {
+            legendText.fill(ColorKeyword.BLACK);
+        } else {
+            legendText.fill(fontColor);
+        }
+        if (fontFamily != null) {
+            legendText.fontFamily(fontFamily);
+        }
+        certainSeatsLegendSlotGrouping.addElement(legendText);
+        return certainSeatsLegendSlotGrouping;
+    }
+
+    private G createLikelySeatsLegendSlotGrouping(double layoutHalfWidth, double hemicycleHeight, double seatRadius,
+            int noOfLegendRows, double legendSlotWidth) {
+        G certainSeatsLegendSlotGrouping = new G();
+        double x = -layoutHalfWidth + seatRadius + legendSlotWidth * 1;
+        double y = -1D + hemicycleHeight + seatRadius * 2D
+                + (noOfLegendRows - 1) * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
+        double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
+        Text text = new Text("X").x(x).y(textY).fontSize(seatRadius).textAnchor(TextAnchorValue.MIDDLE);
+        if (fontColor == null) {
+            text.fill(ColorKeyword.BLACK);
+        } else {
+            text.fill(fontColor);
+        }
+        if (fontFamily != null) {
+            text.fontFamily(fontFamily);
+        }
+        G seatGrouping = new G();
+        int color = fontColor == null ? 0 : fontColor;
+        seatGrouping.addElement(createSemitransparentCircle(x, y, seatRadius, color));
+        seatGrouping.addElement(text);
+        certainSeatsLegendSlotGrouping.addElement(seatGrouping);
+        Text legendText = new Text("Likely (P ≥ 50%)").x(x + SEAT_RADIUS_TO_LEGEND_GAP_FACTOR * seatRadius).y(textY)
+                .fontSize(seatRadius).textAnchor(TextAnchorValue.START);
+        if (fontColor == null) {
+            legendText.fill(ColorKeyword.BLACK);
+        } else {
+            legendText.fill(fontColor);
+        }
+        if (fontFamily != null) {
+            legendText.fontFamily(fontFamily);
+        }
+        certainSeatsLegendSlotGrouping.addElement(legendText);
+        return certainSeatsLegendSlotGrouping;
+    }
+
+    private G createUnlikelySeatsLegendSlotGrouping(double layoutHalfWidth, double hemicycleHeight, double seatRadius,
+            int noOfLegendRows, double legendSlotWidth) {
+        G certainSeatsLegendSlotGrouping = new G();
+        double x = -layoutHalfWidth + seatRadius + legendSlotWidth * 2;
+        double y = -1D + hemicycleHeight + seatRadius * 2D
+                + (noOfLegendRows - 1) * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
+        double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
+        Text text = new Text("X").x(x).y(textY).fontSize(seatRadius).textAnchor(TextAnchorValue.MIDDLE);
+        if (fontColor == null) {
+            text.fill(ColorKeyword.BLACK);
+        } else {
+            text.fill(fontColor);
+        }
+        if (fontFamily != null) {
+            text.fontFamily(fontFamily);
+        }
+        G seatGrouping = new G();
+        int color = fontColor == null ? 0 : fontColor;
+        seatGrouping.addElement(createOutlinedCircle(x, y, seatRadius, color));
+        seatGrouping.addElement(text);
+        certainSeatsLegendSlotGrouping.addElement(seatGrouping);
+        Text legendText = new Text("Unlikely (P < 50%)").x(x + SEAT_RADIUS_TO_LEGEND_GAP_FACTOR * seatRadius).y(textY)
+                .fontSize(seatRadius).textAnchor(TextAnchorValue.START);
+        if (fontColor == null) {
+            legendText.fill(ColorKeyword.BLACK);
+        } else {
+            legendText.fill(fontColor);
+        }
+        if (fontFamily != null) {
+            legendText.fontFamily(fontFamily);
+        }
+        certainSeatsLegendSlotGrouping.addElement(legendText);
+        return certainSeatsLegendSlotGrouping;
     }
 
     /**
@@ -454,8 +571,8 @@ public class SeatingPlanExporter extends Exporter {
             double y1 = y - smallerRadius * Math.cos(angle1);
             double x2 = x + smallerRadius * Math.sin(angle2);
             double y2 = y - smallerRadius * Math.cos(angle2);
-            Path strokePath = new Path()
-                    .moveTo(x1, y1).arcTo(smallerRadius, smallerRadius, 0, Path.LargeArcFlagValues.SMALL_ARC,
+            Path strokePath = new Path().moveTo(x1, y1)
+                    .arcTo(smallerRadius, smallerRadius, 0, Path.LargeArcFlagValues.SMALL_ARC,
                             Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2)
                     .fill(NoneValue.NONE).stroke(colors[i]).strokeWidth(strokeWidth);
             g.addElement(strokePath);

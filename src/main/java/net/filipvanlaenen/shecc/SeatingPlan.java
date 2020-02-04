@@ -223,4 +223,14 @@ public class SeatingPlan {
         return total;
     }
 
+    public boolean hasLikelyOrUnlikelySeats() {
+        Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getSize() instanceof DifferentiatedGroupSize) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

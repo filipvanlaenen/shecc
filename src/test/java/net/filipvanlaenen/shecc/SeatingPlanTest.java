@@ -1,6 +1,8 @@
 package net.filipvanlaenen.shecc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,5 +172,25 @@ public class SeatingPlanTest {
     void firstGreenSeatIsUnlikelyInTheRightHalfOfTheHemicycle() {
         SeatingPlan seatingPlan = new SeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
         assertEquals(SeatStatus.UNLIKELY, seatingPlan.getSeatStatus(1));
+    }
+
+    /**
+     * Test verifying that the seating plan knows that it doesn't have likely or unlikely
+     * seats registered.
+     */
+    @Test
+    void hasLikelyOrUnlikelySeatsReturnsFalseForCertainSeatsOnly() {
+        SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
+        assertFalse(seatingPlan.hasLikelyOrUnlikelySeats());
+    }
+    
+    /**
+     * Test verifying that the seating plan knows that it has likely or unlikely
+     * seats registered.
+     */
+    @Test
+    void hasLikelyOrUnlikelySeatsReturnsTrueIfThereAreLikelyOrUnlikelySeats() {
+        SeatingPlan seatingPlan = new SeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
+        assertTrue(seatingPlan.hasLikelyOrUnlikelySeats());
     }
 }

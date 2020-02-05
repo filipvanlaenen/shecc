@@ -17,7 +17,11 @@ public class SeatingPlan {
      * initialization.
      */
     private int noOfSeats;
-
+    /**
+     * Whether or not the seating plan has likely or unlikely seats. This field is
+     * calculated and set through lazy initialization.
+     */
+    private Boolean hasLikelyOrUnlikelySeats;
     /**
      * An array holding a pointer for each seat to the parliamentary group holding
      * the seat. The elements in the array are calculated and set through lazy
@@ -196,7 +200,7 @@ public class SeatingPlan {
      */
     private boolean calculateIfCertainSeatsArePositionedToTheLeft(final int startIndex,
             final DifferentiatedGroupSize size) {
-        return startIndex + size.getFullSize() < noOfSeats;
+        return startIndex * 2 + size.getFullSize() < noOfSeats;
     }
 
     /**
@@ -223,7 +227,7 @@ public class SeatingPlan {
         return total;
     }
 
-    public boolean hasLikelyOrUnlikelySeats() {
+    private boolean calculateHasLikelyOrUnlikelySeats() {
         Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
         while (iterator.hasNext()) {
             if (iterator.next().getSize() instanceof DifferentiatedGroupSize) {
@@ -233,4 +237,10 @@ public class SeatingPlan {
         return false;
     }
 
+    public boolean hasLikelyOrUnlikelySeats() {
+        if (hasLikelyOrUnlikelySeats == null) {
+            hasLikelyOrUnlikelySeats = calculateHasLikelyOrUnlikelySeats();
+        }
+        return hasLikelyOrUnlikelySeats;
+    }
 }

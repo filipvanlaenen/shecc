@@ -21,7 +21,7 @@ public class SeatingPlan {
      * Whether or not the seating plan has likely or unlikely seats. This field is
      * calculated and set through lazy initialization.
      */
-    private Boolean hasLikelyOrUnlikelySeats;
+    private Boolean hasUncertainSeats;
     /**
      * An array holding a pointer for each seat to the parliamentary group holding
      * the seat. The elements in the array are calculated and set through lazy
@@ -227,20 +227,38 @@ public class SeatingPlan {
         return total;
     }
 
-    private boolean calculateHasLikelyOrUnlikelySeats() {
+    /**
+     * Calculates whether any of the parliamentary groups has a likely or unlikely
+     * seat.
+     *
+     * @return True if at least one of the parliamentary groups has a likely or
+     *         unlikely seat.
+     */
+    private boolean calculateHasUncertainSeats() {
         Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
         while (iterator.hasNext()) {
-            if (iterator.next().getSize() instanceof DifferentiatedGroupSize) {
-                return true;
+            ParliamentaryGroup parliamentaryGroup = iterator.next();
+            if (parliamentaryGroup.getSize() instanceof DifferentiatedGroupSize) {
+                DifferentiatedGroupSize size = (DifferentiatedGroupSize) parliamentaryGroup.getSize();
+                if (size.getFullSize() > size.getLowerBound()) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    public boolean hasLikelyOrUnlikelySeats() {
-        if (hasLikelyOrUnlikelySeats == null) {
-            hasLikelyOrUnlikelySeats = calculateHasLikelyOrUnlikelySeats();
+    /**
+     * Returns whether any of the parliamentary groups has a likely or unlikely
+     * seat.
+     *
+     * @return True if at least one of the parliamentary groups has a likely or
+     *         unlikely seat.
+     */
+    public boolean hasUncertainSeats() {
+        if (hasUncertainSeats == null) {
+            hasUncertainSeats = calculateHasUncertainSeats();
         }
-        return hasLikelyOrUnlikelySeats;
+        return hasUncertainSeats;
     }
 }

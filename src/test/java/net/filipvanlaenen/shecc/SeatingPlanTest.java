@@ -181,7 +181,7 @@ public class SeatingPlanTest {
     @Test
     void hasLikelyOrUnlikelySeatsReturnsFalseForCertainSeatsOnly() {
         SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
-        assertFalse(seatingPlan.hasLikelyOrUnlikelySeats());
+        assertFalse(seatingPlan.hasUncertainSeats());
     }
     
     /**
@@ -191,6 +191,6 @@ public class SeatingPlanTest {
     @Test
     void hasLikelyOrUnlikelySeatsReturnsTrueIfThereAreLikelyOrUnlikelySeats() {
         SeatingPlan seatingPlan = new SeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
-        assertTrue(seatingPlan.hasLikelyOrUnlikelySeats());
+        assertTrue(seatingPlan.hasUncertainSeats());
     }
 }

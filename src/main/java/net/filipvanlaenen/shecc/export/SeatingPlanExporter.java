@@ -120,7 +120,7 @@ public class SeatingPlanExporter extends Exporter {
         int noOfParliamentaryGroups = parliamentaryGroupsList.size();
         int noOfParliamentaryGroupLegendRows = 1
                 + (int) (getLegendLabelWidthRatio() * seatRadius * noOfParliamentaryGroups / layoutWidth);
-        int noOfLegendRows = noOfParliamentaryGroupLegendRows + (plan.hasLikelyOrUnlikelySeats() ? 1 : 0);
+        int noOfLegendRows = noOfParliamentaryGroupLegendRows + (plan.hasUncertainSeats() ? 1 : 0);
         if (displayLegend) {
             canvasHeight += seatRadius * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * noOfLegendRows;
         }
@@ -162,7 +162,7 @@ public class SeatingPlanExporter extends Exporter {
                 svg.addElement(parliamentaryGroupGrouping);
                 legendPositionNumber += 1;
             }
-            if (plan.hasLikelyOrUnlikelySeats()) {
+            if (plan.hasUncertainSeats()) {
                 double seatStatuslegendSlotWidth = layoutWidth / 3D;
                 svg.addElement(createCertainSeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
                         noOfLegendRows, seatStatuslegendSlotWidth));

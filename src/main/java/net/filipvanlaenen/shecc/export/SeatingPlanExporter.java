@@ -149,7 +149,7 @@ public class SeatingPlanExporter extends Exporter {
         svg.addElement(createHemicycleGrouping(layout, plan, seatRadius));
         if (displayLegend) {
             Iterator<ParliamentaryGroup> parliamentaryGroups = parliamentaryGroupsList.iterator();
-            int legendPositionNumber = 0;
+            int legendSlotIndex = 0;
             int noOfSlotsPerLegendRow = noOfParliamentaryGroups / noOfParliamentaryGroupLegendRows;
             if (noOfParliamentaryGroups % noOfParliamentaryGroupLegendRows > 0) {
                 noOfSlotsPerLegendRow += 1;
@@ -158,9 +158,9 @@ public class SeatingPlanExporter extends Exporter {
             while (parliamentaryGroups.hasNext()) {
                 G parliamentaryGroupGrouping = createLegendSlotGrouping(parliamentaryGroups.next(), layoutHalfWidth,
                         hemicycleHeight, seatRadius, noOfParliamentaryGroups, noOfParliamentaryGroupLegendRows,
-                        legendPositionNumber, noOfSlotsPerLegendRow, legendSlotWidth);
+                        legendSlotIndex, noOfSlotsPerLegendRow, legendSlotWidth);
                 svg.addElement(parliamentaryGroupGrouping);
-                legendPositionNumber += 1;
+                legendSlotIndex += 1;
             }
             if (plan.hasUncertainSeats()) {
                 double seatStatuslegendSlotWidth = layoutWidth / 3D;
@@ -176,12 +176,36 @@ public class SeatingPlanExporter extends Exporter {
         return svg.asString();
     }
 
-    private G createLegendSlotGrouping(ParliamentaryGroup parliamentaryGroup, double layoutHalfWidth,
-            double hemicycleHeight, double seatRadius, int noOfParliamentaryGroups, int noOfLegendRows,
-            int legendPositionNumber, int noOfSlotsPerLegendRow, double legendSlotWidth) {
+    /**
+     * Creates a grouping with the legend slot for a parliamentary group.
+     *
+     * @param parliamentaryGroup
+     *            The parliamentary group for which a legend slot should be created.
+     * @param layoutHalfWidth
+     *            Half of the width of the layout.
+     * @param hemicycleHeight
+     *            The height of the hemicycle.
+     * @param seatRadius
+     *            The seat radius.
+     * @param noOfParliamentaryGroups
+     *            The total number of parliamentary groups.
+     * @param noOfLegendRows
+     *            The number of legend rows.
+     * @param legendSlotIndex
+     *            The index of the legend slot to be created.
+     * @param noOfSlotsPerLegendRow
+     *            The number of slots per legend row.
+     * @param legendSlotWidth
+     *            The width for the legend slots.
+     * @return A grouping with the legend slot for a parliamentary group.
+     */
+    private G createLegendSlotGrouping(final ParliamentaryGroup parliamentaryGroup, final double layoutHalfWidth,
+            final double hemicycleHeight, final double seatRadius, final int noOfParliamentaryGroups,
+            final int noOfLegendRows, final int legendSlotIndex, final int noOfSlotsPerLegendRow,
+            final double legendSlotWidth) {
         G parliamentaryGroupGrouping = new G();
-        int legendColumn = legendPositionNumber % noOfSlotsPerLegendRow;
-        int legendRow = legendPositionNumber / noOfSlotsPerLegendRow;
+        int legendColumn = legendSlotIndex % noOfSlotsPerLegendRow;
+        int legendRow = legendSlotIndex / noOfSlotsPerLegendRow;
         double x = -layoutHalfWidth + seatRadius + legendSlotWidth * legendColumn;
         if (legendRow == noOfLegendRows - 1) {
             x += (noOfSlotsPerLegendRow * noOfLegendRows - noOfParliamentaryGroups) * legendSlotWidth / 2D;
@@ -218,8 +242,23 @@ public class SeatingPlanExporter extends Exporter {
         return parliamentaryGroupGrouping;
     }
 
-    private G createCertainSeatsLegendSlotGrouping(double layoutHalfWidth, double hemicycleHeight, double seatRadius,
-            int noOfLegendRows, double legendSlotWidth) {
+    /**
+     * Creates a grouping for the legend slot for the certain seats.
+     *
+     * @param layoutHalfWidth
+     *            Half of the width of the layout.
+     * @param hemicycleHeight
+     *            The height of the hemicycle.
+     * @param seatRadius
+     *            The seat radius.
+     * @param noOfLegendRows
+     *            The number of legend rows.
+     * @param legendSlotWidth
+     *            The width for the legend slots.
+     * @return A grouping containing the legend slot for the certain seats.
+     */
+    private G createCertainSeatsLegendSlotGrouping(final double layoutHalfWidth, final double hemicycleHeight,
+            final double seatRadius, final int noOfLegendRows, final double legendSlotWidth) {
         G certainSeatsLegendSlotGrouping = new G();
         double x = -layoutHalfWidth + seatRadius + legendSlotWidth * 0;
         double y = -1D + hemicycleHeight + seatRadius * 2D
@@ -249,8 +288,23 @@ public class SeatingPlanExporter extends Exporter {
         return certainSeatsLegendSlotGrouping;
     }
 
-    private G createLikelySeatsLegendSlotGrouping(double layoutHalfWidth, double hemicycleHeight, double seatRadius,
-            int noOfLegendRows, double legendSlotWidth) {
+    /**
+     * Creates a grouping for the legend slot for the likely seats.
+     *
+     * @param layoutHalfWidth
+     *            Half of the width of the layout.
+     * @param hemicycleHeight
+     *            The height of the hemicycle.
+     * @param seatRadius
+     *            The seat radius.
+     * @param noOfLegendRows
+     *            The number of legend rows.
+     * @param legendSlotWidth
+     *            The width for the legend slots.
+     * @return A grouping containing the legend slot for the likely seats.
+     */
+    private G createLikelySeatsLegendSlotGrouping(final double layoutHalfWidth, final double hemicycleHeight,
+            final double seatRadius, final int noOfLegendRows, final double legendSlotWidth) {
         G certainSeatsLegendSlotGrouping = new G();
         double x = -layoutHalfWidth + seatRadius + legendSlotWidth * 1;
         double y = -1D + hemicycleHeight + seatRadius * 2D
@@ -284,8 +338,23 @@ public class SeatingPlanExporter extends Exporter {
         return certainSeatsLegendSlotGrouping;
     }
 
-    private G createUnlikelySeatsLegendSlotGrouping(double layoutHalfWidth, double hemicycleHeight, double seatRadius,
-            int noOfLegendRows, double legendSlotWidth) {
+    /**
+     * Creates a grouping for the legend slot for the unlikely seats.
+     *
+     * @param layoutHalfWidth
+     *            Half of the width of the layout.
+     * @param hemicycleHeight
+     *            The height of the hemicycle.
+     * @param seatRadius
+     *            The seat radius.
+     * @param noOfLegendRows
+     *            The number of legend rows.
+     * @param legendSlotWidth
+     *            The width for the legend slots.
+     * @return A grouping containing the legend slot for the unlikely seats.
+     */
+    private G createUnlikelySeatsLegendSlotGrouping(final double layoutHalfWidth, final double hemicycleHeight,
+            final double seatRadius, final int noOfLegendRows, final double legendSlotWidth) {
         G certainSeatsLegendSlotGrouping = new G();
         double x = -layoutHalfWidth + seatRadius + legendSlotWidth * 2;
         double y = -1D + hemicycleHeight + seatRadius * 2D
@@ -326,7 +395,7 @@ public class SeatingPlanExporter extends Exporter {
      * @param width
      *            The width of the canvas.
      * @param canvasHeight
-     *            The height of the canvas
+     *            The height of the canvas.
      * @param canvasTopEdge
      *            The y coordinate for the top edge of the canvas.
      * @return A rectangle that serves as the background for the diagram.
@@ -677,6 +746,7 @@ public class SeatingPlanExporter extends Exporter {
             final int[] colors, final SeatStatus seatStatus) {
         switch (seatStatus) {
         case CERTAIN:
+        default:
             addColoredCircleOrSectors(g, x, y, radius, colors);
             break;
         case LIKELY:

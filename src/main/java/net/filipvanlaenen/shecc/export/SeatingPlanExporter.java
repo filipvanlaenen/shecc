@@ -260,7 +260,7 @@ public class SeatingPlanExporter extends Exporter {
     private G createCertainSeatsLegendSlotGrouping(final double layoutHalfWidth, final double hemicycleHeight,
             final double seatRadius, final int noOfLegendRows, final double legendSlotWidth) {
         G certainSeatsLegendSlotGrouping = new G();
-        double x = -layoutHalfWidth + seatRadius + legendSlotWidth * 0;
+        double x = -layoutHalfWidth + seatRadius;
         double y = -1D + hemicycleHeight + seatRadius * 2D
                 + (noOfLegendRows - 1) * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
         double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
@@ -306,7 +306,7 @@ public class SeatingPlanExporter extends Exporter {
     private G createLikelySeatsLegendSlotGrouping(final double layoutHalfWidth, final double hemicycleHeight,
             final double seatRadius, final int noOfLegendRows, final double legendSlotWidth) {
         G certainSeatsLegendSlotGrouping = new G();
-        double x = -layoutHalfWidth + seatRadius + legendSlotWidth * 1;
+        double x = -layoutHalfWidth + seatRadius + legendSlotWidth;
         double y = -1D + hemicycleHeight + seatRadius * 2D
                 + (noOfLegendRows - 1) * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
         double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;

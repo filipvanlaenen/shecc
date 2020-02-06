@@ -146,7 +146,7 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithDifferentiatedGroupSizes() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("1:2:3.FF0000.Red.R,1:2.00FF00.Green.G,1.0000FF.Blue.B");
-        String expected = "<svg height=\"2000\" viewBox=\"-1.05 -1.05 2.1 2\" width=\"2100\""
+        String expected = "<svg height=\"2450\" viewBox=\"-1.05 -1.05 2.1 2.45\" width=\"2100\""
                 + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n"
                 + "    <circle cx=\"-0.7699\" cy=\"-0.318903\" fill=\"#FF0000\" r=\"0.15\"/>\n"
                 + "    <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.7699\""
@@ -159,12 +159,12 @@ public class CommandLineInterfaceTest {
                 + " stroke-width=\"0.03\"/>\n"
                 + "    <text fill=\"#FF0000\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.318903\""
                 + " y=\"-0.7199\">R</text>\n"
-                + "    <circle cx=\"0.318903\" cy=\"-0.7699\" fill=\"#00FF00\" r=\"0.15\"/>\n"
-                + "    <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.318903\""
-                + " y=\"-0.7199\">G</text>\n"
-                + "    <circle cx=\"0.353553\" cy=\"-0.353553\" fill=\"#00FF00\" fill-opacity=\"0.3\" r=\"0.135\""
+                + "    <circle cx=\"0.318903\" cy=\"-0.7699\" fill=\"#00FF00\" fill-opacity=\"0.3\" r=\"0.135\""
                 + " stroke=\"#00FF00\" stroke-width=\"0.03\"/>\n"
-                + "    <text fill=\"#00FF00\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.353553\""
+                + "    <text fill=\"#00FF00\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.318903\""
+                + " y=\"-0.7199\">G</text>\n"
+                + "    <circle cx=\"0.353553\" cy=\"-0.353553\" fill=\"#00FF00\" r=\"0.15\"/>\n"
+                + "    <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.353553\""
                 + " y=\"-0.303553\">G</text>\n"
                 + "    <circle cx=\"0.7699\" cy=\"-0.318903\" fill=\"#0000FF\" r=\"0.15\"/>\n"
                 + "    <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.7699\""
@@ -183,9 +183,27 @@ public class CommandLineInterfaceTest {
                 + "      <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.35\""
                 + " y=\"0.8\">B</text>\n" + "    </g>\n"
                 + "    <text fill=\"black\" font-size=\"0.15\" text-anchor=\"start\" x=\"-0.125\" y=\"0.8\">Blue"
-                + " (1)</text>\n" + "  </g>\n" + "  <text fill=\"black\" font-size=\"0.021\" text-anchor=\"end\""
-                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
-                + "" + "</svg>";
+                + " (1)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                + "      <circle cx=\"-0.85\" cy=\"1.2\" fill=\"#000000\" r=\"0.15\"/>\n"
+                + "      <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.85\""
+                + " y=\"1.25\">X</text>\n" + "    </g>\n"
+                + "    <text fill=\"black\" font-size=\"0.15\" text-anchor=\"start\" x=\"-0.625\" y=\"1.25\">Certain"
+                + " (P ≥ 97.5%)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                + "      <circle cx=\"-0.183333\" cy=\"1.2\" fill=\"#000000\" fill-opacity=\"0.3\" r=\"0.135\""
+                + " stroke=\"#000000\" stroke-width=\"0.03\"/>\n"
+                + "      <text fill=\"black\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.183333\""
+                + " y=\"1.25\">X</text>\n" + "    </g>\n"
+                + "    <text fill=\"black\" font-size=\"0.15\" text-anchor=\"start\" x=\"0.041667\""
+                + " y=\"1.25\">Likely (P ≥ 50%)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                + "      <circle cx=\"0.483333\" cy=\"1.2\" fill=\"none\" r=\"0.135\" stroke=\"#000000\""
+                + " stroke-width=\"0.03\"/>\n"
+                + "      <text fill=\"black\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.483333\""
+                + " y=\"1.25\">X</text>\n" + "    </g>\n"
+                + "    <text fill=\"black\" font-size=\"0.15\" text-anchor=\"start\" x=\"0.708333\""
+                + " y=\"1.25\">Unlikely (P &lt; 50%)</text>\n" + "  </g>\n"
+                + "  <text fill=\"black\" font-size=\"0.0245\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.03775\" y=\"-1.06225\">Chart produced using"
+                + " SHecC</text>\n" + "" + "</svg>";
         assertEquals(expected, actual);
     }
 

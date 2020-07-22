@@ -10,7 +10,7 @@ import net.filipvanlaenen.shecc.SeatStatus;
 import net.filipvanlaenen.shecc.SeatingPlan;
 import net.filipvanlaenen.tsvgj.Circle;
 import net.filipvanlaenen.tsvgj.ColorKeyword;
-import net.filipvanlaenen.tsvgj.FontWeightValues;
+import net.filipvanlaenen.tsvgj.FontWeightValue;
 import net.filipvanlaenen.tsvgj.G;
 import net.filipvanlaenen.tsvgj.NoneValue;
 import net.filipvanlaenen.tsvgj.Path;
@@ -411,7 +411,7 @@ public class SeatingPlanExporter extends Exporter {
      */
     private Text createTitleText() {
         double y = -1D - TITLE_MARGIN - (subtitle != null ? SUBTITLE_HEIGHT + TITLE_HEIGHT : 0D);
-        Text text = new Text(title).x(0D).y(y).fontSize(TITLE_HEIGHT).fontWeight(FontWeightValues.BOLD)
+        Text text = new Text(title).x(0D).y(y).fontSize(TITLE_HEIGHT).fontWeight(FontWeightValue.BOLD)
                 .textAnchor(TextAnchorValue.MIDDLE);
         if (fontColor == null) {
             text.fill(ColorKeyword.BLACK);
@@ -431,7 +431,7 @@ public class SeatingPlanExporter extends Exporter {
      */
     private Text createSubtitleText() {
         Text text = new Text(subtitle).x(0D).y(-1D - TITLE_MARGIN).fontSize(SUBTITLE_HEIGHT)
-                .fontWeight(FontWeightValues.BOLD).textAnchor(TextAnchorValue.MIDDLE);
+                .fontWeight(FontWeightValue.BOLD).textAnchor(TextAnchorValue.MIDDLE);
         if (fontColor == null) {
             text.fill(ColorKeyword.BLACK);
         } else {

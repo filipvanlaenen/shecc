@@ -91,7 +91,9 @@ public class CommandLineInterface {
                 String[] keyValue = argument.substring(2).split("=");
                 String key = keyValue[0];
                 String value = keyValue[1];
-                if (key.equals("background-color")) {
+                if (key.equals("angle")) {
+                    exporter.setAngle(Double.parseDouble(value));
+                } else if (key.equals("background-color")) {
                     exporter.setBackgroundColor(Integer.parseInt(value, SIXTEEN));
                 } else if (key.equals("copyright-notice")) {
                     exporter.setCustomCopyrightNotice(value);

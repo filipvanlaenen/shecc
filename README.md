@@ -134,6 +134,7 @@ produced. The table below gives an overview.
 
 | Option                   | Type    | Description                                                             |
 |--------------------------|---------|-------------------------------------------------------------------------|             
+| angle                    | Double  | Sets the angle for the hemicycle, in degrees                            |
 | background-color         | Color   | Sets the background color                                               |            
 | copyright-notice         | String  | Sets a custom copyright notice                                          |            
 | font-color               | Color   | Sets the font color                                                     |            
@@ -142,14 +143,14 @@ produced. The table below gives an overview.
 | subtitle                 | String  | Sets the subtitle                                                       |
 | title                    | String  | Sets the title                                                          |
 
-The following command will produce a chart using the Lato font, and with a dark
+The following command will produce a chart having a hemicycle with an angle of 150° using the Lato font, and with a dark
 blue as the font color, with a title and a subtitle:
 
 ```
 java -jar shecc-1.0-SNAPSHOT-jar-with-dependencies.jar \
   "19.FF0000.Red Party.R,11.00FF00.Green Party.G,48.0000FF.Blue Party.B" \
   --font-color=000077 --font-family=Lato --subtitle="A sample seating plan" \
-  --title="Seating Plan" > styled-seating-plan-with-legend.svg
+  --title="Seating Plan" --angle=150 > styled-seating-plan-with-legend.svg
 ```
 
 ![Styled seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend](/README-styled-seating-plan-with-legend.png "Styled seating plan with 19 red seats, 11 green seats and 48 blue seats, together with a legend")

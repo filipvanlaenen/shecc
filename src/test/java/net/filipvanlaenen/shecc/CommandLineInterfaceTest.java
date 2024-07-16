@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 public class CommandLineInterfaceTest {
 
     /**
-     * Test verifying that the command-line interface produces a simple seating plan
-     * without a legend if the names and the letters are missing.
+     * Test verifying that the command-line interface produces a simple seating plan without a legend if the names and
+     * the letters are missing.
      */
     @Test
     void cliProducesSimpleSeatingPlanIfNamesAndLettersAreMissing() {
@@ -33,8 +33,7 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan
-     * without a legend if the names are missing.
+     * Test verifying that the command-line interface produces a seating plan without a legend if the names are missing.
      */
     @Test
     void cliProducesSeatingPlanWithoutLegendIfNamesAreMissing() {
@@ -57,8 +56,7 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan with a
-     * legend if the names are present.
+     * Test verifying that the command-line interface produces a seating plan with a legend if the names are present.
      */
     @Test
     void cliProducesSeatingPlanWithLegendIfNamesArePresent() {
@@ -81,8 +79,8 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan with a
-     * legend if the names and characters are present.
+     * Test verifying that the command-line interface produces a seating plan with a legend if the names and characters
+     * are present.
      */
     @Test
     void cliProducesSeatingPlanWithCharactersAndLegendIfNamesArePresent() {
@@ -114,9 +112,8 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan with a
-     * legend with a different legend label width if the names are present and the
-     * width changed.
+     * Test verifying that the command-line interface produces a seating plan with a legend with a different legend
+     * label width if the names are present and the width changed.
      */
     @Test
     void cliProducesSeatingPlanWithLegendWithDifferentLegendLabelWidthRatio() {
@@ -139,8 +136,8 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan and
-     * legend according to the differentiated sizes.
+     * Test verifying that the command-line interface produces a seating plan and legend according to the differentiated
+     * sizes.
      */
     @Test
     void cliProducesSeatingPlanWithDifferentiatedGroupSizes() {
@@ -208,8 +205,8 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan and
-     * legend for groups with multiple colors.
+     * Test verifying that the command-line interface produces a seating plan and legend for groups with multiple
+     * colors.
      */
     @Test
     void cliProducesSeatingPlanForGroupsWithMultipleColors() {
@@ -245,8 +242,8 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan and
-     * legend for groups with multiple colors and differentiated group sizes.
+     * Test verifying that the command-line interface produces a seating plan and legend for groups with multiple colors
+     * and differentiated group sizes.
      */
     @Test
     void cliProducesSeatingPlanForGroupsWithMultipleColorsAndDifferentiatedGroupSizes() {
@@ -353,9 +350,8 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan with a
-     * legend if the names are present, with all text in the right font family and
-     * color.
+     * Test verifying that the command-line interface produces a seating plan with a legend if the names are present,
+     * with all text in the right font family and color.
      */
     @Test
     void cliProducesSeatingPlanWithLegendInCorrectFontFamilyAndColor() {
@@ -389,8 +385,8 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan
-     * without a custom copyright notice when specified.
+     * Test verifying that the command-line interface produces a seating plan without a custom copyright notice when
+     * specified.
      */
     @Test
     void cliProducesSeatingPlanWithCustomCopyrightNotice() {
@@ -414,8 +410,7 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan
-     * without a background color when specified.
+     * Test verifying that the command-line interface produces a seating plan without a background color when specified.
      */
     @Test
     void cliProducesSeatingPlanWithBackgroundColor() {
@@ -439,9 +434,8 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan
-     * without a title when specified, and the background rectangle scaled
-     * accordingly.
+     * Test verifying that the command-line interface produces a seating plan without a title when specified, and the
+     * background rectangle scaled accordingly.
      */
     @Test
     void cliProducesSeatingPlanWithTitle() {
@@ -467,9 +461,8 @@ public class CommandLineInterfaceTest {
     }
 
     /**
-     * Test verifying that the command-line interface produces a seating plan
-     * without a title and a subtitle when specified, and the background rectangle
-     * scaled accordingly.
+     * Test verifying that the command-line interface produces a seating plan without a title and a subtitle when
+     * specified, and the background rectangle scaled accordingly.
      */
     @Test
     void cliProducesSeatingPlanWithTitleAndSubtitle() {
@@ -493,6 +486,29 @@ public class CommandLineInterfaceTest {
                 + " y=\"-0.233333\">B</text>\n" + "  </g>\n"
                 + "  <text fill=\"black\" font-size=\"0.021\" text-anchor=\"end\""
                 + " transform=\"rotate(270 1.05,-1.235)\" x=\"1.0395\" y=\"-1.2455\">Chart produced using"
+                + " SHecC</text>\n" + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying that the command-line interface produces a seating plan with an angle when specified.
+     */
+    @Test
+    void cliProducesSeatingPlanWithAngle() {
+        CommandLineInterface cli = new CommandLineInterface();
+        String actual = cli.perform("2.FF0000..R,1.0000FF..B", "--angle=150");
+        String expected = "<svg height=\"1100\" viewBox=\"-1.015926 -1.05 2.031852 1.1\" width=\"2031.851653\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n"
+                + "    <circle cx=\"-0.507301\" cy=\"-0.661128\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "    <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"-0.507301\""
+                + " y=\"-0.611128\">R</text>\n" + "    <circle cx=\"0\" cy=\"-0.5\" fill=\"#FF0000\" r=\"0.15\"/>\n"
+                + "    <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0\""
+                + " y=\"-0.45\">R</text>\n"
+                + "    <circle cx=\"0.507301\" cy=\"-0.661128\" fill=\"#0000FF\" r=\"0.15\"/>\n"
+                + "    <text fill=\"white\" font-size=\"0.15\" text-anchor=\"middle\" x=\"0.507301\""
+                + " y=\"-0.611128\">B</text>\n" + "  </g>\n"
+                + "  <text fill=\"black\" font-size=\"0.020319\" text-anchor=\"end\""
+                + " transform=\"rotate(270 1.015926,-1.05)\" x=\"1.005767\" y=\"-1.060159\">Chart produced using"
                 + " SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }

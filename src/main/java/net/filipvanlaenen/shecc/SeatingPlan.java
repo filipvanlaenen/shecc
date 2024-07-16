@@ -13,32 +13,29 @@ public class SeatingPlan {
      */
     private final OrderedCollection<ParliamentaryGroup> parliamentaryGroups;
     /**
-     * The total number of seats. This field is calculated and set through lazy
-     * initialization.
+     * The total number of seats. This field is calculated and set through lazy initialization.
      */
     private int noOfSeats;
     /**
-     * Whether or not the seating plan has likely or unlikely seats. This field is
-     * calculated and set through lazy initialization.
+     * Whether or not the seating plan has likely or unlikely seats. This field is calculated and set through lazy
+     * initialization.
      */
     private Boolean hasUncertainSeats;
     /**
-     * An array holding a pointer for each seat to the parliamentary group holding
-     * the seat. The elements in the array are calculated and set through lazy
-     * initialization.
+     * An array holding a pointer for each seat to the parliamentary group holding the seat. The elements in the array
+     * are calculated and set through lazy initialization.
      */
     private ParliamentaryGroup[] seats;
     /**
-     * An array holding the statuses of the seats. The elements in the array are
-     * calculated and set through lazy initialization.
+     * An array holding the statuses of the seats. The elements in the array are calculated and set through lazy
+     * initialization.
      */
     private SeatStatus[] seatStatuses;
 
     /**
      * Constructs a seating plan based on an ordered list of parliamentary groups.
      *
-     * @param parliamentaryGroups
-     *            The parliamentary groups to be seated.
+     * @param parliamentaryGroups The parliamentary groups to be seated.
      */
     public SeatingPlan(final ParliamentaryGroup... parliamentaryGroups) {
         this.parliamentaryGroups = OrderedCollection.of(parliamentaryGroups);
@@ -82,8 +79,7 @@ public class SeatingPlan {
     /**
      * Calculates the parliamentary group occupying a given seat.
      *
-     * @param seatNumber
-     *            The number of the seat.
+     * @param seatNumber The number of the seat.
      * @return The parliamentary group sitting at the request seat number.
      */
     private ParliamentaryGroup calculateParliamentaryGroupAtSeat(final int seatNumber) {
@@ -102,8 +98,7 @@ public class SeatingPlan {
     /**
      * Returns the parliamentary group occupying a given seat.
      *
-     * @param seatNumber
-     *            The number of the seat.
+     * @param seatNumber The number of the seat.
      * @return The parliamentary group sitting at the request seat number.
      */
     public ParliamentaryGroup getParliamentaryGroupAtSeat(final int seatNumber) {
@@ -119,8 +114,7 @@ public class SeatingPlan {
     /**
      * Returns the status of a seat.
      *
-     * @param seatNumber
-     *            The number of the seat in the hemicycle.
+     * @param seatNumber The number of the seat in the hemicycle.
      * @return The seat's status.
      */
     public SeatStatus getSeatStatus(final int seatNumber) {
@@ -136,8 +130,7 @@ public class SeatingPlan {
     /**
      * Calculates the status of a seat.
      *
-     * @param seatNumber
-     *            The number of the seat in the hemicycle.
+     * @param seatNumber The number of the seat in the hemicycle.
      * @return The seat's status.
      */
     private SeatStatus calculateSeatStatus(final int seatNumber) {
@@ -155,31 +148,27 @@ public class SeatingPlan {
     /**
      * Calculates the status of a seat within a group.
      *
-     * @param seatNumber
-     *            The number of the seat for which the status has to be calculated.
-     * @param startIndex
-     *            The seat number for the first seat of the parliamentary group.
-     * @param size
-     *            The size of the parliamentary group.
-     * @param certainSeatsToTheLeft
-     *            Whether the certain seats should be placed to the left, meaning
-     *            that the ordering is certain-likely-unlikely.
+     * @param seatNumber            The number of the seat for which the status has to be calculated.
+     * @param startIndex            The seat number for the first seat of the parliamentary group.
+     * @param size                  The size of the parliamentary group.
+     * @param certainSeatsToTheLeft Whether the certain seats should be placed to the left, meaning that the ordering is
+     *                              certain-likely-unlikely.
      * @return The seat's status.
      */
     private SeatStatus calculateSeatStatusWithinGroup(final int seatNumber, final int startIndex,
             final DifferentiatedGroupSize size, final boolean certainSeatsToTheLeft) {
         if (certainSeatsToTheLeft) {
-            if (startIndex + size.getLowerBound() > seatNumber) {
+            if (startIndex + size.lowerBound() > seatNumber) {
                 return SeatStatus.CERTAIN;
-            } else if (startIndex + size.getMedian() > seatNumber) {
+            } else if (startIndex + size.median() > seatNumber) {
                 return SeatStatus.LIKELY;
             } else {
                 return SeatStatus.UNLIKELY;
             }
         } else {
-            if (startIndex + size.getFullSize() - size.getLowerBound() <= seatNumber) {
+            if (startIndex + size.getFullSize() - size.lowerBound() <= seatNumber) {
                 return SeatStatus.CERTAIN;
-            } else if (startIndex + size.getFullSize() - size.getMedian() <= seatNumber) {
+            } else if (startIndex + size.getFullSize() - size.median() <= seatNumber) {
                 return SeatStatus.LIKELY;
             } else {
                 return SeatStatus.UNLIKELY;
@@ -188,15 +177,12 @@ public class SeatingPlan {
     }
 
     /**
-     * Calculates whether the seats within a parliamentary group with differentiated
-     * size should be sorted certain-likely-unlikely or unlikely-likely-certain.
+     * Calculates whether the seats within a parliamentary group with differentiated size should be sorted
+     * certain-likely-unlikely or unlikely-likely-certain.
      *
-     * @param startIndex
-     *            The seat number for the first seat of the parliamentary group.
-     * @param size
-     *            The size of the parliamentary group.
-     * @return True if the seats should be sorted as certain-likely-unlikely, and
-     *         false otherwise.
+     * @param startIndex The seat number for the first seat of the parliamentary group.
+     * @param size       The size of the parliamentary group.
+     * @return True if the seats should be sorted as certain-likely-unlikely, and false otherwise.
      */
     private boolean calculateIfCertainSeatsArePositionedToTheLeft(final int startIndex,
             final DifferentiatedGroupSize size) {
@@ -206,11 +192,8 @@ public class SeatingPlan {
     /**
      * Calculates the start index of a parliamentary group in the hemicycle.
      *
-     * @param group
-     *            The parliamentary group for which the start index has to be
-     *            calculated.
-     * @return The seat number of the first seat for the parliamentary group in the
-     *         hemicycle.
+     * @param group The parliamentary group for which the start index has to be calculated.
+     * @return The seat number of the first seat for the parliamentary group in the hemicycle.
      */
     private int calculateStartIndexOfParliamentaryGroup(final ParliamentaryGroup group) {
         Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
@@ -228,11 +211,9 @@ public class SeatingPlan {
     }
 
     /**
-     * Calculates whether any of the parliamentary groups has a likely or unlikely
-     * seat.
+     * Calculates whether any of the parliamentary groups has a likely or unlikely seat.
      *
-     * @return True if at least one of the parliamentary groups has a likely or
-     *         unlikely seat.
+     * @return True if at least one of the parliamentary groups has a likely or unlikely seat.
      */
     private boolean calculateHasUncertainSeats() {
         Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
@@ -240,7 +221,7 @@ public class SeatingPlan {
             ParliamentaryGroup parliamentaryGroup = iterator.next();
             if (parliamentaryGroup.getSize() instanceof DifferentiatedGroupSize) {
                 DifferentiatedGroupSize size = (DifferentiatedGroupSize) parliamentaryGroup.getSize();
-                if (size.getFullSize() > size.getLowerBound()) {
+                if (size.getFullSize() > size.lowerBound()) {
                     return true;
                 }
             }
@@ -249,11 +230,9 @@ public class SeatingPlan {
     }
 
     /**
-     * Returns whether any of the parliamentary groups has a likely or unlikely
-     * seat.
+     * Returns whether any of the parliamentary groups has a likely or unlikely seat.
      *
-     * @return True if at least one of the parliamentary groups has a likely or
-     *         unlikely seat.
+     * @return True if at least one of the parliamentary groups has a likely or unlikely seat.
      */
     public boolean hasUncertainSeats() {
         if (hasUncertainSeats == null) {

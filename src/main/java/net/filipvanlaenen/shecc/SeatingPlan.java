@@ -1,8 +1,8 @@
 package net.filipvanlaenen.shecc;
 
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
+
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
  * A class representing a seating plan.
@@ -11,7 +11,7 @@ public class SeatingPlan {
     /**
      * The parliamentary groups for this seating plan.
      */
-    private final List<ParliamentaryGroup> parliamentaryGroups;
+    private final OrderedCollection<ParliamentaryGroup> parliamentaryGroups;
     /**
      * The total number of seats. This field is calculated and set through lazy
      * initialization.
@@ -40,8 +40,8 @@ public class SeatingPlan {
      * @param parliamentaryGroups
      *            The parliamentary groups to be seated.
      */
-    public SeatingPlan(final List<ParliamentaryGroup> parliamentaryGroups) {
-        this.parliamentaryGroups = Collections.unmodifiableList(parliamentaryGroups);
+    public SeatingPlan(final ParliamentaryGroup... parliamentaryGroups) {
+        this.parliamentaryGroups = OrderedCollection.of(parliamentaryGroups);
     }
 
     /**
@@ -49,7 +49,7 @@ public class SeatingPlan {
      *
      * @return An unmodifiable copy of the list of the parliamentary groups
      */
-    public List<ParliamentaryGroup> getParliamentaryGroups() {
+    public OrderedCollection<ParliamentaryGroup> getParliamentaryGroups() {
         return parliamentaryGroups;
     }
 

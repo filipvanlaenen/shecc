@@ -1,8 +1,8 @@
 package net.filipvanlaenen.shecc.export;
 
 import java.util.Iterator;
-import java.util.List;
 
+import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.shecc.HemicycleLayout;
 import net.filipvanlaenen.shecc.ParliamentaryGroup;
 import net.filipvanlaenen.shecc.SeatPosition;
@@ -29,23 +29,20 @@ public class SeatingPlanExporter extends Exporter {
      */
     private static final double STRAIGHT_ANGLE = 180D;
     /**
-     * The factor used to move text down such that it appears vertically centered in
-     * the middle, relative to the font size.
+     * The factor used to move text down such that it appears vertically centered in the middle, relative to the font
+     * size.
      */
     private static final double FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY = 1D / 3D;
     /**
-     * The factor used to calculate the height of the legend based on the seat
-     * radius.
+     * The factor used to calculate the height of the legend based on the seat radius.
      */
     private static final double SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR = 3D;
     /**
-     * The factor used to calculate the gap between the seat symbol and the legend
-     * text based on the seat radius.
+     * The factor used to calculate the gap between the seat symbol and the legend text based on the seat radius.
      */
     private static final double SEAT_RADIUS_TO_LEGEND_GAP_FACTOR = 1.5D;
     /**
-     * The default ratio used to calculate the width of the slot in the legend for
-     * the names, based on the seat radius.
+     * The default ratio used to calculate the width of the slot in the legend for the names, based on the seat radius.
      */
     private static final int DEFAULT_SEAT_RADIUS_TO_LEGEND_LABEL_WIDTH_RATIO = 6;
     /**
@@ -82,8 +79,7 @@ public class SeatingPlanExporter extends Exporter {
      */
     private boolean displayLegend;
     /**
-     * Overrides the default legend label width ratio, defined in terms of number of
-     * seat radiuses.
+     * Overrides the default legend label width ratio, defined in terms of number of seat radiuses.
      */
     private Integer legendLabelWidthRatio;
     /**
@@ -102,8 +98,7 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Exports a seating plan to SVG.
      *
-     * @param plan
-     *            The seating plan to be exported.
+     * @param plan The seating plan to be exported.
      * @return A string representing the seating plan in SVG.
      */
     public String export(final SeatingPlan plan) {
@@ -116,10 +111,10 @@ public class SeatingPlanExporter extends Exporter {
         double hemicycleHeight = layout.getHeight();
         double canvasHeight = hemicycleHeight + 2 * EDGES_MARGIN;
         double seatRadius = layout.getRowWidth() * RADIUS_ROW_WIDTH_RATIO;
-        List<ParliamentaryGroup> parliamentaryGroupsList = plan.getParliamentaryGroups();
+        OrderedCollection<ParliamentaryGroup> parliamentaryGroupsList = plan.getParliamentaryGroups();
         int noOfParliamentaryGroups = parliamentaryGroupsList.size();
-        int noOfParliamentaryGroupLegendRows = 1
-                + (int) (getLegendLabelWidthRatio() * seatRadius * noOfParliamentaryGroups / layoutWidth);
+        int noOfParliamentaryGroupLegendRows =
+                1 + (int) (getLegendLabelWidthRatio() * seatRadius * noOfParliamentaryGroups / layoutWidth);
         int noOfLegendRows = noOfParliamentaryGroupLegendRows + (plan.hasUncertainSeats() ? 1 : 0);
         if (displayLegend) {
             canvasHeight += seatRadius * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * noOfLegendRows;
@@ -165,7 +160,7 @@ public class SeatingPlanExporter extends Exporter {
             if (plan.hasUncertainSeats()) {
                 double seatStatuslegendSlotWidth = layoutWidth / 3D;
                 svg.addElement(createCertainSeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
-                        noOfLegendRows, seatStatuslegendSlotWidth));
+                        noOfLegendRows));
                 svg.addElement(createLikelySeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
                         noOfLegendRows, seatStatuslegendSlotWidth));
                 svg.addElement(createUnlikelySeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
@@ -179,24 +174,15 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a grouping with the legend slot for a parliamentary group.
      *
-     * @param parliamentaryGroup
-     *            The parliamentary group for which a legend slot should be created.
-     * @param layoutHalfWidth
-     *            Half of the width of the layout.
-     * @param hemicycleHeight
-     *            The height of the hemicycle.
-     * @param seatRadius
-     *            The seat radius.
-     * @param noOfParliamentaryGroups
-     *            The total number of parliamentary groups.
-     * @param noOfLegendRows
-     *            The number of legend rows.
-     * @param legendSlotIndex
-     *            The index of the legend slot to be created.
-     * @param noOfSlotsPerLegendRow
-     *            The number of slots per legend row.
-     * @param legendSlotWidth
-     *            The width for the legend slots.
+     * @param parliamentaryGroup      The parliamentary group for which a legend slot should be created.
+     * @param layoutHalfWidth         Half of the width of the layout.
+     * @param hemicycleHeight         The height of the hemicycle.
+     * @param seatRadius              The seat radius.
+     * @param noOfParliamentaryGroups The total number of parliamentary groups.
+     * @param noOfLegendRows          The number of legend rows.
+     * @param legendSlotIndex         The index of the legend slot to be created.
+     * @param noOfSlotsPerLegendRow   The number of slots per legend row.
+     * @param legendSlotWidth         The width for the legend slots.
      * @return A grouping with the legend slot for a parliamentary group.
      */
     private G createLegendSlotGrouping(final ParliamentaryGroup parliamentaryGroup, final double layoutHalfWidth,
@@ -210,8 +196,8 @@ public class SeatingPlanExporter extends Exporter {
         if (legendRow == noOfLegendRows - 1) {
             x += (noOfSlotsPerLegendRow * noOfLegendRows - noOfParliamentaryGroups) * legendSlotWidth / 2D;
         }
-        double y = -1D + hemicycleHeight + seatRadius * 2D
-                + legendRow * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
+        double y =
+                -1D + hemicycleHeight + seatRadius * 2D + legendRow * SEAT_RADIUS_TO_LEGEND_HEIGHT_FACTOR * seatRadius;
         String character = parliamentaryGroup.getCharacter();
         double textY = y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY;
         if (character == null) {
@@ -245,20 +231,14 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a grouping for the legend slot for the certain seats.
      *
-     * @param layoutHalfWidth
-     *            Half of the width of the layout.
-     * @param hemicycleHeight
-     *            The height of the hemicycle.
-     * @param seatRadius
-     *            The seat radius.
-     * @param noOfLegendRows
-     *            The number of legend rows.
-     * @param legendSlotWidth
-     *            The width for the legend slots.
+     * @param layoutHalfWidth Half of the width of the layout.
+     * @param hemicycleHeight The height of the hemicycle.
+     * @param seatRadius      The seat radius.
+     * @param noOfLegendRows  The number of legend rows.
      * @return A grouping containing the legend slot for the certain seats.
      */
     private G createCertainSeatsLegendSlotGrouping(final double layoutHalfWidth, final double hemicycleHeight,
-            final double seatRadius, final int noOfLegendRows, final double legendSlotWidth) {
+            final double seatRadius, final int noOfLegendRows) {
         G certainSeatsLegendSlotGrouping = new G();
         double x = -layoutHalfWidth + seatRadius;
         double y = -1D + hemicycleHeight + seatRadius * 2D
@@ -291,16 +271,11 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a grouping for the legend slot for the likely seats.
      *
-     * @param layoutHalfWidth
-     *            Half of the width of the layout.
-     * @param hemicycleHeight
-     *            The height of the hemicycle.
-     * @param seatRadius
-     *            The seat radius.
-     * @param noOfLegendRows
-     *            The number of legend rows.
-     * @param legendSlotWidth
-     *            The width for the legend slots.
+     * @param layoutHalfWidth Half of the width of the layout.
+     * @param hemicycleHeight The height of the hemicycle.
+     * @param seatRadius      The seat radius.
+     * @param noOfLegendRows  The number of legend rows.
+     * @param legendSlotWidth The width for the legend slots.
      * @return A grouping containing the legend slot for the likely seats.
      */
     private G createLikelySeatsLegendSlotGrouping(final double layoutHalfWidth, final double hemicycleHeight,
@@ -341,16 +316,11 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a grouping for the legend slot for the unlikely seats.
      *
-     * @param layoutHalfWidth
-     *            Half of the width of the layout.
-     * @param hemicycleHeight
-     *            The height of the hemicycle.
-     * @param seatRadius
-     *            The seat radius.
-     * @param noOfLegendRows
-     *            The number of legend rows.
-     * @param legendSlotWidth
-     *            The width for the legend slots.
+     * @param layoutHalfWidth Half of the width of the layout.
+     * @param hemicycleHeight The height of the hemicycle.
+     * @param seatRadius      The seat radius.
+     * @param noOfLegendRows  The number of legend rows.
+     * @param legendSlotWidth The width for the legend slots.
      * @return A grouping containing the legend slot for the unlikely seats.
      */
     private G createUnlikelySeatsLegendSlotGrouping(final double layoutHalfWidth, final double hemicycleHeight,
@@ -389,15 +359,12 @@ public class SeatingPlanExporter extends Exporter {
     }
 
     /**
-     * Creates the rectangle for the background for the diagram. The rectangle is
-     * horizontally centered around the Y axis.
+     * Creates the rectangle for the background for the diagram. The rectangle is horizontally centered around the Y
+     * axis.
      *
-     * @param width
-     *            The width of the canvas.
-     * @param canvasHeight
-     *            The height of the canvas.
-     * @param canvasTopEdge
-     *            The y coordinate for the top edge of the canvas.
+     * @param width         The width of the canvas.
+     * @param canvasHeight  The height of the canvas.
+     * @param canvasTopEdge The y coordinate for the top edge of the canvas.
      * @return A rectangle that serves as the background for the diagram.
      */
     private Rect createBackgroundRectangle(final double width, final double canvasHeight, final double canvasTopEdge) {
@@ -446,12 +413,9 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a grouping for a hemicycle and its content.
      *
-     * @param layout
-     *            The layout for the hemicycle.
-     * @param plan
-     *            The seating plan for the hemicycle.
-     * @param seatRadius
-     *            The seat radius.
+     * @param layout     The layout for the hemicycle.
+     * @param plan       The seating plan for the hemicycle.
+     * @param seatRadius The seat radius.
      * @return A grouping for the hemicycle and its content.
      */
     private G createHemicycleGrouping(final HemicycleLayout layout, final SeatingPlan plan, final double seatRadius) {
@@ -492,14 +456,10 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a circle with a color.
      *
-     * @param x
-     *            The x coordinate of the center.
-     * @param y
-     *            The y coordinate of the center.
-     * @param radius
-     *            The radius.
-     * @param color
-     *            The color.
+     * @param x      The x coordinate of the center.
+     * @param y      The y coordinate of the center.
+     * @param radius The radius.
+     * @param color  The color.
      * @return A colored circle.
      */
     private Circle createColoredCircle(final double x, final double y, final double radius, final int color) {
@@ -509,14 +469,10 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a semi-transparent circle outlined with a color.
      *
-     * @param x
-     *            The x coordinate of the center.
-     * @param y
-     *            The y coordinate of the center.
-     * @param radius
-     *            The radius.
-     * @param color
-     *            The color.
+     * @param x      The x coordinate of the center.
+     * @param y      The y coordinate of the center.
+     * @param radius The radius.
+     * @param color  The color.
      * @return A colored circle.
      */
     private Circle createSemitransparentCircle(final double x, final double y, final double radius, final int color) {
@@ -528,14 +484,10 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a circle outlined with a color.
      *
-     * @param x
-     *            The x coordinate of the center.
-     * @param y
-     *            The y coordinate of the center.
-     * @param radius
-     *            The radius.
-     * @param color
-     *            The color.
+     * @param x      The x coordinate of the center.
+     * @param y      The y coordinate of the center.
+     * @param radius The radius.
+     * @param color  The color.
      * @return A colored circle.
      */
     private Circle createOutlinedCircle(final double x, final double y, final double radius, final int color) {
@@ -547,14 +499,10 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a grouping with colored sectors.
      *
-     * @param x
-     *            The x coordinate of the center.
-     * @param y
-     *            The y coordinate of the center.
-     * @param radius
-     *            The radius.
-     * @param colors
-     *            An array with the colors.
+     * @param x      The x coordinate of the center.
+     * @param y      The y coordinate of the center.
+     * @param radius The radius.
+     * @param colors An array with the colors.
      * @return A grouping with colored sectors.
      */
     private G createColoredSectors(final double x, final double y, final double radius, final int[] colors) {
@@ -566,9 +514,9 @@ public class SeatingPlanExporter extends Exporter {
             double y1 = y - radius * Math.cos(angle1);
             double x2 = x + radius * Math.sin(angle2);
             double y2 = y - radius * Math.cos(angle2);
-            Path path = new Path().moveTo(x, y).lineTo(x1, y1).arcTo(radius, radius, 0,
-                    Path.LargeArcFlagValues.SMALL_ARC, Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2).closePath()
-                    .fill(colors[i]);
+            Path path =
+                    new Path().moveTo(x, y).lineTo(x1, y1).arcTo(radius, radius, 0, Path.LargeArcFlagValues.SMALL_ARC,
+                            Path.SweepFlagValues.POSITIVE_ANGLE, x2, y2).closePath().fill(colors[i]);
             g.addElement(path);
         }
         return g;
@@ -577,14 +525,10 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a grouping with semi-transparent sectors.
      *
-     * @param x
-     *            The x coordinate of the center.
-     * @param y
-     *            The y coordinate of the center.
-     * @param radius
-     *            The radius.
-     * @param colors
-     *            An array with the colors.
+     * @param x      The x coordinate of the center.
+     * @param y      The y coordinate of the center.
+     * @param radius The radius.
+     * @param colors An array with the colors.
      * @return A grouping with semi-transparent sectors.
      */
     private G createSemitransparentSectors(final double x, final double y, final double radius, final int[] colors) {
@@ -619,14 +563,10 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Creates a grouping with outlined sectors.
      *
-     * @param x
-     *            The x coordinate of the center.
-     * @param y
-     *            The y coordinate of the center.
-     * @param radius
-     *            The radius.
-     * @param colors
-     *            An array with the colors.
+     * @param x      The x coordinate of the center.
+     * @param y      The y coordinate of the center.
+     * @param radius The radius.
+     * @param colors An array with the colors.
      * @return A grouping with outlined sectors.
      */
     private G createOutlinedSectors(final double x, final double y, final double radius, final int[] colors) {
@@ -650,20 +590,13 @@ public class SeatingPlanExporter extends Exporter {
     }
 
     /**
-     * Adds a colored circle or a grouping with colored sectors, depending on the
-     * number of colors.
+     * Adds a colored circle or a grouping with colored sectors, depending on the number of colors.
      *
-     * @param g
-     *            The grouping to which the circle or the grouping with the sectors
-     *            should be added.
-     * @param x
-     *            The x coordinate of the center.
-     * @param y
-     *            The y coordinate of the center.
-     * @param radius
-     *            The radius.
-     * @param colors
-     *            An array with the colors.
+     * @param g      The grouping to which the circle or the grouping with the sectors should be added.
+     * @param x      The x coordinate of the center.
+     * @param y      The y coordinate of the center.
+     * @param radius The radius.
+     * @param colors An array with the colors.
      */
     private void addColoredCircleOrSectors(final G g, final double x, final double y, final double radius,
             final int[] colors) {
@@ -675,20 +608,13 @@ public class SeatingPlanExporter extends Exporter {
     }
 
     /**
-     * Adds a semi-transparent circle or a grouping with semi-transparent sectors,
-     * depending on the number of colors.
+     * Adds a semi-transparent circle or a grouping with semi-transparent sectors, depending on the number of colors.
      *
-     * @param g
-     *            The grouping to which the circle or the grouping with the sectors
-     *            should be added.
-     * @param x
-     *            The x coordinate of the center.
-     * @param y
-     *            The y coordinate of the center.
-     * @param radius
-     *            The radius.
-     * @param colors
-     *            An array with the colors.
+     * @param g      The grouping to which the circle or the grouping with the sectors should be added.
+     * @param x      The x coordinate of the center.
+     * @param y      The y coordinate of the center.
+     * @param radius The radius.
+     * @param colors An array with the colors.
      */
     private void addSemitransparentCircleOrSectors(final G g, final double x, final double y, final double radius,
             final int[] colors) {
@@ -700,20 +626,13 @@ public class SeatingPlanExporter extends Exporter {
     }
 
     /**
-     * Adds an outlined circle or a grouping with outlined sectors, depending on the
-     * number of colors.
+     * Adds an outlined circle or a grouping with outlined sectors, depending on the number of colors.
      *
-     * @param g
-     *            The grouping to which the circle or the grouping with the sectors
-     *            should be added.
-     * @param x
-     *            The x coordinate of the center.
-     * @param y
-     *            The y coordinate of the center.
-     * @param radius
-     *            The radius.
-     * @param colors
-     *            An array with the colors.
+     * @param g      The grouping to which the circle or the grouping with the sectors should be added.
+     * @param x      The x coordinate of the center.
+     * @param y      The y coordinate of the center.
+     * @param radius The radius.
+     * @param colors An array with the colors.
      */
     private void addOutlinedCircleOrSectors(final G g, final double x, final double y, final double radius,
             final int[] colors) {
@@ -725,22 +644,15 @@ public class SeatingPlanExporter extends Exporter {
     }
 
     /**
-     * Adds a decorated circle or a grouping with decorated sectors, depending on
-     * the number of colors and the status of the seat.
+     * Adds a decorated circle or a grouping with decorated sectors, depending on the number of colors and the status of
+     * the seat.
      *
-     * @param g
-     *            The grouping to which the circle or the grouping with the sectors
-     *            should be added.
-     * @param x
-     *            The x coordinate of the center.
-     * @param y
-     *            The y coordinate of the center.
-     * @param radius
-     *            The radius.
-     * @param colors
-     *            An array with the colors.
-     * @param seatStatus
-     *            The status of the seat.
+     * @param g          The grouping to which the circle or the grouping with the sectors should be added.
+     * @param x          The x coordinate of the center.
+     * @param y          The y coordinate of the center.
+     * @param radius     The radius.
+     * @param colors     An array with the colors.
+     * @param seatStatus The status of the seat.
      */
     private void addDecoratedCircleOrSectors(final G g, final double x, final double y, final double radius,
             final int[] colors, final SeatStatus seatStatus) {
@@ -761,8 +673,7 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Specifies whether a legend should be displayed.
      *
-     * @param displayLegend
-     *            True if a legend should be displayed.
+     * @param displayLegend True if a legend should be displayed.
      */
     public void setDisplayLegend(final boolean displayLegend) {
         this.displayLegend = displayLegend;
@@ -771,8 +682,7 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Specifies whether the letters should be rotated towards the center.
      *
-     * @param rotateLetters
-     *            True if the letters should be rotated towards the center.
+     * @param rotateLetters True if the letters should be rotated towards the center.
      */
     void setRotateLetters(final boolean rotateLetters) {
         this.rotateLetters = rotateLetters;
@@ -781,8 +691,7 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Specifies a custom copyright notice text.
      *
-     * @param customCopyrightNotice
-     *            The custom copyright notice text
+     * @param customCopyrightNotice The custom copyright notice text
      */
     public void setCustomCopyrightNotice(final String customCopyrightNotice) {
         this.customCopyrightNotice = customCopyrightNotice;
@@ -791,8 +700,7 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Specifies the background color.
      *
-     * @param backgroundColor
-     *            The background color as an integer.
+     * @param backgroundColor The background color as an integer.
      */
     public void setBackgroundColor(final Integer backgroundColor) {
         this.backgroundColor = backgroundColor;
@@ -801,8 +709,7 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Specifies the title.
      *
-     * @param title
-     *            The title.
+     * @param title The title.
      */
     public void setTitle(final String title) {
         this.title = title;
@@ -811,28 +718,25 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * Specifies the subtitle.
      *
-     * @param subtitle
-     *            The subtitle.
+     * @param subtitle The subtitle.
      */
     public void setSubtitle(final String subtitle) {
         this.subtitle = subtitle;
     }
 
     /**
-     * Overrides the default legend label width ratio. The legend label width ratio
-     * is defined in terms of number of seat radiuses.
+     * Overrides the default legend label width ratio. The legend label width ratio is defined in terms of number of
+     * seat radiuses.
      *
-     * @param legendLabelWidthRatio
-     *            The width of the legend labels in terms of number of seat
-     *            radiuses.
+     * @param legendLabelWidthRatio The width of the legend labels in terms of number of seat radiuses.
      */
     public void setLegendLabelWidthRatio(final int legendLabelWidthRatio) {
         this.legendLabelWidthRatio = legendLabelWidthRatio;
     }
 
     /**
-     * Returns the legend label width ratio to be used, i.e. the provided one, or if
-     * no ratio has been provided, the default one.
+     * Returns the legend label width ratio to be used, i.e. the provided one, or if no ratio has been provided, the
+     * default one.
      *
      * @return The legend label width ratio to be used.
      */

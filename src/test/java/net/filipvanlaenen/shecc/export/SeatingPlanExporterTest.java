@@ -3,9 +3,7 @@ package net.filipvanlaenen.shecc.export;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
@@ -47,15 +45,12 @@ public class SeatingPlanExporterTest {
     private static final int TEN = 10;
 
     /**
-     * Test verifying the export of a seating plan with two seats for the red group
-     * and one for the blue group using the default hemicycle layout to SVG.
+     * Test verifying the export of a seating plan with two seats for the red group and one for the blue group using the
+     * default hemicycle layout to SVG.
      */
     @Test
     void svgExportForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED));
-        groups.add(new ParliamentaryGroup(1, BLUE));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String actual = exporter.export(plan);
         String expected = "<svg height=\"1100\" viewBox=\"-1.05 -1.05 2.1 1.1\" width=\"2100\""
@@ -70,16 +65,13 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with two seats for the red group
-     * and one for the blue group using the default hemicycle layout to SVG, using
-     * the letter R for the red group and B for the blue group.
+     * Test verifying the export of a seating plan with two seats for the red group and one for the blue group using the
+     * default hemicycle layout to SVG, using the letter R for the red group and B for the blue group.
      */
     @Test
     void svgExportForTwoRedAndOneBlueSeatsWithLettersInADefaultHemicycleLayout() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, null, "R"));
-        groups.add(new ParliamentaryGroup(1, BLUE, null, "B"));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan =
+                new SeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String actual = exporter.export(plan);
         String expected = "<svg height=\"1100\" viewBox=\"-1.05 -1.05 2.1 1.1\" width=\"2100\""
@@ -99,17 +91,14 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with two seats for the red group
-     * and one for the blue group using the default hemicycle layout to SVG, using
-     * the letter R for the red group and B for the blue group, and rotating the
+     * Test verifying the export of a seating plan with two seats for the red group and one for the blue group using the
+     * default hemicycle layout to SVG, using the letter R for the red group and B for the blue group, and rotating the
      * letters to the center.
      */
     @Test
     void svgExportForTwoRedAndOneBlueSeatsWithRotatedLettersInADefaultHemicycleLayout() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, null, "R"));
-        groups.add(new ParliamentaryGroup(1, BLUE, null, "B"));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan =
+                new SeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setRotateLetters(true);
         String actual = exporter.export(plan);
@@ -131,16 +120,13 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with legend with two seats for
-     * the red group and one for the blue group using the default hemicycle layout
-     * to SVG.
+     * Test verifying the export of a seating plan with legend with two seats for the red group and one for the blue
+     * group using the default hemicycle layout to SVG.
      */
     @Test
     void svgExportWithLegendForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, "Red"));
-        groups.add(new ParliamentaryGroup(1, BLUE, "Blue"));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan =
+                new SeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(1, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
@@ -161,15 +147,12 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying that the legend uses up only one line when there is place
-     * enough.
+     * Test verifying that the legend uses up only one line when there is place enough.
      */
     @Test
     void svgExportsLegendOnOneLineWhenThereIsPlaceEnough() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, "Red"));
-        groups.add(new ParliamentaryGroup(2, BLUE, "Blue"));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan =
+                new SeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(2, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
@@ -191,15 +174,12 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying that the legend uses the legend label width ratio when
-     * specified.
+     * Test verifying that the legend uses the legend label width ratio when specified.
      */
     @Test
     void svgExportsLegendWithSpecifiedLegendLabelWidthRatio() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, "Red"));
-        groups.add(new ParliamentaryGroup(2, BLUE, "Blue"));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan =
+                new SeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(2, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         exporter.setLegendLabelWidthRatio(TEN);
@@ -226,11 +206,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportsCentersLastRowOfLegend() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, "Red"));
-        groups.add(new ParliamentaryGroup(1, BLUE, "Blue"));
-        groups.add(new ParliamentaryGroup(1, MAGENTA, "Magenta"));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED, "Red"),
+                new ParliamentaryGroup(1, BLUE, "Blue"), new ParliamentaryGroup(1, MAGENTA, "Magenta"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
@@ -255,16 +232,13 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with legend with two seats for
-     * the red group and one for the blue group using the default hemicycle layout
-     * to SVG, using the letter R for the red group and B for the blue group.
+     * Test verifying the export of a seating plan with legend with two seats for the red group and one for the blue
+     * group using the default hemicycle layout to SVG, using the letter R for the red group and B for the blue group.
      */
     @Test
     void svgExportWithLegendForTwoRedAndOneBlueSeatsWithLettersInADefaultHemicycleLayout() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, "Red", "R"));
-        groups.add(new ParliamentaryGroup(1, BLUE, "Blue", "B"));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED, "Red", "R"),
+                new ParliamentaryGroup(1, BLUE, "Blue", "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
@@ -294,17 +268,14 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with legend with two seats for
-     * the red group and one for the blue group using the default hemicycle layout
-     * to SVG, using the letter R for the red group and B for the blue group, and
-     * with a text font set.
+     * Test verifying the export of a seating plan with legend with two seats for the red group and one for the blue
+     * group using the default hemicycle layout to SVG, using the letter R for the red group and B for the blue group,
+     * and with a text font set.
      */
     @Test
     void svgExportWithLegendForTwoRedAndOneBlueSeatsWithLettersInADefaultHemicycleLayoutWithASpecificFont() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, "Red", "R"));
-        groups.add(new ParliamentaryGroup(1, BLUE, "Blue", "B"));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED, "Red", "R"),
+                new ParliamentaryGroup(1, BLUE, "Blue", "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         exporter.setFontFamily("Lato");
@@ -337,17 +308,14 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with legend with two seats for
-     * the red group and one for the blue group using the default hemicycle layout
-     * to SVG, using the letter R for the red group and B for the blue group, and
-     * with a custom text color.
+     * Test verifying the export of a seating plan with legend with two seats for the red group and one for the blue
+     * group using the default hemicycle layout to SVG, using the letter R for the red group and B for the blue group,
+     * and with a custom text color.
      */
     @Test
     void svgExportWithLegendForTwoRedAndOneBlueSeatsWithLettersInADefaultHemicycleLayoutWithATextColor() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED, "Red", "R"));
-        groups.add(new ParliamentaryGroup(1, BLUE, "Blue", "B"));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED, "Red", "R"),
+                new ParliamentaryGroup(1, BLUE, "Blue", "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         exporter.setFontColor(MAGENTA);
@@ -378,16 +346,12 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with two seats for the red group
-     * and one for the blue group and a custom copyright notice using the default
-     * hemicycle layout to SVG.
+     * Test verifying the export of a seating plan with two seats for the red group and one for the blue group and a
+     * custom copyright notice using the default hemicycle layout to SVG.
      */
     @Test
     void svgExportsWithCustomCopyrightNoticeForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED));
-        groups.add(new ParliamentaryGroup(1, BLUE));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setCustomCopyrightNotice("John Doe");
         String actual = exporter.export(plan);
@@ -404,16 +368,12 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with two seats for the red group
-     * and one for the blue group and a background color using the default hemicycle
-     * layout to SVG.
+     * Test verifying the export of a seating plan with two seats for the red group and one for the blue group and a
+     * background color using the default hemicycle layout to SVG.
      */
     @Test
     void svgExportsWithBackgroundColorForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED));
-        groups.add(new ParliamentaryGroup(1, BLUE));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         String actual = exporter.export(plan);
@@ -430,16 +390,12 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with two seats for the red group
-     * and one for the blue group, a title and a background color using the default
-     * hemicycle layout to SVG.
+     * Test verifying the export of a seating plan with two seats for the red group and one for the blue group, a title
+     * and a background color using the default hemicycle layout to SVG.
      */
     @Test
     void svgExportsWithTitleAndBackgroundColorForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED));
-        groups.add(new ParliamentaryGroup(1, BLUE));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         exporter.setTitle("Lorem Ipsum");
@@ -459,16 +415,12 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with two seats for the red group
-     * and one for the blue group, a title, a subtitle and a background color using
-     * the default hemicycle layout to SVG.
+     * Test verifying the export of a seating plan with two seats for the red group and one for the blue group, a title,
+     * a subtitle and a background color using the default hemicycle layout to SVG.
      */
     @Test
     void svgExportsWithTitleAndSubtitleAndBackgroundColorForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(2, RED));
-        groups.add(new ParliamentaryGroup(1, BLUE));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         exporter.setTitle("Lorem Ipsum");
@@ -491,16 +443,13 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying the export of a seating plan with legend with two seats for
-     * the red/magenta group and one for the blue group using the default hemicycle
-     * layout to SVG.
+     * Test verifying the export of a seating plan with legend with two seats for the red/magenta group and one for the
+     * blue group using the default hemicycle layout to SVG.
      */
     @Test
     void svgExportWithLegendForTwoRedMagentaAndOneBlueSeatsInADefaultHemicycleLayout() {
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
-        groups.add(new ParliamentaryGroup(1, RED_MAGENTA_GREEN, "Red/Magenta/Green"));
-        groups.add(new ParliamentaryGroup(2, BLUE, "Blue"));
-        SeatingPlan plan = new SeatingPlan(groups);
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(1, RED_MAGENTA_GREEN, "Red/Magenta/Green"),
+                new ParliamentaryGroup(2, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);

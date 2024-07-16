@@ -1,8 +1,6 @@
 package net.filipvanlaenen.shecc;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import net.filipvanlaenen.shecc.export.SeatingPlanExporter;
 
@@ -35,8 +33,7 @@ public class CommandLineInterface {
     /**
      * Main entry point for the command-line interface.
      *
-     * @param args
-     *            The arguments from the command-line.
+     * @param args The arguments from the command-line.
      */
     public static void main(final String... args) {
         System.out.println(new CommandLineInterface().perform(args));
@@ -45,8 +42,7 @@ public class CommandLineInterface {
     /**
      * Parses a string representing a hexadecimal integer into an integer.
      *
-     * @param s
-     *            The string to be parsed.
+     * @param s The string to be parsed.
      * @return An integer.
      */
     private static int parseHexadecimal(final String s) {
@@ -56,15 +52,14 @@ public class CommandLineInterface {
     /**
      * Performs the action requested from the command-line.
      *
-     * @param args
-     *            The arguments from the command-line.
+     * @param args The arguments from the command-line.
      * @return Whatever was requested by the user from the command-line.
      */
     String perform(final String... args) {
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String groupsDefinition = parseArgumentsAndReturnGroupsDefinitionString(exporter, args);
         String[] groupdefinitions = groupsDefinition.split(",");
-        List<ParliamentaryGroup> groups = new ArrayList<ParliamentaryGroup>();
+        ParliamentaryGroup[] groups = new ParliamentaryGroup[groupdefinitions.length];
         boolean atLeastOneNamePresent = false;
         for (int i = 0; i < groupdefinitions.length; i++) {
             String[] attributes = groupdefinitions[i].split("\\.");
@@ -74,7 +69,7 @@ public class CommandLineInterface {
             String name = attributes.length > NAME_INDEX ? attributes[NAME_INDEX] : null;
             atLeastOneNamePresent |= name != null && !name.isEmpty();
             String character = attributes.length > CHARACTER_INDEX ? attributes[CHARACTER_INDEX] : null;
-            groups.add(new ParliamentaryGroup(size, colors, name, character));
+            groups[i] = new ParliamentaryGroup(size, colors, name, character);
         }
         SeatingPlan plan = new SeatingPlan(groups);
         exporter.setDisplayLegend(atLeastOneNamePresent);
@@ -82,13 +77,10 @@ public class CommandLineInterface {
     }
 
     /**
-     * Parses all arguments and sets them on the exporter, and returns the argument
-     * containing the groups definitions.
+     * Parses all arguments and sets them on the exporter, and returns the argument containing the groups definitions.
      *
-     * @param exporter
-     *            The exporter on which to apply the arguments.
-     * @param args
-     *            The arguments from the command-line.
+     * @param exporter The exporter on which to apply the arguments.
+     * @param args     The arguments from the command-line.
      * @return The argument with the groups definition.
      */
     private String parseArgumentsAndReturnGroupsDefinitionString(final SeatingPlanExporter exporter,

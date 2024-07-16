@@ -432,10 +432,13 @@ public class SeatingPlanExporter extends Exporter {
             double x = seatPosition.getX();
             double y = seatPosition.getY();
             SeatStatus seatStatus = plan.getSeatStatus(seatNumber);
-            addDecoratedCircleOrSectors(hemicycleGrouping, x, -y, seatRadius, parliamentaryGroup.getColors(),
-                    seatStatus);
             String character = parliamentaryGroup.getCharacter();
-            if (character != null) {
+            if (character == null) {
+                addDecoratedCircleOrSectors(hemicycleGrouping, x, -y, seatRadius, parliamentaryGroup.getColors(),
+                        seatStatus);
+            } else {
+                G seatGroup = new G();
+                addDecoratedCircleOrSectors(seatGroup, x, -y, seatRadius, parliamentaryGroup.getColors(), seatStatus);
                 Text text = new Text(character).x(x).y(-y + seatRadius * FONT_SIZE_FACTOR_TO_CENTER_VERTICALLY)
                         .fontSize(seatRadius).fill(ColorKeyword.WHITE).textAnchor(TextAnchorValue.MIDDLE);
                 if (seatStatus == SeatStatus.CERTAIN) {
@@ -450,7 +453,8 @@ public class SeatingPlanExporter extends Exporter {
                 if (fontFamily != null) {
                     text.fontFamily(fontFamily);
                 }
-                hemicycleGrouping.addElement(text);
+                seatGroup.addElement(text);
+                hemicycleGrouping.addElement(seatGroup);
             }
             seatNumber += 1;
         }

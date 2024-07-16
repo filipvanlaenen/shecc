@@ -1,21 +1,15 @@
 package net.filipvanlaenen.shecc;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import net.filipvanlaenen.kolektoj.SortedCollection;
 
 /**
  *
- * Class defining the layout of a hemicycle. The layout is defined by the angle
- * of the hemicycle, the ratio between the inner and the outer radius, and the
- * number of mandates. By default, the angle is half a circle (π rad or 180°),
- * and the ratio is two thirds.
+ * Class defining the layout of a hemicycle. The layout is defined by the angle of the hemicycle, the ratio between the
+ * inner and the outer radius, and the number of mandates. By default, the angle is half a circle (π rad or 180°), and
+ * the ratio is two thirds.
  *
  */
 public class HemicycleLayout {
-
     /**
      * The default value for the angle of the hemicycle, set to π (180°).
      */
@@ -27,8 +21,7 @@ public class HemicycleLayout {
     private static final double MAX_ANGLE = Math.PI * 2D;
 
     /**
-     * The default ratio between the inner and the outer radius for the hemicycle,
-     * set to a third.
+     * The default ratio between the inner and the outer radius for the hemicycle, set to a third.
      */
     private static final double DEFAULT_RADIUS_RATIO = 1.0D / 3.0D;
 
@@ -53,22 +46,19 @@ public class HemicycleLayout {
     private final double radiusRatio;
 
     /**
-     * The number of rows. This field is calculated and set through lazy
-     * initialization.
+     * The number of rows. This field is calculated and set through lazy initialization.
      */
     private int noOfRows;
 
     /**
-     * The list with seat positions, sorted. This field is calculated and set
-     * through lazy initialization.
+     * The sorted collection with seat positions. This field is calculated and set through lazy initialization.
      */
-    private List<SeatPosition> seatPositionList;
+    private SortedCollection<SeatPosition> seatPositions;
 
     /**
      * Constructs a hemicycle layout with a number of seats only.
      *
-     * @param noOfSeats
-     *            The number of seats in the hemicycle.
+     * @param noOfSeats The number of seats in the hemicycle.
      */
     public HemicycleLayout(final int noOfSeats) {
         this(noOfSeats, DEFAULT_ANGLE);
@@ -77,10 +67,8 @@ public class HemicycleLayout {
     /**
      * Constructs a hemicycle layout with a number of seats and an angle.
      *
-     * @param noOfSeats
-     *            The number of seats in the hemicycle.
-     * @param angle
-     *            The angle for the hemicycle.
+     * @param noOfSeats The number of seats in the hemicycle.
+     * @param angle     The angle for the hemicycle.
      */
     public HemicycleLayout(final int noOfSeats, final double angle) {
         this(noOfSeats, angle, DEFAULT_RADIUS_RATIO);
@@ -89,12 +77,9 @@ public class HemicycleLayout {
     /**
      * Constructs a hemicycle layout with a number of seats and an angle.
      *
-     * @param noOfSeats
-     *            The number of seats in the hemicycle.
-     * @param angle
-     *            The angle for the hemicycle.
-     * @param radiusRatio
-     *            The ratio between the inner and the outer radius of the hemicycle.
+     * @param noOfSeats   The number of seats in the hemicycle.
+     * @param angle       The angle for the hemicycle.
+     * @param radiusRatio The ratio between the inner and the outer radius of the hemicycle.
      */
     HemicycleLayout(final int noOfSeats, final double angle, final double radiusRatio) {
         if (noOfSeats <= 0) {
@@ -142,8 +127,7 @@ public class HemicycleLayout {
     }
 
     /**
-     * Calculates the number of rows for the optimal distribution of seats for the
-     * hemicycle layout.
+     * Calculates the number of rows for the optimal distribution of seats for the hemicycle layout.
      *
      * @return The number of rows.
      */
@@ -164,8 +148,7 @@ public class HemicycleLayout {
     }
 
     /**
-     * Returns the number of rows for the optimal distribution of seats for the
-     * hemicycle layout.
+     * Returns the number of rows for the optimal distribution of seats for the hemicycle layout.
      *
      * @return The number of rows.
      */
@@ -177,12 +160,12 @@ public class HemicycleLayout {
     }
 
     /**
-     * Calculates an unordered set with the seat positions.
+     * Calculates a sorted collection with the seat positions.
      *
-     * @return A set with all the seat positions.
+     * @return A sorted collection with the seat positions.
      */
-    private Set<SeatPosition> calculateSeatPositionSet() {
-        Set<SeatPosition> seatPositions = new HashSet<SeatPosition>();
+    private SortedCollection<SeatPosition> calculateSeatPositions() {
+        SeatPosition[] seatPositionArray = new SeatPosition[noOfSeats];
         int thisNoOfRows = getNoOfRows();
         double width = (1.0D - radiusRatio) / thisNoOfRows;
         double[] length = new double[thisNoOfRows];
@@ -205,6 +188,7 @@ public class HemicycleLayout {
             seats[row] += 1;
             quote[row] = length[row] / (seats[row] + 1);
         }
+        int seatNumber = 0;
         for (int row = 1; row <= thisNoOfRows; row++) {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
             double rescale = length[row - 1] / (width * seats[row - 1]);
@@ -213,54 +197,32 @@ public class HemicycleLayout {
                 if (seatAngle < 0D) {
                     seatAngle += Math.PI * 2D;
                 }
-                seatPositions.add(new SeatPosition(rowRadius, seatAngle));
+                seatPositionArray[seatNumber++] = new SeatPosition(rowRadius, seatAngle);
             }
         }
-        return seatPositions;
-    }
-
-    /**
-     * Calculates a sorted list with the seat positions.
-     *
-     * @return A sorted list with the seat positions.
-     */
-    private List<SeatPosition> calculateSeatPositionList() {
-        Set<SeatPosition> set = calculateSeatPositionSet();
-        List<SeatPosition> list = new ArrayList<SeatPosition>(set);
-        Collections.sort(list, new SeatPositionInHemicycleComparator());
-        return list;
-    }
-
-    /**
-     * Returns a sorted list with the seat positions.
-     *
-     * @return A sorted list with the seat positions.
-     */
-    private List<SeatPosition> getSeatPositionList() {
-        if (seatPositionList == null) {
-            seatPositionList = calculateSeatPositionList();
-        }
-        return seatPositionList;
+        return SortedCollection.of(new SeatPositionInHemicycleComparator(), seatPositionArray);
     }
 
     /**
      * Returns the seat position at index i.
      *
-     * @param i
-     *            The index of the requested seat position
+     * @param i The index of the requested seat position
      * @return The seat position at index i.
      */
     public SeatPosition getSeatPosition(final int i) {
-        return getSeatPositionList().get(i);
+        return getSeatPositions().getAt(i);
     }
 
     /**
-     * Returns an unmodifiable list with all the seat positions.
+     * Returns a sorted collection with the seat positions.
      *
-     * @return An unmodifiable list with all the seat positions.
+     * @return A sorted collection with the seat positions.
      */
-    public List<SeatPosition> getSeatPositions() {
-        return Collections.unmodifiableList(getSeatPositionList());
+    public SortedCollection<SeatPosition> getSeatPositions() {
+        if (seatPositions == null) {
+            seatPositions = calculateSeatPositions();
+        }
+        return seatPositions;
     }
 
     /**
@@ -273,9 +235,8 @@ public class HemicycleLayout {
     }
 
     /**
-     * Returns the total width of the hemicycle layout. If the angle of the
-     * hemicycle is π or more, the width is two. Otherwise, the width is twice the
-     * sine of half the angle (2*sin(α/2)).
+     * Returns the total width of the hemicycle layout. If the angle of the hemicycle is π or more, the width is two.
+     * Otherwise, the width is twice the sine of half the angle (2*sin(α/2)).
      *
      * @return The total width.
      */
@@ -284,9 +245,8 @@ public class HemicycleLayout {
     }
 
     /**
-     * Returns the total height of the hemicycle layout. If the angle of the
-     * hemicycle is π or less, the height is one. Otherwise. the height is one plus
-     * the sine of half the angle minus π (1 + sin((α-π)/2)).
+     * Returns the total height of the hemicycle layout. If the angle of the hemicycle is π or less, the height is one.
+     * Otherwise. the height is one plus the sine of half the angle minus π (1 + sin((α-π)/2)).
      *
      * @return The total height.
      */

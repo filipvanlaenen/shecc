@@ -163,18 +163,23 @@ public class HemicycleLayout {
     private SortedCollection<SeatPosition> calculateSeatPositions() {
         SeatPosition[] seatPositionArray = new SeatPosition[noOfSeats];
         int thisNoOfRows = getNoOfRows();
-        double rowWidth = (1.0D - radiusRatio) / thisNoOfRows;
+        double rowWidth = getRowWidth();
         int[] numberOfSeatsOnRow = calculateNumberOfSeatsPerRow();
         int seatNumber = 0;
         for (int row = 1; row <= thisNoOfRows; row++) {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * rowWidth;
-            double anglePerSeat = angle / numberOfSeatsOnRow[row - 1];
-            for (int seat = 0; seat < numberOfSeatsOnRow[row - 1]; seat++) {
-                double seatAngle = Math.PI / 2D + anglePerSeat * (seat + (1D - numberOfSeatsOnRow[row - 1]) / 2D);
-                if (seatAngle < 0D) {
-                    seatAngle += Math.PI * 2D;
+            int numberOfSeatsOnThisRow = numberOfSeatsOnRow[row - 1];
+            if (numberOfSeatsOnThisRow == 1) {
+                seatPositionArray[seatNumber++] = new SeatPosition(rowRadius, Math.PI / 2D);
+            } else {
+                double anglePerSeat = angle / numberOfSeatsOnThisRow;
+                for (int seat = 0; seat < numberOfSeatsOnThisRow; seat++) {
+                    double seatAngle = Math.PI / 2D + anglePerSeat * (seat + (1D - numberOfSeatsOnThisRow) / 2D);
+                    if (seatAngle < 0D) {
+                        seatAngle += Math.PI * 2D;
+                    }
+                    seatPositionArray[seatNumber++] = new SeatPosition(rowRadius, seatAngle);
                 }
-                seatPositionArray[seatNumber++] = new SeatPosition(rowRadius, seatAngle);
             }
         }
         return SortedCollection.of(new SeatPositionInHemicycleComparator(), seatPositionArray);

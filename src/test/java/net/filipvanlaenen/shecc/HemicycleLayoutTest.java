@@ -71,17 +71,9 @@ class HemicycleLayoutTest {
      */
     private static final double FOUR = 4D;
     /**
-     * Quarter of π. Can e.g. be used as a test angle.
-     */
-    private static final double QUARTER_PI = Math.PI / 4D;
-    /**
      * Half of π. Can e.g. be used as a test angle.
      */
     private static final double HALF_PI = Math.PI / 2D;
-    /**
-     * Three quarters of π. Can e.g. be used as a test angle.
-     */
-    private static final double THREE_QUARTERS_OF_PI = 0.75D * Math.PI;
     /**
      * 2π. Can e.g. used to test a boundary condition depending on the number 2π.
      */
@@ -324,19 +316,19 @@ class HemicycleLayoutTest {
     }
 
     /**
-     * Test verifying that if there are two seats in the default layout, the position of the first seat is at angle
-     * 3*π/4 and radius 2/3.
+     * Test verifying that if there are two seats in the default layout, the position of the first seat is at angle π
+     * and radius 2/3.
      */
     @Test
     void firstOfTwoSeatsInDefaultLayoutIsPositionedInTheMiddleOfTheLeftSideOfTheHemicycle() {
         HemicycleLayout layout = new HemicycleLayout(2);
         SeatPosition seatPosition = layout.getSeatPosition(0);
         assertEquals(TWO_THIRDS, seatPosition.radius(), DOUBLE_DELTA);
-        assertEquals(THREE_QUARTERS_OF_PI, seatPosition.angle(), DOUBLE_DELTA);
+        assertEquals(Math.PI, seatPosition.angle(), DOUBLE_DELTA);
     }
 
     /**
-     * Test verifying that if there are two seats in the default layout, the position of the second seat is at angle π/4
+     * Test verifying that if there are two seats in the default layout, the position of the second seat is at angle 0
      * and radius 2/3.
      */
     @Test
@@ -344,31 +336,31 @@ class HemicycleLayoutTest {
         HemicycleLayout layout = new HemicycleLayout(2);
         SeatPosition seatPosition = layout.getSeatPosition(1);
         assertEquals(TWO_THIRDS, seatPosition.radius(), DOUBLE_DELTA);
-        assertEquals(QUARTER_PI, seatPosition.angle(), DOUBLE_DELTA);
+        assertEquals(0D, seatPosition.angle(), DOUBLE_DELTA);
     }
 
     /**
      * Test verifying that if there are two seats in a layout with the default radius ratio, but an angle of 2, the
-     * position of the first seat is at angle π/2 + 1/2 and radius 2/3.
+     * position of the first seat is at angle π/2 + 1 and radius 2/3.
      */
     @Test
     void firstOfTwoSeatsInLayoutWithAngleTwoIsPositionedInTheMiddleOfTheLeftSideOfTheHemicycle() {
         HemicycleLayout layout = new HemicycleLayout(2, 2D);
         SeatPosition seatPosition = layout.getSeatPosition(0);
         assertEquals(TWO_THIRDS, seatPosition.radius(), DOUBLE_DELTA);
-        assertEquals(HALF_PI + A_HALF, seatPosition.angle(), DOUBLE_DELTA);
+        assertEquals(HALF_PI + 1D, seatPosition.angle(), DOUBLE_DELTA);
     }
 
     /**
      * Test verifying that if there are two seats in a layout with the default angle, but a radius ratio of 0.5, the
-     * position of the first seat is at angle 3*π/4 and radius 3/4.
+     * position of the first seat is at angle π and radius 3/4.
      */
     @Test
     void firstOfTwoSeatsInLayoutWithRadiusRatioAHalfIsPositionedInTheMiddleOfTheLeftSideOfTheHemicycle() {
         HemicycleLayout layout = new HemicycleLayout(2, Math.PI, A_HALF);
         SeatPosition seatPosition = layout.getSeatPosition(0);
         assertEquals(THREE_QUARTERS, seatPosition.radius(), DOUBLE_DELTA);
-        assertEquals(THREE_QUARTERS_OF_PI, seatPosition.angle(), DOUBLE_DELTA);
+        assertEquals(Math.PI, seatPosition.angle(), DOUBLE_DELTA);
     }
 
     /**

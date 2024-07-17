@@ -166,15 +166,16 @@ public class HemicycleLayout {
         double rowWidth = getRowWidth();
         int[] numberOfSeatsOnRow = calculateNumberOfSeatsPerRow();
         int seatNumber = 0;
+        double firstSeatAngle = (Math.PI - angle) / 2D;
         for (int row = 1; row <= thisNoOfRows; row++) {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * rowWidth;
             int numberOfSeatsOnThisRow = numberOfSeatsOnRow[row - 1];
             if (numberOfSeatsOnThisRow == 1) {
                 seatPositionArray[seatNumber++] = new SeatPosition(rowRadius, Math.PI / 2D);
             } else {
-                double anglePerSeat = angle / numberOfSeatsOnThisRow;
+                double anglePerSeat = angle / (numberOfSeatsOnThisRow - 1);
                 for (int seat = 0; seat < numberOfSeatsOnThisRow; seat++) {
-                    double seatAngle = Math.PI / 2D + anglePerSeat * (seat + (1D - numberOfSeatsOnThisRow) / 2D);
+                    double seatAngle = firstSeatAngle + anglePerSeat * seat;
                     if (seatAngle < 0D) {
                         seatAngle += Math.PI * 2D;
                     }

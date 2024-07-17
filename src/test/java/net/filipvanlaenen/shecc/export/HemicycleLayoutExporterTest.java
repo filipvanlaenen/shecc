@@ -37,9 +37,9 @@ public class HemicycleLayoutExporterTest {
         String actual = exporter.export(layout);
         String expected = "<svg height=\"1100\" viewBox=\"-1.05 -1.05 2.1 1.1\" width=\"2100\""
                 + " xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <circle cx=\"-0.57735\" cy=\"-0.333333\" fill=\"grey\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"-0.666667\" cy=\"-0\" fill=\"grey\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"grey\" r=\"0.3\"/>\n"
-                + "  <circle cx=\"0.57735\" cy=\"-0.333333\" fill=\"grey\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.666667\" cy=\"-0\" fill=\"grey\" r=\"0.3\"/>\n"
                 + "  <text fill=\"black\" font-size=\"0.021\" text-anchor=\"end\""
                 + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
                 + "</svg>";
@@ -57,9 +57,9 @@ public class HemicycleLayoutExporterTest {
         String actual = exporter.export(layout);
         String expected = "<svg height=\"1100\" viewBox=\"-1.049983 -1.05 2.099966 1.1\" width=\"2099.966403\""
                 + " xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <circle cx=\"-0.576058\" cy=\"-0.335562\" fill=\"grey\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"-0.666655\" cy=\"-0.003864\" fill=\"grey\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"grey\" r=\"0.3\"/>\n"
-                + "  <circle cx=\"0.576058\" cy=\"-0.335562\" fill=\"grey\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.666655\" cy=\"-0.003864\" fill=\"grey\" r=\"0.3\"/>\n"
                 + "  <text fill=\"black\" font-size=\"0.021\" text-anchor=\"end\""
                 + " transform=\"rotate(270 1.049983,-1.05)\" x=\"1.039483\" y=\"-1.0605\">Chart produced using"
                 + " SHecC</text>\n" + "</svg>";
@@ -77,9 +77,9 @@ public class HemicycleLayoutExporterTest {
         String actual = exporter.export(layout);
         String expected = "<svg height=\"1104.203661\" viewBox=\"-1.05 -1.05 2.1 1.104204\" width=\"2100\""
                 + " xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <circle cx=\"-0.578282\" cy=\"-0.331714\" fill=\"grey\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"-0.666661\" cy=\"0.002802\" fill=\"grey\" r=\"0.3\"/>\n"
                 + "  <circle cx=\"0\" cy=\"-0.666667\" fill=\"grey\" r=\"0.3\"/>\n"
-                + "  <circle cx=\"0.578282\" cy=\"-0.331714\" fill=\"grey\" r=\"0.3\"/>\n"
+                + "  <circle cx=\"0.666661\" cy=\"0.002802\" fill=\"grey\" r=\"0.3\"/>\n"
                 + "  <text fill=\"black\" font-size=\"0.021\" text-anchor=\"end\""
                 + " transform=\"rotate(270 1.05,-1.05)\" x=\"1.0395\" y=\"-1.0605\">Chart produced using SHecC</text>\n"
                 + "</svg>";

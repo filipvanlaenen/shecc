@@ -129,11 +129,14 @@ public class HemicycleLayout {
      * @param rowLengths
      * @return
      */
-    private int[] calculateNumberOfSeatsPerRow(final double[] rowLengths) {
+    private int[] calculateNumberOfSeatsPerRow() {
         int thisNoOfRows = getNoOfRows();
+        double width = (1.0D - radiusRatio) / thisNoOfRows;
+        double[] rowRadii = new double[thisNoOfRows];
         double[] quote = new double[thisNoOfRows];
         for (int row = 1; row <= thisNoOfRows; row++) {
-            quote[row - 1] = rowLengths[row - 1];
+            rowRadii[row - 1] = radiusRatio + ((double) row - ONE_HALF) * width;
+            quote[row - 1] = rowRadii[row - 1];
         }
         int[] seats = new int[thisNoOfRows];
         for (int seat = 1; seat <= noOfSeats; seat++) {
@@ -146,20 +149,9 @@ public class HemicycleLayout {
                 }
             }
             seats[row] += 1;
-            quote[row] = rowLengths[row] / (seats[row] + 1);
+            quote[row] = rowRadii[row] / (seats[row] + 1);
         }
         return seats;
-    }
-
-    private double[] calculateRowLengths() {
-        int thisNoOfRows = getNoOfRows();
-        double width = (1.0D - radiusRatio) / thisNoOfRows;
-        double[] length = new double[thisNoOfRows];
-        for (int row = 1; row <= thisNoOfRows; row++) {
-            double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
-            length[row - 1] = rowRadius * angle;
-        }
-        return length;
     }
 
     /**
@@ -172,15 +164,13 @@ public class HemicycleLayout {
         SeatPosition[] seatPositionArray = new SeatPosition[noOfSeats];
         int thisNoOfRows = getNoOfRows();
         double rowWidth = (1.0D - radiusRatio) / thisNoOfRows;
-        double[] rowLengths = calculateRowLengths();
-        int[] numberOfSeatsOnRow = calculateNumberOfSeatsPerRow(rowLengths);
+        int[] numberOfSeatsOnRow = calculateNumberOfSeatsPerRow();
         int seatNumber = 0;
         for (int row = 1; row <= thisNoOfRows; row++) {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * rowWidth;
-            double rescale = rowLengths[row - 1] / numberOfSeatsOnRow[row - 1];
+            double anglePerSeat = angle / numberOfSeatsOnRow[row - 1];
             for (int seat = 0; seat < numberOfSeatsOnRow[row - 1]; seat++) {
-                double seatAngle =
-                        Math.PI / 2D + rescale * (seat + (1D - numberOfSeatsOnRow[row - 1]) / 2D) / rowRadius;
+                double seatAngle = Math.PI / 2D + anglePerSeat * (seat + (1D - numberOfSeatsOnRow[row - 1]) / 2D);
                 if (seatAngle < 0D) {
                     seatAngle += Math.PI * 2D;
                 }

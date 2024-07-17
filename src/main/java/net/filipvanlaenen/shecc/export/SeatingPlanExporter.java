@@ -447,7 +447,7 @@ public class SeatingPlanExporter extends Exporter {
                     text.fill(parliamentaryGroup.getColors()[0]);
                 }
                 if (rotateLetters) {
-                    double letterAngle = STRAIGHT_ANGLE * (Math.PI / 2D - seatPosition.getAngle()) / Math.PI;
+                    double letterAngle = STRAIGHT_ANGLE * (Math.PI / 2D - seatPosition.angle()) / Math.PI;
                     text.transform(Transform.rotate(letterAngle, x, -y));
                 }
                 if (fontFamily != null) {

@@ -104,12 +104,39 @@ class HemicycleLayoutTest {
     }
 
     /**
-     * Test verifying that if no angle is set, π is used as the default value.
+     * Verifies that for 40 seats, the default angle is π.
      */
     @Test
-    void piShouldBeDefaultAngle() {
-        HemicycleLayout layout = new HemicycleLayout(1);
+    void getAngleShouldReturnPiForFortySeats() {
+        HemicycleLayout layout = new HemicycleLayout(40);
         assertEquals(Math.PI, layout.getAngle());
+    }
+
+    /**
+     * Verifies that for 39 seats, the default angle is π * 39 / 40.
+     */
+    @Test
+    void getAngleShouldReturnScaledPiForLessThanFortySeats() {
+        HemicycleLayout layout = new HemicycleLayout(39);
+        assertEquals(Math.PI * 39 / 40, layout.getAngle());
+    }
+
+    /**
+     * Verifies that for 5 seats, the default angle is π * 5 / 40.
+     */
+    @Test
+    void getAngleShouldReturnScaledPiDownToFiveSeats() {
+        HemicycleLayout layout = new HemicycleLayout(5);
+        assertEquals(Math.PI * 5 / 40, layout.getAngle());
+    }
+
+    /**
+     * Verifies that for 4 seats, the default angle is still π * 5 / 40.
+     */
+    @Test
+    void getAngleShouldReturnMinimalAngleForLessThanFiveSeats() {
+        HemicycleLayout layout = new HemicycleLayout(4);
+        assertEquals(Math.PI * 5 / 40, layout.getAngle());
     }
 
     /**
@@ -186,20 +213,20 @@ class HemicycleLayoutTest {
     }
 
     /**
-     * Test verifying that the number of rows is one for one seat using the default layout.
+     * Test verifying that the number of rows is one for one seat and angle π.
      */
     @Test
     void noOfRowsIsOneForOneSeatUsingTheDefaultLayout() {
-        HemicycleLayout layout = new HemicycleLayout(1);
+        HemicycleLayout layout = new HemicycleLayout(1, Math.PI);
         assertEquals(1, layout.getNoOfRows());
     }
 
     /**
-     * Test verifying that the number of rows is one for two seats using the default layout.
+     * Test verifying that the number of rows is one for two seats and angle π.
      */
     @Test
     void noOfRowsIsOneForTwoSeatsUsingTheDefaultLayout() {
-        HemicycleLayout layout = new HemicycleLayout(2);
+        HemicycleLayout layout = new HemicycleLayout(2, Math.PI);
         assertEquals(1, layout.getNoOfRows());
     }
 
@@ -222,11 +249,11 @@ class HemicycleLayoutTest {
     }
 
     /**
-     * Test verifying that the number of rows is one for three seats using the default layout.
+     * Test verifying that the number of rows is one for three seats and angle π.
      */
     @Test
     void noOfRowsIsOneForThreeSeatsUsingTheDefaultLayout() {
-        HemicycleLayout layout = new HemicycleLayout(THREE);
+        HemicycleLayout layout = new HemicycleLayout(THREE, Math.PI);
         assertEquals(1, layout.getNoOfRows());
     }
 
@@ -277,11 +304,12 @@ class HemicycleLayoutTest {
     }
 
     /**
-     * Test verifying that the row width is the full width of the hemicycle when there's only one row.
+     * Test verifying that the row width is the full width of the hemicycle when there's only one row and the angle is
+     * π.
      */
     @Test
     void rowWidthIsTwoThirdsUsingTheDefaultLayoutForOneSeat() {
-        HemicycleLayout layout = new HemicycleLayout(1);
+        HemicycleLayout layout = new HemicycleLayout(1, Math.PI);
         assertEquals(TWO_THIRDS, layout.getRowWidth(), DOUBLE_DELTA);
     }
 
@@ -304,36 +332,36 @@ class HemicycleLayoutTest {
     }
 
     /**
-     * Test verifying that if there is only one seat in the default layout, the position of the seat is at angle π/2 and
+     * Test verifying that if there is only one seat and the angle is π, the position of the seat is at angle π/2 and
      * radius 2/3.
      */
     @Test
     void singleSeatInDefaultLayoutIsPositionedInTheMiddle() {
-        HemicycleLayout layout = new HemicycleLayout(1);
+        HemicycleLayout layout = new HemicycleLayout(1, Math.PI);
         SeatPosition seatPosition = layout.getSeatPosition(0);
         assertEquals(TWO_THIRDS, seatPosition.radius(), DOUBLE_DELTA);
         assertEquals(HALF_PI, seatPosition.angle(), DOUBLE_DELTA);
     }
 
     /**
-     * Test verifying that if there are two seats in the default layout, the position of the first seat is at angle π
-     * and radius 2/3.
+     * Test verifying that if there are two seats and the angle is π, the position of the first seat is at angle π and
+     * radius 2/3.
      */
     @Test
     void firstOfTwoSeatsInDefaultLayoutIsPositionedInTheMiddleOfTheLeftSideOfTheHemicycle() {
-        HemicycleLayout layout = new HemicycleLayout(2);
+        HemicycleLayout layout = new HemicycleLayout(2, Math.PI);
         SeatPosition seatPosition = layout.getSeatPosition(0);
         assertEquals(TWO_THIRDS, seatPosition.radius(), DOUBLE_DELTA);
         assertEquals(Math.PI, seatPosition.angle(), DOUBLE_DELTA);
     }
 
     /**
-     * Test verifying that if there are two seats in the default layout, the position of the second seat is at angle 0
-     * and radius 2/3.
+     * Test verifying that if there are two seats and the angle is π, the position of the second seat is at angle 0 and
+     * radius 2/3.
      */
     @Test
     void secondOfTwoSeatsInDefaultLayoutIsPositionedInTheMiddleOfTheRightSideOfTheHemicycle() {
-        HemicycleLayout layout = new HemicycleLayout(2);
+        HemicycleLayout layout = new HemicycleLayout(2, Math.PI);
         SeatPosition seatPosition = layout.getSeatPosition(1);
         assertEquals(TWO_THIRDS, seatPosition.radius(), DOUBLE_DELTA);
         assertEquals(0D, seatPosition.angle(), DOUBLE_DELTA);

@@ -61,7 +61,7 @@ public class HemicycleLayout {
      * @param noOfSeats The number of seats in the hemicycle.
      */
     public HemicycleLayout(final int noOfSeats) {
-        this(noOfSeats, DEFAULT_ANGLE);
+        this(noOfSeats, null);
     }
 
     /**
@@ -70,7 +70,7 @@ public class HemicycleLayout {
      * @param noOfSeats The number of seats in the hemicycle.
      * @param angle     The angle for the hemicycle.
      */
-    public HemicycleLayout(final int noOfSeats, final double angle) {
+    public HemicycleLayout(final int noOfSeats, final Double angle) {
         this(noOfSeats, angle, DEFAULT_RADIUS_RATIO);
     }
 
@@ -81,16 +81,20 @@ public class HemicycleLayout {
      * @param angle       The angle for the hemicycle.
      * @param radiusRatio The ratio between the inner and the outer radius of the hemicycle.
      */
-    HemicycleLayout(final int noOfSeats, final double angle, final double radiusRatio) {
+    HemicycleLayout(final int noOfSeats, final Double angle, final double radiusRatio) {
         if (noOfSeats <= 0) {
             throw new IllegalArgumentException("The number of seats in a hemicycle should be strictly positive.");
         }
         this.noOfSeats = noOfSeats;
-        if (angle <= 0.0D || angle > MAX_ANGLE) {
-            throw new IllegalArgumentException(
-                    "The angle of an hemicycle should be strictly positive but not greater than 2π.");
+        if (angle == null) {
+            this.angle = Math.min(DEFAULT_ANGLE, DEFAULT_ANGLE * Math.max(5, noOfSeats) / 40D);
+        } else {
+            if (angle <= 0.0D || angle > MAX_ANGLE) {
+                throw new IllegalArgumentException(
+                        "The angle of an hemicycle should be strictly positive but not greater than 2π.");
+            }
+            this.angle = angle;
         }
-        this.angle = angle;
         if (radiusRatio <= 0.0D || radiusRatio >= 1.0D) {
             throw new IllegalArgumentException(
                     "The ratio between the inner and the outer radius of an hemicycle should be strictly between 0 "
@@ -196,13 +200,16 @@ public class HemicycleLayout {
     }
 
     /**
-     * Returns the total height of the hemicycle layout. If the angle of the hemicycle is π or less, the height is one.
-     * Otherwise. the height is one plus the sine of half the angle minus π (1 + sin((α-π)/2)).
+     * Returns the total height of the hemicycle layout. For the calculation, the hemicycle is extended with a block
+     * half the width of a row, and both the height at the inner and the outer edge are calculated.
      *
      * @return The total height.
      */
     public double getHeight() {
-        return getAngle() < Math.PI ? 1D : 1D + Math.sin((getAngle() - Math.PI) / 2D);
+        double extensionHeight = getRowWidth() * Math.sin(angle / 2D);
+        double outerHeight = 1D - Math.cos(angle / 2D) + extensionHeight;
+        double innerHeight = 1D - radiusRatio * Math.cos(angle / 2D) + extensionHeight;
+        return Math.max(outerHeight, innerHeight);
     }
 
     /**
@@ -267,12 +274,12 @@ public class HemicycleLayout {
     }
 
     /**
-     * Returns the total width of the hemicycle layout. If the angle of the hemicycle is π or more, the width is two.
-     * Otherwise, the width is twice the sine of half the angle (2*sin(α/2)).
-     *
+     * Returns the total width of the hemicycle layout. For the calculation, the hemicycle is extended with a block half
+     * the width of a row.
+     * 
      * @return The total width.
      */
     public double getWidth() {
-        return getAngle() < Math.PI ? 2D * Math.sin(getAngle() / 2D) : 2D;
+        return angle < Math.PI ? 2D * (Math.sin(angle / 2D) + getRowWidth() * Math.cos(angle / 2D)) : 2D;
     }
 }

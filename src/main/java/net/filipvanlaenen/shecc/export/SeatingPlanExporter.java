@@ -67,9 +67,9 @@ public class SeatingPlanExporter extends Exporter {
     private static final double TITLE_MARGIN = 0.05D;
 
     /**
-     * The angle of the hemicycle in degrees, default 180°.
+     * The angle of the hemicycle.
      */
-    private double angle = STRAIGHT_ANGLE;
+    private Double angle;
     /**
      * The background color as an integer.
      */
@@ -106,7 +106,7 @@ public class SeatingPlanExporter extends Exporter {
      * @return A string representing the seating plan in SVG.
      */
     public String export(final SeatingPlan plan) {
-        HemicycleLayout layout = new HemicycleLayout(plan.getNoOfSeats(), Math.PI * angle / STRAIGHT_ANGLE);
+        HemicycleLayout layout = new HemicycleLayout(plan.getNoOfSeats(), angle);
         double layoutWidth = layout.getWidth();
         double layoutHalfWidth = layoutWidth / 2D;
         double width = layoutWidth + 2 * EDGES_MARGIN;
@@ -679,12 +679,12 @@ public class SeatingPlanExporter extends Exporter {
     }
 
     /**
-     * Specifies the angle of the hemicycle in degrees.
+     * Specifies the angle of the hemicycle.
      *
-     * @param angle The angle of the hemicycle in degrees.
+     * @param angle The angle of the hemicycle.
      */
     public void setAngle(final double angle) {
-        this.angle = angle;
+        this.angle = Math.PI * angle / STRAIGHT_ANGLE;
     }
 
     /**

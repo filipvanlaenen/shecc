@@ -387,7 +387,7 @@ class HemicycleLayoutTest {
      */
     @Test
     void widthIsTwiceTheSinceOfHalfTheAngleWhenAngleIsLessThanPi() {
-        HemicycleLayout layout = new HemicycleLayout(1, THREE);
+        HemicycleLayout layout = new HemicycleLayout(1, 3D);
         assertEquals(2D * Math.sin(ONE_AND_A_HALF), layout.getWidth());
     }
 

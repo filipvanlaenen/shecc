@@ -280,6 +280,7 @@ public class HemicycleLayout {
      * @return The total width.
      */
     public double getWidth() {
+        // EQMU: Changing the conditional boundary below produces an equivalent mutant.
         return angle < Math.PI ? 2D * Math.sin(angle / 2D) + getRowWidth() * Math.cos(angle / 2D) : 2D;
     }
 }

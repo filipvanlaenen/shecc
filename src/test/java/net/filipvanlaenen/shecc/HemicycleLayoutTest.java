@@ -47,10 +47,6 @@ class HemicycleLayoutTest {
      */
     private static final double JUST_ABOVE_FOUR_FIFTHS = 0.81D;
     /**
-     * The magic number one and a half.
-     */
-    private static final double ONE_AND_A_HALF = 1.5D;
-    /**
      * Just below two. Can e.g. used to test a boundary condition depending on the number two.
      */
     private static final double JUST_BELOW_TWO = 1.99D;

@@ -130,30 +130,29 @@ public class HemicycleLayout {
      * The seats are distributed across the rows such that the sections that a seat occupies on a row are as low as
      * possible.
      * 
-     * @param rowLengths
-     * @return
+     * @return An array with the number of seats for each row.
      */
     private int[] calculateNumberOfSeatsPerRow() {
         int thisNoOfRows = getNoOfRows();
         double width = (1.0D - radiusRatio) / thisNoOfRows;
         double[] rowRadii = new double[thisNoOfRows];
-        double[] quote = new double[thisNoOfRows];
+        double[] nextSeatArc = new double[thisNoOfRows];
         for (int row = 1; row <= thisNoOfRows; row++) {
             rowRadii[row - 1] = radiusRatio + ((double) row - ONE_HALF) * width;
-            quote[row - 1] = rowRadii[row - 1];
+            nextSeatArc[row - 1] = 2D * rowRadii[row - 1];
         }
         int[] seats = new int[thisNoOfRows];
         for (int seat = 1; seat <= noOfSeats; seat++) {
-            int row = 0;
-            double highestQuote = quote[0];
-            for (int i = 1; i < thisNoOfRows; i++) {
-                if (quote[i] > highestQuote) {
-                    row = i;
-                    highestQuote = quote[i];
+            int bestRow = 1;
+            double highestQuote = nextSeatArc[0];
+            for (int row = 2; row <= thisNoOfRows; row++) {
+                if (nextSeatArc[row - 1] > highestQuote) {
+                    bestRow = row;
+                    highestQuote = nextSeatArc[row - 1];
                 }
             }
-            seats[row] += 1;
-            quote[row] = rowRadii[row] / (seats[row] + 1);
+            seats[bestRow - 1] += 1;
+            nextSeatArc[bestRow - 1] = rowRadii[bestRow - 1] / seats[bestRow - 1];
         }
         return seats;
     }
@@ -181,6 +180,7 @@ public class HemicycleLayout {
                 for (int seat = 0; seat < numberOfSeatsOnThisRow; seat++) {
                     double seatAngle = firstSeatAngle + anglePerSeat * seat;
                     if (seatAngle < 0D) {
+                        // EQMU: Replacing double addition with subtraction below produces an equivalent mutant.
                         seatAngle += Math.PI * 2D;
                     }
                     seatPositionArray[seatNumber++] = new SeatPosition(rowRadius, seatAngle);

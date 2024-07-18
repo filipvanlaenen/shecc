@@ -374,39 +374,42 @@ class HemicycleLayoutTest {
     }
 
     /**
-     * Test verifying that the width of the hemicycle layout is two when the angle is π or greater.
+     * Verifies that when the angle is less than π, the width is calculated based on the inner edge.
      */
     @Test
-    void widthIsTwoWhenAngleIsPi() {
-        HemicycleLayout layout = new HemicycleLayout(1);
+    void getWidthShouldCalculateWidthBasedOnOuterEdgeIfAngleIsLessThanPi() {
+        HemicycleLayout layout = new HemicycleLayout(1, HALF_PI);
+        assertEquals(2D * Math.sin(HALF_PI / 2D) + TWO_THIRDS * Math.cos(HALF_PI / 2D), layout.getWidth());
+    }
+
+    /**
+     * Verifies that when the angle is greater than π, the width is 2.
+     */
+    @Test
+    void getWidthShouldReturnTwoIfAngleIsGreaterThanPi() {
+        HemicycleLayout layout = new HemicycleLayout(1, Math.PI);
         assertEquals(2D, layout.getWidth());
     }
 
     /**
-     * Test verifying that the width of the hemicycle layout is 2*sin(angle/2) when the angle is less than π.
+     * Verifies that when the angle is less than π, the height is calculated based on the inner edge.
      */
     @Test
-    void widthIsTwiceTheSinceOfHalfTheAngleWhenAngleIsLessThanPi() {
-        HemicycleLayout layout = new HemicycleLayout(1, 3D);
-        assertEquals(2D * Math.sin(ONE_AND_A_HALF), layout.getWidth());
+    void getHeightShouldCalculateHeightBasedOnInnerEdgeIfAngleIsLessThanPi() {
+        HemicycleLayout layout = new HemicycleLayout(1, HALF_PI);
+        double extensionHeight = TWO_THIRDS * Math.sin(HALF_PI / 2D) / 2D;
+        double expected = 1D - A_THIRD * Math.cos(HALF_PI / 2D) + extensionHeight;
+        assertEquals(expected, layout.getHeight(), DOUBLE_DELTA);
     }
 
     /**
-     * Test verifying that the height of the hemicycle layout is one when the angle is π or less.
+     * Verifies that when the angle is greater than π, the height is calculated based on the outer edge.
      */
     @Test
-    void heightIsOneWhenAngleIsPi() {
-        HemicycleLayout layout = new HemicycleLayout(1);
-        assertEquals(1D, layout.getHeight());
-    }
-
-    /**
-     * Test verifying that the height of the hemicycle layout is 1 + sin((α-π)/2) when the angle is greater than π.
-     */
-    @Test
-    void heightIsCalculatedCorrectlyOneWhenAngleIsGreaterThanPi() {
+    void getHeightShouldCalculateHeightBasedOnOuterEdgeIfAngleIsGreaterThanPi() {
         HemicycleLayout layout = new HemicycleLayout(1, FOUR);
-        double expected = 1 + Math.sin(2D - HALF_PI);
+        double extensionHeight = TWO_THIRDS * Math.sin(FOUR / 2D) / 2D;
+        double expected = 1D - Math.cos(FOUR / 2D) + extensionHeight;
         assertEquals(expected, layout.getHeight(), DOUBLE_DELTA);
     }
 }

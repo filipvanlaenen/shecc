@@ -206,7 +206,7 @@ public class HemicycleLayout {
      * @return The total height.
      */
     public double getHeight() {
-        double extensionHeight = getRowWidth() * Math.sin(angle / 2D);
+        double extensionHeight = getRowWidth() * Math.sin(angle / 2D) / 2D;
         double outerHeight = 1D - Math.cos(angle / 2D) + extensionHeight;
         double innerHeight = 1D - radiusRatio * Math.cos(angle / 2D) + extensionHeight;
         return Math.max(outerHeight, innerHeight);
@@ -280,6 +280,6 @@ public class HemicycleLayout {
      * @return The total width.
      */
     public double getWidth() {
-        return angle < Math.PI ? 2D * (Math.sin(angle / 2D) + getRowWidth() * Math.cos(angle / 2D)) : 2D;
+        return angle < Math.PI ? 2D * Math.sin(angle / 2D) + getRowWidth() * Math.cos(angle / 2D) : 2D;
     }
 }

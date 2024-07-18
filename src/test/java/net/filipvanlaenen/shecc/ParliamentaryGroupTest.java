@@ -11,6 +11,10 @@ import org.junit.jupiter.api.Test;
  */
 public class ParliamentaryGroupTest {
     /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
      * Magic number for the color red.
      */
     private static final int RED = 0xFF0000;
@@ -49,7 +53,7 @@ public class ParliamentaryGroupTest {
      */
     @Test
     void differentiatedSizeIsWiredCorrectlyFromTheConstructorToTheGetter() {
-        DifferentiatedGroupSize differentiatedSize = new DifferentiatedGroupSize(1, 2, 3);
+        DifferentiatedGroupSize differentiatedSize = new DifferentiatedGroupSize(1, 2, THREE);
         ParliamentaryGroup parliamentaryGroup = new ParliamentaryGroup(differentiatedSize, RED);
         assertEquals(differentiatedSize, parliamentaryGroup.getSize());
     }

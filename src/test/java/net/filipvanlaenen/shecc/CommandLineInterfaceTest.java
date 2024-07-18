@@ -11,6 +11,14 @@ import net.filipvanlaenen.shecc.export.SeatingPlanExporter;
  */
 public class CommandLineInterfaceTest {
     /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
+     * The magic number one hundred fifty.
+     */
+    private static final int ONE_HUNDRED_FIFTY = 150;
+    /**
      * Magic number for the color blue.
      */
     private static final int BLUE = 0x0000FF;
@@ -18,6 +26,9 @@ public class CommandLineInterfaceTest {
      * Magic number for the color green.
      */
     private static final int GREEN = 0x00FF00;
+    /**
+     * Magic number for the color grey.
+     */
     private static final int GREY = 0x777777;
     /**
      * Magic number for the color magenta.
@@ -35,7 +46,13 @@ public class CommandLineInterfaceTest {
      * Magic number for the color white.
      */
     private static final int WHITE = 0xFFFFFF;
+    /**
+     * Magic number for the color yellow.
+     */
     private static final int YELLOW = 0xFFFF00;
+    /**
+     * A parliamentary group with one seat for the blue party.
+     */
     private static final ParliamentaryGroup ONE_BLUE = new ParliamentaryGroup(1, BLUE, "Blue", "B");
 
     /**
@@ -108,7 +125,7 @@ public class CommandLineInterfaceTest {
                 new SeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(1, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
-        exporter.setLegendLabelWidthRatio(3);
+        exporter.setLegendLabelWidthRatio(THREE);
         String expected = exporter.export(plan);
         assertEquals(expected, actual);
     }
@@ -122,7 +139,7 @@ public class CommandLineInterfaceTest {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("1:2:3.FF0000.Red.R,1:2.00FF00.Green.G,1.0000FF.Blue.B");
         SeatingPlan plan =
-                new SeatingPlan(new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, 3), RED, "Red", "R"),
+                new SeatingPlan(new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED, "Red", "R"),
                         new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2), GREEN, "Green", "G"), ONE_BLUE);
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
@@ -156,7 +173,7 @@ public class CommandLineInterfaceTest {
         String actual = cli.perform("1:2:3.FF0000:00FF00:777777.Red/Green/Grey.R,1:2.0000FF:FFFF00.Blue/Yellow.B,"
                 + "1.FF00FF:00FFFF.Pink/Magenta.P");
         SeatingPlan plan = new SeatingPlan(
-                new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, 3), new int[] {RED, GREEN, GREY},
+                new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), new int[] {RED, GREEN, GREY},
                         "Red/Green/Grey", "R"),
                 new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2), new int[] {BLUE, YELLOW}, "Blue/Yellow", "B"),
                 new ParliamentaryGroup(1, new int[] {PINK, MAGENTA}, "Pink/Magenta", "P"));
@@ -261,7 +278,7 @@ public class CommandLineInterfaceTest {
         SeatingPlan plan =
                 new SeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
-        exporter.setAngle(150);
+        exporter.setAngle(ONE_HUNDRED_FIFTY);
         String expected = exporter.export(plan);
         assertEquals(expected, actual);
     }

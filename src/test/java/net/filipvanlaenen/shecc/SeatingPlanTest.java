@@ -60,7 +60,7 @@ public class SeatingPlanTest {
     @Test
     void numberOfSeatsIsThreeForTwoRedSeatsAndOneBlueSeat() {
         SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
-        assertEquals(THREE, seatingPlan.getNoOfSeats());
+        assertEquals(THREE, seatingPlan.getNumberOfSeats());
     }
 
     /**

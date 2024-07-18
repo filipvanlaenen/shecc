@@ -14,42 +14,43 @@ public class HemicycleLayout {
      * The default value for the angle of the hemicycle, set to π (180°).
      */
     private static final double DEFAULT_ANGLE = Math.PI;
-
     /**
      * The maximal value for the angle of the hemicycle, set to 2π (360°).
      */
     private static final double MAX_ANGLE = Math.PI * 2D;
-
+    /**
+     * The minimal number of seats included in the calculation of the scaling angle.
+     */
+    private static final int MINIMAL_NUMBER_OF_SEATS_FOR_SCALING_ANGLE = 5;
+    /**
+     * The maximal number of seats included in the calculation of the scaling angle.
+     */
+    private static final int MAXIMAL_NUMBER_OF_SEATS_FOR_SCALING_ANGLE = 50;
     /**
      * The default ratio between the inner and the outer radius for the hemicycle, set to a third.
      */
     private static final double DEFAULT_RADIUS_RATIO = 1.0D / 3.0D;
-
     /**
      * The magic number one half.
      */
     private static final double ONE_HALF = 0.5D;
 
     /**
-     * The number of seats in the hemicycle.
-     */
-    private final int noOfSeats;
-
-    /**
      * The angle for the hemicycle.
      */
     private final double angle;
-
+    /**
+     * The number of rows. This field is calculated and set through lazy initialization.
+     */
+    private int numberOfRows;
+    /**
+     * The number of seats in the hemicycle.
+     */
+    private final int numberOfSeats;
     /**
      * The ratio between the inner and the outer radius of the hemicycle.
      */
     private final double radiusRatio;
-
-    /**
-     * The number of rows. This field is calculated and set through lazy initialization.
-     */
-    private int noOfRows;
-
     /**
      * The sorted collection with seat positions. This field is calculated and set through lazy initialization.
      */
@@ -85,9 +86,11 @@ public class HemicycleLayout {
         if (noOfSeats <= 0) {
             throw new IllegalArgumentException("The number of seats in a hemicycle should be strictly positive.");
         }
-        this.noOfSeats = noOfSeats;
+        this.numberOfSeats = noOfSeats;
         if (angle == null) {
-            this.angle = Math.min(DEFAULT_ANGLE, DEFAULT_ANGLE * Math.max(5, noOfSeats) / 40D);
+            double scalingAngle = DEFAULT_ANGLE * Math.max(MINIMAL_NUMBER_OF_SEATS_FOR_SCALING_ANGLE, noOfSeats)
+                    / MAXIMAL_NUMBER_OF_SEATS_FOR_SCALING_ANGLE;
+            this.angle = Math.min(DEFAULT_ANGLE, scalingAngle);
         } else {
             if (angle <= 0.0D || angle > MAX_ANGLE) {
                 throw new IllegalArgumentException(
@@ -108,17 +111,17 @@ public class HemicycleLayout {
      *
      * @return The number of rows.
      */
-    int calculateNumberOfRows() {
+    private int calculateNumberOfRows() {
         int n = 0;
         while (true) {
             n += 1;
-            double width = (1.0D - radiusRatio) / n;
-            int s = 0;
+            double rowWidth = (1.0D - radiusRatio) / n;
+            int maximumNumberOfSeats = 0;
             for (int row = 1; row <= n; row++) {
-                double rowRadius = radiusRatio + ((double) row - ONE_HALF) * width;
-                s += (int) (angle * rowRadius / width);
+                double rowRadius = radiusRatio + ((double) row - ONE_HALF) * rowWidth;
+                maximumNumberOfSeats += Math.ceil(angle * rowRadius / rowWidth);
             }
-            if (s >= noOfSeats) {
+            if (maximumNumberOfSeats >= numberOfSeats) {
                 return n;
             }
         }
@@ -129,23 +132,24 @@ public class HemicycleLayout {
      *
      * The seats are distributed across the rows such that the sections that a seat occupies on a row are as low as
      * possible.
-     * 
+     *
      * @return An array with the number of seats for each row.
      */
     private int[] calculateNumberOfSeatsPerRow() {
-        int thisNoOfRows = getNoOfRows();
+        int thisNoOfRows = getNumberOfRows();
         double width = (1.0D - radiusRatio) / thisNoOfRows;
         double[] rowRadii = new double[thisNoOfRows];
         double[] nextSeatArc = new double[thisNoOfRows];
         for (int row = 1; row <= thisNoOfRows; row++) {
             rowRadii[row - 1] = radiusRatio + ((double) row - ONE_HALF) * width;
-            nextSeatArc[row - 1] = 2D * rowRadii[row - 1];
+            nextSeatArc[row - 1] = rowRadii[row - 1] * 2D;
         }
         int[] seats = new int[thisNoOfRows];
-        for (int seat = 1; seat <= noOfSeats; seat++) {
+        for (int seat = 1; seat <= numberOfSeats; seat++) {
             int bestRow = 1;
             double highestQuote = nextSeatArc[0];
             for (int row = 2; row <= thisNoOfRows; row++) {
+                // EQMU: Changing the conditional boundary below produces an equivalent mutant.
                 if (nextSeatArc[row - 1] > highestQuote) {
                     bestRow = row;
                     highestQuote = nextSeatArc[row - 1];
@@ -164,8 +168,8 @@ public class HemicycleLayout {
      * @return A sorted collection with the seat positions.
      */
     private SortedCollection<SeatPosition> calculateSeatPositions() {
-        SeatPosition[] seatPositionArray = new SeatPosition[noOfSeats];
-        int thisNoOfRows = getNoOfRows();
+        SeatPosition[] seatPositionArray = new SeatPosition[numberOfSeats];
+        int thisNoOfRows = getNumberOfRows();
         double rowWidth = getRowWidth();
         int[] numberOfSeatsOnRow = calculateNumberOfSeatsPerRow();
         int seatNumber = 0;
@@ -217,20 +221,11 @@ public class HemicycleLayout {
      *
      * @return The number of rows.
      */
-    public int getNoOfRows() {
-        if (noOfRows == 0) {
-            noOfRows = calculateNumberOfRows();
+    public int getNumberOfRows() {
+        if (numberOfRows == 0) {
+            numberOfRows = calculateNumberOfRows();
         }
-        return noOfRows;
-    }
-
-    /**
-     * Returns the number of seats in the hemicycle.
-     *
-     * @return The number of seats in the hemicycle.
-     */
-    int getNoOfSeats() {
-        return noOfSeats;
+        return numberOfRows;
     }
 
     /**
@@ -248,7 +243,7 @@ public class HemicycleLayout {
      * @return The row width.
      */
     public double getRowWidth() {
-        return (1D - getRadiusRatio()) / getNoOfRows();
+        return (1D - radiusRatio) / getNumberOfRows();
     }
 
     /**
@@ -276,7 +271,7 @@ public class HemicycleLayout {
     /**
      * Returns the total width of the hemicycle layout. For the calculation, the hemicycle is extended with a block half
      * the width of a row.
-     * 
+     *
      * @return The total width.
      */
     public double getWidth() {

@@ -25,6 +25,10 @@ import net.filipvanlaenen.tsvgj.Transform;
  */
 public class SeatingPlanExporter extends Exporter {
     /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
+    /**
      * The magic number 180 for a straight angle.
      */
     private static final double STRAIGHT_ANGLE = 180D;
@@ -106,7 +110,7 @@ public class SeatingPlanExporter extends Exporter {
      * @return A string representing the seating plan in SVG.
      */
     public String export(final SeatingPlan plan) {
-        HemicycleLayout layout = new HemicycleLayout(plan.getNoOfSeats(), angle);
+        HemicycleLayout layout = new HemicycleLayout(plan.getNumberOfSeats(), angle);
         double layoutWidth = layout.getWidth();
         double layoutHalfWidth = layoutWidth / 2D;
         double width = layoutWidth + 2 * EDGES_MARGIN;
@@ -162,7 +166,7 @@ public class SeatingPlanExporter extends Exporter {
                 legendSlotIndex += 1;
             }
             if (plan.hasUncertainSeats()) {
-                double seatStatuslegendSlotWidth = layoutWidth / 3D;
+                double seatStatuslegendSlotWidth = layoutWidth / THREE;
                 svg.addElement(createCertainSeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
                         noOfLegendRows));
                 svg.addElement(createLikelySeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,

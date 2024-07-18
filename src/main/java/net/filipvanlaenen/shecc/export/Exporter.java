@@ -10,8 +10,7 @@ import net.filipvanlaenen.tsvgj.TextAnchorValue;
 import net.filipvanlaenen.tsvgj.Transform;
 
 /**
- * Abstract superclass for exporter classes. Contains common methods shared by
- * all exporters.
+ * Abstract superclass for exporter classes. Contains common methods shared by all exporters.
  */
 abstract class Exporter {
     /**
@@ -39,8 +38,7 @@ abstract class Exporter {
     /**
      * Specifies the font color.
      *
-     * @param fontColor
-     *            The font color as an integer.
+     * @param fontColor The font color as an integer.
      */
     public void setFontColor(final Integer fontColor) {
         this.fontColor = fontColor;
@@ -49,27 +47,21 @@ abstract class Exporter {
     /**
      * Specifies the font family.
      *
-     * @param fontFamily
-     *            The name of the font family.
+     * @param fontFamily The name of the font family.
      */
     public void setFontFamily(final String fontFamily) {
         this.fontFamily = fontFamily;
     }
 
     /**
-     * Creates a copyright notice. If no custom notice is provided, only a message
-     * telling the chart was produced by SHecC will be created.
+     * Creates a copyright notice. If no custom notice is provided, only a message telling the chart was produced by
+     * SHecC will be created.
      *
-     * @param customNotice
-     *            Custom copyright notice.
-     * @param x
-     *            The x coordinate of the top right corner of the view box.
-     * @param y
-     *            The y coordinate of the top right corner of the view box.
-     * @param width
-     *            The width of the view box.
-     * @param height
-     *            The height of the view box.
+     * @param customNotice Custom copyright notice.
+     * @param x            The x coordinate of the top right corner of the view box.
+     * @param y            The y coordinate of the top right corner of the view box.
+     * @param width        The width of the view box.
+     * @param height       The height of the view box.
      * @return A text element containing the copyright notice.
      */
     protected Text createCopyrightNotice(final String customNotice, final double x, final double y, final double width,

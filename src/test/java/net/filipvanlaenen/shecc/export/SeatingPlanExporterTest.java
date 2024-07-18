@@ -53,13 +53,14 @@ public class SeatingPlanExporterTest {
         SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String actual = exporter.export(plan);
-        String expected =
-                "<svg height=\"789.3291\" viewBox=\"-0.326822 -1.05 0.653645 0.789329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                        + "  <g>\n" + "    <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n" + "  </g>\n"
-                        + "  <text fill=\"black\" font-size=\"0.007893\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.322876\" y=\"-1.053947\">Chart produced using SHecC</text>\n"
-                        + "</svg>";
+        String expected = "<svg height=\"788.15216\" viewBox=\"-0.316178 -1.05 0.632355 0.788152\" width=\"632.355228\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n"
+                + "    <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "    <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "  </g>\n"
+                + "  <text fill=\"black\" font-size=\"0.007882\" text-anchor=\"end\""
+                + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.312237\" y=\"-1.053941\">Chart produced using"
+                + " SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -73,20 +74,20 @@ public class SeatingPlanExporterTest {
                 new SeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String actual = exporter.export(plan);
-        String expected =
-                "<svg height=\"789.3291\" viewBox=\"-0.326822 -1.05 0.653645 0.789329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                        + "  <g>\n" + "    <g>\n"
-                        + "      <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.558333\">R</text>\n"
-                        + "    </g>\n" + "    <g>\n"
-                        + "      <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.725\">R</text>\n"
-                        + "    </g>\n" + "    <g>\n"
-                        + "      <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                        + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.891667\">B</text>\n"
-                        + "    </g>\n" + "  </g>\n"
-                        + "  <text fill=\"black\" font-size=\"0.007893\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.322876\" y=\"-1.053947\">Chart produced using SHecC</text>\n"
-                        + "</svg>";
+        String expected = "<svg height=\"788.15216\" viewBox=\"-0.316178 -1.05 0.632355 0.788152\" width=\"632.355228\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
+                + " y=\"-0.411111\">R</text>\n" + "    </g>\n" + "    <g>\n"
+                + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
+                + " y=\"-0.633333\">R</text>\n" + "    </g>\n" + "    <g>\n"
+                + "      <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
+                + " y=\"-0.855556\">B</text>\n" + "    </g>\n" + "  </g>\n"
+                + "  <text fill=\"black\" font-size=\"0.007882\" text-anchor=\"end\""
+                + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.312237\" y=\"-1.053941\">Chart produced using"
+                + " SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -102,20 +103,20 @@ public class SeatingPlanExporterTest {
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setRotateLetters(true);
         String actual = exporter.export(plan);
-        String expected =
-                "<svg height=\"789.3291\" viewBox=\"-0.326822 -1.05 0.653645 0.789329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                        + "  <g>\n" + "    <g>\n"
-                        + "      <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" transform=\"rotate(0 0,-0.583333)\" x=\"0\" y=\"-0.558333\">R</text>\n"
-                        + "    </g>\n" + "    <g>\n"
-                        + "      <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" transform=\"rotate(0 0,-0.75)\" x=\"0\" y=\"-0.725\">R</text>\n"
-                        + "    </g>\n" + "    <g>\n"
-                        + "      <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                        + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" transform=\"rotate(0 0,-0.916667)\" x=\"0\" y=\"-0.891667\">B</text>\n"
-                        + "    </g>\n" + "  </g>\n"
-                        + "  <text fill=\"black\" font-size=\"0.007893\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.322876\" y=\"-1.053947\">Chart produced using SHecC</text>\n"
-                        + "</svg>";
+        String expected = "<svg height=\"788.15216\" viewBox=\"-0.316178 -1.05 0.632355 0.788152\" width=\"632.355228\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\""
+                + " transform=\"rotate(0 0,-0.444444)\" x=\"0\" y=\"-0.411111\">R</text>\n" + "    </g>\n" + "    <g>\n"
+                + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\""
+                + " transform=\"rotate(0 0,-0.666667)\" x=\"0\" y=\"-0.633333\">R</text>\n" + "    </g>\n" + "    <g>\n"
+                + "      <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\""
+                + " transform=\"rotate(0 0,-0.888889)\" x=\"0\" y=\"-0.855556\">B</text>\n" + "    </g>\n" + "  </g>\n"
+                + "  <text fill=\"black\" font-size=\"0.007882\" text-anchor=\"end\""
+                + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.312237\" y=\"-1.053941\">Chart produced using"
+                + " SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -131,22 +132,20 @@ public class SeatingPlanExporterTest {
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
         String expected =
-                "<svg height=\"1239.3291\" viewBox=\"-0.326822 -1.05 0.653645 1.239329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <g>\n"
-                + "    <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "    <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "    <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "  </g>\n"
-                + "  <g>\n"
-                + "    <circle cx=\"-0.201822\" cy=\"-0.160671\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"-0.135671\">Red (2)</text>\n"
-                + "  </g>\n"
-                + "  <g>\n"
-                + "    <circle cx=\"-0.201822\" cy=\"0.064329\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"0.089329\">Blue (1)</text>\n"
-                + "  </g>\n"
-                + "  <text fill=\"black\" font-size=\"0.012393\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.320626\" y=\"-1.056197\">Chart produced using SHecC</text>\n"
-                + "</svg>";
+                "<svg height=\"1688.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.688152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "  </g>\n"
+                        + "  <g>\n" + "    <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n"
+                        + "    <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (1)</text>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-size=\"0.016882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -161,19 +160,21 @@ public class SeatingPlanExporterTest {
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
         String expected =
-                "<svg height=\"1239.3291\" viewBox=\"-0.326822 -1.05 0.653645 1.239329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                        + "  <g>\n" + "    <circle cx=\"-0.178833\" cy=\"-0.899053\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.75\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0.178833\" cy=\"-0.899053\" fill=\"#0000FF\" r=\"0.075\"/>\n" + "  </g>\n"
-                        + "  <g>\n" + "    <circle cx=\"-0.201822\" cy=\"-0.160671\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"-0.135671\">Red (2)</text>\n"
-                        + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.201822\" cy=\"0.064329\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"0.089329\">Blue (2)</text>\n"
-                        + "  </g>\n"
-                        + "  <text fill=\"black\" font-size=\"0.012393\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.320626\" y=\"-1.056197\">Chart produced using SHecC</text>\n"
-                        + "</svg>";
+                "<svg height=\"1688.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.688152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n"
+                        + "    <circle cx=\"-0.139053\" cy=\"-0.877945\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "  </g>\n"
+                        + "  <g>\n" + "    <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n"
+                        + "    <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (2)</text>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-size=\"0.016882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -189,19 +190,21 @@ public class SeatingPlanExporterTest {
         exporter.setLegendLabelWidthRatio(TEN);
         String actual = exporter.export(plan);
         String expected =
-                "<svg height=\"1464.3291\" viewBox=\"-0.326822 -1.05 0.653645 1.464329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                        + "  <g>\n" + "    <circle cx=\"-0.178833\" cy=\"-0.899053\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.75\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0.178833\" cy=\"-0.899053\" fill=\"#0000FF\" r=\"0.075\"/>\n" + "  </g>\n"
-                        + "  <g>\n" + "    <circle cx=\"-0.201822\" cy=\"-0.160671\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"-0.135671\">Red (2)</text>\n"
-                        + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.201822\" cy=\"0.064329\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"0.089329\">Blue (2)</text>\n"
-                        + "  </g>\n"
-                        + "  <text fill=\"black\" font-size=\"0.014643\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.319501\" y=\"-1.057322\">Chart produced using SHecC</text>\n"
-                        + "</svg>";
+                "<svg height=\"1988.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.988152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n"
+                        + "    <circle cx=\"-0.139053\" cy=\"-0.877945\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "  </g>\n"
+                        + "  <g>\n" + "    <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n"
+                        + "    <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (2)</text>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-size=\"0.019882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.306237\" y=\"-1.059941\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -216,22 +219,24 @@ public class SeatingPlanExporterTest {
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
         String expected =
-                "<svg height=\"1464.3291\" viewBox=\"-0.326822 -1.05 0.653645 1.464329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                        + "  <g>\n" + "    <circle cx=\"-0.178833\" cy=\"-0.899053\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.75\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0.178833\" cy=\"-0.899053\" fill=\"#FF00FF\" r=\"0.075\"/>\n" + "  </g>\n"
-                        + "  <g>\n" + "    <circle cx=\"-0.201822\" cy=\"-0.160671\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"-0.135671\">Red (2)</text>\n"
-                        + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.201822\" cy=\"0.064329\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"0.089329\">Blue (1)</text>\n"
-                        + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.201822\" cy=\"0.289329\" fill=\"#FF00FF\" r=\"0.075\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"0.314329\">Magenta (1)</text>\n"
-                        + "  </g>\n"
-                        + "  <text fill=\"black\" font-size=\"0.014643\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.319501\" y=\"-1.057322\">Chart produced using SHecC</text>\n"
-                        + "</svg>";
+                "<svg height=\"1988.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.988152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n"
+                        + "    <circle cx=\"-0.139053\" cy=\"-0.877945\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#FF00FF\" r=\"0.1\"/>\n" + "  </g>\n"
+                        + "  <g>\n" + "    <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n"
+                        + "    <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (1)</text>\n" + "  </g>\n" + "  <g>\n"
+                        + "    <circle cx=\"-0.166178\" cy=\"0.488152\" fill=\"#FF00FF\" r=\"0.1\"/>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.521485\">Magenta (1)</text>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-size=\"0.019882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.306237\" y=\"-1.059941\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -247,37 +252,30 @@ public class SeatingPlanExporterTest {
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
         String expected =
-                "<svg height=\"1239.3291\" viewBox=\"-0.326822 -1.05 0.653645 1.239329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.558333\">R</text>\n"
-                + "    </g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.725\">R</text>\n"
-                + "    </g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.891667\">B</text>\n"
-                + "    </g>\n"
-                + "  </g>\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"-0.201822\" cy=\"-0.160671\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"-0.201822\" y=\"-0.135671\">R</text>\n"
-                + "    </g>\n"
-                + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"-0.135671\">Red (2)</text>\n"
-                + "  </g>\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"-0.201822\" cy=\"0.064329\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"-0.201822\" y=\"0.089329\">B</text>\n"
-                + "    </g>\n"
-                + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"0.089329\">Blue (1)</text>\n"
-                + "  </g>\n"
-                + "  <text fill=\"black\" font-size=\"0.012393\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.320626\" y=\"-1.056197\">Chart produced using SHecC</text>\n"
-                + "</svg>";
+                "<svg height=\"1688.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.688152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
+                        + " y=\"-0.411111\">R</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
+                        + " y=\"-0.633333\">R</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
+                        + " y=\"-0.855556\">B</text>\n" + "    </g>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
+                        + " y=\"-0.078515\">R</text>\n" + "    </g>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
+                        + " y=\"0.221485\">B</text>\n" + "    </g>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (1)</text>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-size=\"0.016882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -295,37 +293,30 @@ public class SeatingPlanExporterTest {
         exporter.setFontFamily("Lato");
         String actual = exporter.export(plan);
         String expected =
-                "<svg height=\"1239.3291\" viewBox=\"-0.326822 -1.05 0.653645 1.239329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.558333\">R</text>\n"
-                + "    </g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.725\">R</text>\n"
-                + "    </g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.891667\">B</text>\n"
-                + "    </g>\n"
-                + "  </g>\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"-0.201822\" cy=\"-0.160671\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.075\" text-anchor=\"middle\" x=\"-0.201822\" y=\"-0.135671\">R</text>\n"
-                + "    </g>\n"
-                + "    <text fill=\"black\" font-family=\"Lato\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"-0.135671\">Red (2)</text>\n"
-                + "  </g>\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"-0.201822\" cy=\"0.064329\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.075\" text-anchor=\"middle\" x=\"-0.201822\" y=\"0.089329\">B</text>\n"
-                + "    </g>\n"
-                + "    <text fill=\"black\" font-family=\"Lato\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"0.089329\">Blue (1)</text>\n"
-                + "  </g>\n"
-                + "  <text fill=\"black\" font-family=\"Lato\" font-size=\"0.012393\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.320626\" y=\"-1.056197\">Chart produced using SHecC</text>\n"
-                + "</svg>";
+                "<svg height=\"1688.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.688152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"middle\""
+                        + " x=\"0\" y=\"-0.411111\">R</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"middle\""
+                        + " x=\"0\" y=\"-0.633333\">R</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"middle\""
+                        + " x=\"0\" y=\"-0.855556\">B</text>\n" + "    </g>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"middle\""
+                        + " x=\"-0.166178\" y=\"-0.078515\">R</text>\n" + "    </g>\n"
+                        + "    <text fill=\"black\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"start\""
+                        + " x=\"-0.016178\" y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"middle\""
+                        + " x=\"-0.166178\" y=\"0.221485\">B</text>\n" + "    </g>\n"
+                        + "    <text fill=\"black\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"start\""
+                        + " x=\"-0.016178\" y=\"0.221485\">Blue (1)</text>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-family=\"Lato\" font-size=\"0.016882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -343,37 +334,30 @@ public class SeatingPlanExporterTest {
         exporter.setFontColor(MAGENTA);
         String actual = exporter.export(plan);
         String expected =
-                "<svg height=\"1239.3291\" viewBox=\"-0.326822 -1.05 0.653645 1.239329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.558333\">R</text>\n"
-                + "    </g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.725\">R</text>\n"
-                + "    </g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"0\" y=\"-0.891667\">B</text>\n"
-                + "    </g>\n"
-                + "  </g>\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"-0.201822\" cy=\"-0.160671\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"-0.201822\" y=\"-0.135671\">R</text>\n"
-                + "    </g>\n"
-                + "    <text fill=\"#FF00FF\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"-0.135671\">Red (2)</text>\n"
-                + "  </g>\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <circle cx=\"-0.201822\" cy=\"0.064329\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "      <text fill=\"white\" font-size=\"0.075\" text-anchor=\"middle\" x=\"-0.201822\" y=\"0.089329\">B</text>\n"
-                + "    </g>\n"
-                + "    <text fill=\"#FF00FF\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"0.089329\">Blue (1)</text>\n"
-                + "  </g>\n"
-                + "  <text fill=\"#FF00FF\" font-size=\"0.012393\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.320626\" y=\"-1.056197\">Chart produced using SHecC</text>\n"
-                + "</svg>";
+                "<svg height=\"1688.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.688152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
+                        + " y=\"-0.411111\">R</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
+                        + " y=\"-0.633333\">R</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
+                        + " y=\"-0.855556\">B</text>\n" + "    </g>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
+                        + " y=\"-0.078515\">R</text>\n" + "    </g>\n"
+                        + "    <text fill=\"#FF00FF\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
+                        + " y=\"0.221485\">B</text>\n" + "    </g>\n"
+                        + "    <text fill=\"#FF00FF\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (1)</text>\n" + "  </g>\n"
+                        + "  <text fill=\"#FF00FF\" font-size=\"0.016882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -388,13 +372,14 @@ public class SeatingPlanExporterTest {
         exporter.setCustomCopyrightNotice("John Doe");
         String actual = exporter.export(plan);
         String year = new SimpleDateFormat("yyyy", Locale.US).format(new Date());
-        String expected =
-                "<svg height=\"789.3291\" viewBox=\"-0.326822 -1.05 0.653645 0.789329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                        + "  <g>\n" + "    <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n" + "  </g>\n"
-                        + "  <text fill=\"black\" font-size=\"0.007893\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.322876\" y=\"-1.053947\">© "
-                        + year + " John Doe, chart produced using SHecC</text>\n" + "</svg>";
+        String expected = "<svg height=\"788.15216\" viewBox=\"-0.316178 -1.05 0.632355 0.788152\" width=\"632.355228\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n"
+                + "    <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "    <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "  </g>\n"
+                + "  <text fill=\"black\" font-size=\"0.007882\" text-anchor=\"end\""
+                + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.312237\" y=\"-1.053941\">© " + year
+                + " John Doe, chart produced using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -408,14 +393,15 @@ public class SeatingPlanExporterTest {
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         String actual = exporter.export(plan);
-        String expected =
-                "<svg height=\"789.3291\" viewBox=\"-0.326822 -1.05 0.653645 0.789329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                        + "  <rect fill=\"#FFFFFF\" height=\"0.789329\" width=\"0.653645\" x=\"-0.326822\" y=\"-1.05\"/>\n"
-                        + "  <g>\n" + "    <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                        + "    <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n" + "  </g>\n"
-                        + "  <text fill=\"black\" font-size=\"0.007893\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.322876\" y=\"-1.053947\">Chart produced using SHecC</text>\n"
-                        + "</svg>";
+        String expected = "<svg height=\"788.15216\" viewBox=\"-0.316178 -1.05 0.632355 0.788152\" width=\"632.355228\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <rect fill=\"#FFFFFF\" height=\"0.788152\" width=\"0.632355\" x=\"-0.316178\" y=\"-1.05\"/>\n"
+                + "  <g>\n" + "    <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "    <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "  </g>\n"
+                + "  <text fill=\"black\" font-size=\"0.007882\" text-anchor=\"end\""
+                + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.312237\" y=\"-1.053941\">Chart produced using"
+                + " SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -430,17 +416,17 @@ public class SeatingPlanExporterTest {
         exporter.setBackgroundColor(WHITE);
         exporter.setTitle("Lorem Ipsum");
         String actual = exporter.export(plan);
-        String expected =
-                "<svg height=\"889.3291\" viewBox=\"-0.326822 -1.15 0.653645 0.889329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <rect fill=\"#FFFFFF\" height=\"0.889329\" width=\"0.653645\" x=\"-0.326822\" y=\"-1.15\"/>\n"
-                + "  <text fill=\"black\" font-size=\"0.05\" font-weight=\"bold\" text-anchor=\"middle\" x=\"0\" y=\"-1.05\">Lorem Ipsum</text>\n"
-                + "  <g>\n"
-                + "    <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "    <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "    <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "  </g>\n"
-                + "  <text fill=\"black\" font-size=\"0.008893\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.15)\" x=\"0.322376\" y=\"-1.154447\">Chart produced using SHecC</text>\n"
-                + "</svg>";
+        String expected = "<svg height=\"888.15216\" viewBox=\"-0.316178 -1.15 0.632355 0.888152\" width=\"632.355228\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n"
+                + "  <rect fill=\"#FFFFFF\" height=\"0.888152\" width=\"0.632355\" x=\"-0.316178\" y=\"-1.15\"/>\n"
+                + "  <text fill=\"black\" font-size=\"0.05\" font-weight=\"bold\" text-anchor=\"middle\" x=\"0\""
+                + " y=\"-1.05\">Lorem Ipsum</text>\n" + "  <g>\n"
+                + "    <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "    <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "  </g>\n"
+                + "  <text fill=\"black\" font-size=\"0.008882\" text-anchor=\"end\""
+                + " transform=\"rotate(270 0.316178,-1.15)\" x=\"0.311737\" y=\"-1.154441\">Chart produced using"
+                + " SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -457,17 +443,20 @@ public class SeatingPlanExporterTest {
         exporter.setSubtitle("Dolor Sit Amet");
         String actual = exporter.export(plan);
         String expected =
-                "<svg height=\"974.3291\" viewBox=\"-0.326822 -1.235 0.653645 0.974329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <rect fill=\"#FFFFFF\" height=\"0.974329\" width=\"0.653645\" x=\"-0.326822\" y=\"-1.235\"/>\n"
-                + "  <text fill=\"black\" font-size=\"0.05\" font-weight=\"bold\" text-anchor=\"middle\" x=\"0\" y=\"-1.135\">Lorem Ipsum</text>\n"
-                + "  <text fill=\"black\" font-size=\"0.035\" font-weight=\"bold\" text-anchor=\"middle\" x=\"0\" y=\"-1.05\">Dolor Sit Amet</text>\n"
-                + "  <g>\n"
-                + "    <circle cx=\"0\" cy=\"-0.583333\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "    <circle cx=\"0\" cy=\"-0.75\" fill=\"#FF0000\" r=\"0.075\"/>\n"
-                + "    <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "  </g>\n"
-                + "  <text fill=\"black\" font-size=\"0.009743\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.235)\" x=\"0.321951\" y=\"-1.239872\">Chart produced using SHecC</text>\n"
-                + "</svg>";
+                "<svg height=\"973.15216\" viewBox=\"-0.316178 -1.235 0.632355 0.973152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n"
+                        + "  <rect fill=\"#FFFFFF\" height=\"0.973152\" width=\"0.632355\" x=\"-0.316178\""
+                        + " y=\"-1.235\"/>\n"
+                        + "  <text fill=\"black\" font-size=\"0.05\" font-weight=\"bold\" text-anchor=\"middle\""
+                        + " x=\"0\" y=\"-1.135\">Lorem Ipsum</text>\n"
+                        + "  <text fill=\"black\" font-size=\"0.035\" font-weight=\"bold\" text-anchor=\"middle\""
+                        + " x=\"0\" y=\"-1.05\">Dolor Sit Amet</text>\n" + "  <g>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-size=\"0.009732\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.235)\" x=\"0.311312\" y=\"-1.239866\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
@@ -483,30 +472,31 @@ public class SeatingPlanExporterTest {
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
         String expected =
-                "<svg height=\"1239.3291\" viewBox=\"-0.326822 -1.05 0.653645 1.239329\" width=\"653.644857\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <path d=\"M 0 -0.583333 L 0 -0.658333 A 0.075 0.075 0 0 1 0.064952 -0.545833 Z\" fill=\"#FF0000\"/>\n"
-                + "      <path d=\"M 0 -0.583333 L 0.064952 -0.545833 A 0.075 0.075 0 0 1 -0.064952 -0.545833 Z\" fill=\"#FF00FF\"/>\n"
-                + "      <path d=\"M 0 -0.583333 L -0.064952 -0.545833 A 0.075 0.075 0 0 1 0 -0.658333 Z\" fill=\"#00FF00\"/>\n"
-                + "    </g>\n"
-                + "    <circle cx=\"0\" cy=\"-0.75\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "    <circle cx=\"0\" cy=\"-0.916667\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "  </g>\n"
-                + "  <g>\n"
-                + "    <g>\n"
-                + "      <path d=\"M -0.201822 -0.160671 L -0.201822 -0.235671 A 0.075 0.075 0 0 1 -0.136871 -0.123171 Z\" fill=\"#FF0000\"/>\n"
-                + "      <path d=\"M -0.201822 -0.160671 L -0.136871 -0.123171 A 0.075 0.075 0 0 1 -0.266774 -0.123171 Z\" fill=\"#FF00FF\"/>\n"
-                + "      <path d=\"M -0.201822 -0.160671 L -0.266774 -0.123171 A 0.075 0.075 0 0 1 -0.201822 -0.235671 Z\" fill=\"#00FF00\"/>\n"
-                + "    </g>\n"
-                + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"-0.135671\">Red/Magenta/Green (1)</text>\n"
-                + "  </g>\n"
-                + "  <g>\n"
-                + "    <circle cx=\"-0.201822\" cy=\"0.064329\" fill=\"#0000FF\" r=\"0.075\"/>\n"
-                + "    <text fill=\"black\" font-size=\"0.075\" text-anchor=\"start\" x=\"-0.089322\" y=\"0.089329\">Blue (2)</text>\n"
-                + "  </g>\n"
-                + "  <text fill=\"black\" font-size=\"0.012393\" text-anchor=\"end\" transform=\"rotate(270 0.326822,-1.05)\" x=\"0.320626\" y=\"-1.056197\">Chart produced using SHecC</text>\n"
-                + "</svg>";
+                "<svg height=\"1688.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.688152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                        + "      <path d=\"M 0 -0.444444 L 0 -0.544444 A 0.1 0.1 0 0 1 0.086603 -0.394444 Z\""
+                        + " fill=\"#FF0000\"/>\n"
+                        + "      <path d=\"M 0 -0.444444 L 0.086603 -0.394444 A 0.1 0.1 0 0 1 -0.086603 -0.394444 Z\""
+                        + " fill=\"#FF00FF\"/>\n"
+                        + "      <path d=\"M 0 -0.444444 L -0.086603 -0.394444 A 0.1 0.1 0 0 1 0 -0.544444 Z\""
+                        + " fill=\"#00FF00\"/>\n" + "    </g>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "    <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "  </g>\n"
+                        + "  <g>\n" + "    <g>\n"
+                        + "      <path d=\"M -0.166178 -0.111848 L -0.166178 -0.211848 A 0.1 0.1 0 0 1 -0.079575"
+                        + " -0.061848 Z\" fill=\"#FF0000\"/>\n"
+                        + "      <path d=\"M -0.166178 -0.111848 L -0.079575 -0.061848 A 0.1 0.1 0 0 1 -0.25278"
+                        + " -0.061848 Z\" fill=\"#FF00FF\"/>\n"
+                        + "      <path d=\"M -0.166178 -0.111848 L -0.25278 -0.061848 A 0.1 0.1 0 0 1 -0.166178"
+                        + " -0.211848 Z\" fill=\"#00FF00\"/>\n" + "    </g>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red/Magenta/Green (1)</text>\n" + "  </g>\n" + "  <g>\n"
+                        + "    <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (2)</text>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-size=\"0.016882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 }

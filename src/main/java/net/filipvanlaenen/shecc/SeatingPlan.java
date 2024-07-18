@@ -15,7 +15,7 @@ public class SeatingPlan {
     /**
      * The total number of seats. This field is calculated and set through lazy initialization.
      */
-    private int noOfSeats;
+    private int numberOfSeats;
     /**
      * Whether or not the seating plan has likely or unlikely seats. This field is calculated and set through lazy
      * initialization.
@@ -69,11 +69,11 @@ public class SeatingPlan {
      *
      * @return The total number of seats.
      */
-    public int getNoOfSeats() {
-        if (noOfSeats == 0) {
-            noOfSeats = calculateNoOfSeats();
+    public int getNumberOfSeats() {
+        if (numberOfSeats == 0) {
+            numberOfSeats = calculateNoOfSeats();
         }
-        return noOfSeats;
+        return numberOfSeats;
     }
 
     /**
@@ -103,7 +103,7 @@ public class SeatingPlan {
      */
     public ParliamentaryGroup getParliamentaryGroupAtSeat(final int seatNumber) {
         if (seats == null) {
-            seats = new ParliamentaryGroup[getNoOfSeats()];
+            seats = new ParliamentaryGroup[getNumberOfSeats()];
         }
         if (seats[seatNumber] == null) {
             seats[seatNumber] = calculateParliamentaryGroupAtSeat(seatNumber);
@@ -119,7 +119,7 @@ public class SeatingPlan {
      */
     public SeatStatus getSeatStatus(final int seatNumber) {
         if (seatStatuses == null) {
-            seatStatuses = new SeatStatus[getNoOfSeats()];
+            seatStatuses = new SeatStatus[getNumberOfSeats()];
         }
         if (seatStatuses[seatNumber] == null) {
             seatStatuses[seatNumber] = calculateSeatStatus(seatNumber);
@@ -186,7 +186,7 @@ public class SeatingPlan {
      */
     private boolean calculateIfCertainSeatsArePositionedToTheLeft(final int startIndex,
             final DifferentiatedGroupSize size) {
-        return startIndex * 2 + size.getFullSize() < noOfSeats;
+        return startIndex * 2 + size.getFullSize() < numberOfSeats;
     }
 
     /**

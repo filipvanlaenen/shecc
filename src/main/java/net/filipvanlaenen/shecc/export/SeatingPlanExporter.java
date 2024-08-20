@@ -152,32 +152,62 @@ public class SeatingPlanExporter extends Exporter {
         }
         svg.addElement(createHemicycleGrouping(layout, plan, seatRadius));
         if (displayLegend) {
-            Iterator<ParliamentaryGroup> parliamentaryGroups = parliamentaryGroupsList.iterator();
-            int legendSlotIndex = 0;
-            int noOfSlotsPerLegendRow = noOfParliamentaryGroups / noOfParliamentaryGroupLegendRows;
-            if (noOfParliamentaryGroups % noOfParliamentaryGroupLegendRows > 0) {
-                noOfSlotsPerLegendRow += 1;
-            }
-            double legendSlotWidth = layoutWidth / noOfSlotsPerLegendRow;
-            while (parliamentaryGroups.hasNext()) {
-                G parliamentaryGroupGrouping = createLegendSlotGrouping(parliamentaryGroups.next(), layoutHalfWidth,
-                        hemicycleHeight, seatRadius, noOfParliamentaryGroups, noOfParliamentaryGroupLegendRows,
-                        legendSlotIndex, noOfSlotsPerLegendRow, legendSlotWidth);
-                svg.addElement(parliamentaryGroupGrouping);
-                legendSlotIndex += 1;
-            }
-            if (plan.hasUncertainSeats()) {
-                double seatStatuslegendSlotWidth = layoutWidth / THREE;
-                svg.addElement(createCertainSeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
-                        noOfLegendRows));
-                svg.addElement(createLikelySeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
-                        noOfLegendRows, seatStatuslegendSlotWidth));
-                svg.addElement(createUnlikelySeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius,
-                        noOfLegendRows, seatStatuslegendSlotWidth));
-            }
+            svg.addElement(createLegendGrouping(plan, layoutWidth, layoutHalfWidth, hemicycleHeight, seatRadius,
+                    parliamentaryGroupsList, noOfParliamentaryGroupLegendRows, noOfLegendRows));
         }
         svg.addElement(createCopyrightNotice(customCopyrightNotice, halfWidth, canvasTopEdge, width, canvasHeight));
         return svg.asString();
+    }
+
+    /**
+     * Creates a grouping with the legend.
+     *
+     * @param plan                             The seating plan for the hemicycle.
+     * @param layoutWidth                      The width of the layout.
+     * @param layoutHalfWidth                  Half of the width of the layout.
+     * @param hemicycleHeight                  The height of the hemicycle.
+     * @param seatRadius                       The seat radius.
+     * @param parliamentaryGroupsList          The parliamentary groups.
+     * @param noOfParliamentaryGroupLegendRows The number of legend rows for the parliamary groups.
+     * @param noOfLegendRows                   The number of legend rows.
+     * @return A grouping with the legend.
+     */
+    private G createLegendGrouping(final SeatingPlan plan, final double layoutWidth, final double layoutHalfWidth,
+            final double hemicycleHeight, final double seatRadius,
+            final OrderedCollection<ParliamentaryGroup> parliamentaryGroupsList,
+            final int noOfParliamentaryGroupLegendRows, final int noOfLegendRows) {
+        G parliamentaryGroupsLegendGrouping = new G();
+        Iterator<ParliamentaryGroup> parliamentaryGroups = parliamentaryGroupsList.iterator();
+        int legendSlotIndex = 0;
+        int noOfParliamentaryGroups = parliamentaryGroupsList.size();
+        int noOfSlotsPerLegendRow = noOfParliamentaryGroups / noOfParliamentaryGroupLegendRows;
+        if (noOfParliamentaryGroups % noOfParliamentaryGroupLegendRows > 0) {
+            noOfSlotsPerLegendRow += 1;
+        }
+        double legendSlotWidth = layoutWidth / noOfSlotsPerLegendRow;
+        while (parliamentaryGroups.hasNext()) {
+            G parliamentaryGroupGrouping = createLegendSlotGrouping(parliamentaryGroups.next(), layoutHalfWidth,
+                    hemicycleHeight, seatRadius, noOfParliamentaryGroups, noOfParliamentaryGroupLegendRows,
+                    legendSlotIndex, noOfSlotsPerLegendRow, legendSlotWidth);
+            parliamentaryGroupsLegendGrouping.addElement(parliamentaryGroupGrouping);
+            legendSlotIndex += 1;
+        }
+        if (plan.hasUncertainSeats()) {
+            G seatStatusLegendGrouping = new G();
+            double seatStatuslegendSlotWidth = layoutWidth / THREE;
+            seatStatusLegendGrouping.addElement(
+                    createCertainSeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight, seatRadius, noOfLegendRows));
+            seatStatusLegendGrouping.addElement(createLikelySeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight,
+                    seatRadius, noOfLegendRows, seatStatuslegendSlotWidth));
+            seatStatusLegendGrouping.addElement(createUnlikelySeatsLegendSlotGrouping(layoutHalfWidth, hemicycleHeight,
+                    seatRadius, noOfLegendRows, seatStatuslegendSlotWidth));
+            G legendGrouping = new G();
+            legendGrouping.addElement(parliamentaryGroupsLegendGrouping);
+            legendGrouping.addElement(seatStatusLegendGrouping);
+            return legendGrouping;
+        } else {
+            return parliamentaryGroupsLegendGrouping;
+        }
     }
 
     /**

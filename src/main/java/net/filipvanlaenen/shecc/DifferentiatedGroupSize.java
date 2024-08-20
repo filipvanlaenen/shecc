@@ -7,7 +7,7 @@ package net.filipvanlaenen.shecc;
  * @param median     The median for the number of seats of a group.
  * @param total      The total number of seats for a group.
  */
-record DifferentiatedGroupSize(int lowerBound, int median, int total) implements GroupSize {
+public record DifferentiatedGroupSize(int lowerBound, int median, int total) implements GroupSize {
     /**
      * Constructs a group size with a lower bound, a median and a total number of seats. The first number in the array
      * of integers specifies the lower bound for the group size, the second number the median, and if a third number is

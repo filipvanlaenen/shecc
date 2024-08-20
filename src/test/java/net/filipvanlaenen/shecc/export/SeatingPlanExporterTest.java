@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import net.filipvanlaenen.shecc.ParliamentaryGroup;
 import net.filipvanlaenen.shecc.SeatingPlan;
+import net.filipvanlaenen.shecc.DifferentiatedGroupSize;
 
 /**
  * Unit tests on the <code>SeatingPlanExporter</code> class.
@@ -39,6 +40,10 @@ public class SeatingPlanExporterTest {
      * Array representing the red/magenta color combination.
      */
     private static final int[] RED_MAGENTA_GREEN = new int[] {RED, MAGENTA, GREEN};
+    /**
+     * The magic number three.
+     */
+    private static final int THREE = 3;
     /**
      * The magic number ten.
      */
@@ -138,13 +143,13 @@ public class SeatingPlanExporterTest {
                         + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
                         + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
                         + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n"
-                        + "    </g>\n" + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"0.221485\">Blue (1)</text>\n" + "  </g>\n"
+                        + "    </g>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (1)</text>\n" + "    </g>\n" + "  </g>\n"
                         + "  <text fill=\"black\" font-size=\"0.016882\" text-anchor=\"end\""
                         + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
                         + " using SHecC</text>\n" + "</svg>";
@@ -168,13 +173,13 @@ public class SeatingPlanExporterTest {
                         + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
                         + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "      <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "    </g>\n"
-                        + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"0.221485\">Blue (2)</text>\n" + "  </g>\n"
+                        + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (2)</text>\n" + "    </g>\n" + "  </g>\n"
                         + "  <text fill=\"black\" font-size=\"0.016882\" text-anchor=\"end\""
                         + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
                         + " using SHecC</text>\n" + "</svg>";
@@ -199,13 +204,13 @@ public class SeatingPlanExporterTest {
                         + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
                         + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "      <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "    </g>\n"
-                        + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"0.221485\">Blue (2)</text>\n" + "  </g>\n"
+                        + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (2)</text>\n" + "    </g>\n" + "  </g>\n"
                         + "  <text fill=\"black\" font-size=\"0.019882\" text-anchor=\"end\""
                         + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.306237\" y=\"-1.059941\">Chart produced"
                         + " using SHecC</text>\n" + "</svg>";
@@ -230,16 +235,16 @@ public class SeatingPlanExporterTest {
                         + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "    </g>\n" + "    <g>\n"
                         + "      <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#FF00FF\" r=\"0.1\"/>\n" + "    </g>\n"
-                        + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"0.221485\">Blue (1)</text>\n" + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.166178\" cy=\"0.488152\" fill=\"#FF00FF\" r=\"0.1\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"0.521485\">Magenta (1)</text>\n" + "  </g>\n"
+                        + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (1)</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"0.488152\" fill=\"#FF00FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.521485\">Magenta (1)</text>\n" + "    </g>\n" + "  </g>\n"
                         + "  <text fill=\"black\" font-size=\"0.019882\" text-anchor=\"end\""
                         + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.306237\" y=\"-1.059941\">Chart produced"
                         + " using SHecC</text>\n" + "</svg>";
@@ -269,16 +274,17 @@ public class SeatingPlanExporterTest {
                         + "        <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "        <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
                         + " y=\"-0.855556\">B</text>\n" + "      </g>\n" + "    </g>\n" + "  </g>\n" + "  <g>\n"
-                        + "    <g>\n" + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
-                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
-                        + " y=\"-0.078515\">R</text>\n" + "    </g>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
-                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
-                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
-                        + " y=\"0.221485\">B</text>\n" + "    </g>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"0.221485\">Blue (1)</text>\n" + "  </g>\n"
+                        + "    <g>\n" + "      <g>\n"
+                        + "        <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "        <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
+                        + " y=\"-0.078515\">R</text>\n" + "      </g>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "    </g>\n" + "    <g>\n" + "      <g>\n"
+                        + "        <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "        <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
+                        + " y=\"0.221485\">B</text>\n" + "      </g>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (1)</text>\n" + "    </g>\n" + "  </g>\n"
                         + "  <text fill=\"black\" font-size=\"0.016882\" text-anchor=\"end\""
                         + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
                         + " using SHecC</text>\n" + "</svg>";
@@ -310,16 +316,18 @@ public class SeatingPlanExporterTest {
                         + "      <g>\n" + "        <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "        <text fill=\"white\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"middle\""
                         + " x=\"0\" y=\"-0.855556\">B</text>\n" + "      </g>\n" + "    </g>\n" + "  </g>\n" + "  <g>\n"
-                        + "    <g>\n" + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
-                        + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"middle\""
-                        + " x=\"-0.166178\" y=\"-0.078515\">R</text>\n" + "    </g>\n"
-                        + "    <text fill=\"black\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"start\""
-                        + " x=\"-0.016178\" y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
-                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
-                        + "      <text fill=\"white\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"middle\""
-                        + " x=\"-0.166178\" y=\"0.221485\">B</text>\n" + "    </g>\n"
-                        + "    <text fill=\"black\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"start\""
-                        + " x=\"-0.016178\" y=\"0.221485\">Blue (1)</text>\n" + "  </g>\n"
+                        + "    <g>\n" + "      <g>\n"
+                        + "        <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "        <text fill=\"white\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"middle\""
+                        + " x=\"-0.166178\" y=\"-0.078515\">R</text>\n" + "      </g>\n"
+                        + "      <text fill=\"black\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"start\""
+                        + " x=\"-0.016178\" y=\"-0.078515\">Red (2)</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <g>\n"
+                        + "        <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "        <text fill=\"white\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"middle\""
+                        + " x=\"-0.166178\" y=\"0.221485\">B</text>\n" + "      </g>\n"
+                        + "      <text fill=\"black\" font-family=\"Lato\" font-size=\"0.1\" text-anchor=\"start\""
+                        + " x=\"-0.016178\" y=\"0.221485\">Blue (1)</text>\n" + "    </g>\n" + "  </g>\n"
                         + "  <text fill=\"black\" font-family=\"Lato\" font-size=\"0.016882\" text-anchor=\"end\""
                         + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
                         + " using SHecC</text>\n" + "</svg>";
@@ -351,16 +359,17 @@ public class SeatingPlanExporterTest {
                         + "        <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "        <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0\""
                         + " y=\"-0.855556\">B</text>\n" + "      </g>\n" + "    </g>\n" + "  </g>\n" + "  <g>\n"
-                        + "    <g>\n" + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
-                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
-                        + " y=\"-0.078515\">R</text>\n" + "    </g>\n"
-                        + "    <text fill=\"#FF00FF\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"-0.078515\">Red (2)</text>\n" + "  </g>\n" + "  <g>\n" + "    <g>\n"
-                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
-                        + "      <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
-                        + " y=\"0.221485\">B</text>\n" + "    </g>\n"
-                        + "    <text fill=\"#FF00FF\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"0.221485\">Blue (1)</text>\n" + "  </g>\n"
+                        + "    <g>\n" + "      <g>\n"
+                        + "        <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "        <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
+                        + " y=\"-0.078515\">R</text>\n" + "      </g>\n"
+                        + "      <text fill=\"#FF00FF\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "    </g>\n" + "    <g>\n" + "      <g>\n"
+                        + "        <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "        <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
+                        + " y=\"0.221485\">B</text>\n" + "      </g>\n"
+                        + "      <text fill=\"#FF00FF\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (1)</text>\n" + "    </g>\n" + "  </g>\n"
                         + "  <text fill=\"#FF00FF\" font-size=\"0.016882\" text-anchor=\"end\""
                         + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
                         + " using SHecC</text>\n" + "</svg>";
@@ -489,20 +498,96 @@ public class SeatingPlanExporterTest {
                         + " fill=\"#00FF00\"/>\n" + "      </g>\n" + "    </g>\n" + "    <g>\n"
                         + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "      <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "    </g>\n"
-                        + "  </g>\n" + "  <g>\n" + "    <g>\n"
-                        + "      <path d=\"M -0.166178 -0.111848 L -0.166178 -0.211848 A 0.1 0.1 0 0 1 -0.079575"
+                        + "  </g>\n" + "  <g>\n" + "    <g>\n" + "      <g>\n"
+                        + "        <path d=\"M -0.166178 -0.111848 L -0.166178 -0.211848 A 0.1 0.1 0 0 1 -0.079575"
                         + " -0.061848 Z\" fill=\"#FF0000\"/>\n"
-                        + "      <path d=\"M -0.166178 -0.111848 L -0.079575 -0.061848 A 0.1 0.1 0 0 1 -0.25278"
+                        + "        <path d=\"M -0.166178 -0.111848 L -0.079575 -0.061848 A 0.1 0.1 0 0 1 -0.25278"
                         + " -0.061848 Z\" fill=\"#FF00FF\"/>\n"
-                        + "      <path d=\"M -0.166178 -0.111848 L -0.25278 -0.061848 A 0.1 0.1 0 0 1 -0.166178"
-                        + " -0.211848 Z\" fill=\"#00FF00\"/>\n" + "    </g>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"-0.078515\">Red/Magenta/Green (1)</text>\n" + "  </g>\n" + "  <g>\n"
-                        + "    <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
-                        + "    <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
-                        + " y=\"0.221485\">Blue (2)</text>\n" + "  </g>\n"
+                        + "        <path d=\"M -0.166178 -0.111848 L -0.25278 -0.061848 A 0.1 0.1 0 0 1 -0.166178"
+                        + " -0.211848 Z\" fill=\"#00FF00\"/>\n" + "      </g>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red/Magenta/Green (1)</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (2)</text>\n" + "    </g>\n" + "  </g>\n"
                         + "  <text fill=\"black\" font-size=\"0.016882\" text-anchor=\"end\""
                         + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying the export of a seating plan with two seats for the red group and one for the blue group using the
+     * default hemicycle layout to SVG.
+     */
+    @Test
+    void svgExportForThreeRedAndOneBlueSeatsInADefaultHemicycleLayout() {
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED),
+                new ParliamentaryGroup(1, BLUE));
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        String actual = exporter.export(plan);
+        String expected = "<svg height=\"788.15216\" viewBox=\"-0.316178 -1.05 0.632355 0.788152\" width=\"632.355228\""
+                + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                + "      <circle cx=\"-0.139053\" cy=\"-0.877945\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" fill-opacity=\"0.3\" r=\"0.09\""
+                + " stroke=\"#FF0000\" stroke-width=\"0.02\"/>\n"
+                + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"none\" r=\"0.09\" stroke=\"#FF0000\""
+                + " stroke-width=\"0.02\"/>\n" + "    </g>\n" + "    <g>\n"
+                + "      <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "    </g>\n"
+                + "  </g>\n" + "  <text fill=\"black\" font-size=\"0.007882\" text-anchor=\"end\""
+                + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.312237\" y=\"-1.053941\">Chart produced using"
+                + " SHecC</text>\n" + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying the export of a seating plan with two seats for the red group and one for the blue group using the
+     * default hemicycle layout to SVG.
+     */
+    @Test
+    void svgExportWithLegendForThreeRedAndOneBlueSeatsInADefaultHemicycleLayout() {
+        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED, "Red"),
+                new ParliamentaryGroup(1, BLUE, "Blue"));
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setDisplayLegend(true);
+        String actual = exporter.export(plan);
+        String expected =
+                "<svg height=\"1988.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.988152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.139053\" cy=\"-0.877945\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" fill-opacity=\"0.3\" r=\"0.09\""
+                        + " stroke=\"#FF0000\" stroke-width=\"0.02\"/>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"none\" r=\"0.09\" stroke=\"#FF0000\""
+                        + " stroke-width=\"0.02\"/>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "    </g>\n"
+                        + "  </g>\n" + "  <g>\n" + "    <g>\n" + "      <g>\n"
+                        + "        <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "        <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (3)</text>\n" + "      </g>\n" + "      <g>\n"
+                        + "        <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "        <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.221485\">Blue (1)</text>\n" + "      </g>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <g>\n" + "        <g>\n"
+                        + "          <circle cx=\"-0.166178\" cy=\"0.788152\" fill=\"#000000\" r=\"0.1\"/>\n"
+                        + "          <text fill=\"white\" font-size=\"0.1\" text-anchor=\"middle\" x=\"-0.166178\""
+                        + " y=\"0.821485\">X</text>\n" + "        </g>\n"
+                        + "        <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"0.821485\">Certain (P ≥ 97.5%)</text>\n" + "      </g>\n" + "      <g>\n"
+                        + "        <g>\n"
+                        + "          <circle cx=\"0.011274\" cy=\"0.788152\" fill=\"#000000\" fill-opacity=\"0.3\""
+                        + " r=\"0.09\" stroke=\"#000000\" stroke-width=\"0.02\"/>\n"
+                        + "          <text fill=\"black\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0.011274\""
+                        + " y=\"0.821485\">X</text>\n" + "        </g>\n"
+                        + "        <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"0.161274\""
+                        + " y=\"0.821485\">Likely (P ≥ 50%)</text>\n" + "      </g>\n" + "      <g>\n" + "        <g>\n"
+                        + "          <circle cx=\"0.188726\" cy=\"0.788152\" fill=\"none\" r=\"0.09\""
+                        + " stroke=\"#000000\" stroke-width=\"0.02\"/>\n"
+                        + "          <text fill=\"black\" font-size=\"0.1\" text-anchor=\"middle\" x=\"0.188726\""
+                        + " y=\"0.821485\">X</text>\n" + "        </g>\n"
+                        + "        <text fill=\"black\" font-size=\"0.1\" text-anchor=\"start\" x=\"0.338726\""
+                        + " y=\"0.821485\">Unlikely (P &lt; 50%)</text>\n" + "      </g>\n" + "    </g>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-size=\"0.019882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.306237\" y=\"-1.059941\">Chart produced"
                         + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }

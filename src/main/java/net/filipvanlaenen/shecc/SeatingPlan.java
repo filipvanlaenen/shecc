@@ -1,7 +1,5 @@
 package net.filipvanlaenen.shecc;
 
-import java.util.Iterator;
-
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
@@ -55,11 +53,10 @@ public class SeatingPlan {
      *
      * @return The total number of seats.
      */
-    private int calculateNoOfSeats() {
-        Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
+    private int calculateNumberOfSeats() {
         int total = 0;
-        while (iterator.hasNext()) {
-            total += iterator.next().getSize().getFullSize();
+        for (ParliamentaryGroup parliamentaryGroup : parliamentaryGroups) {
+            total += parliamentaryGroup.getSize().getFullSize();
         }
         return total;
     }
@@ -71,7 +68,7 @@ public class SeatingPlan {
      */
     public int getNumberOfSeats() {
         if (numberOfSeats == 0) {
-            numberOfSeats = calculateNoOfSeats();
+            numberOfSeats = calculateNumberOfSeats();
         }
         return numberOfSeats;
     }
@@ -83,13 +80,11 @@ public class SeatingPlan {
      * @return The parliamentary group sitting at the request seat number.
      */
     private ParliamentaryGroup calculateParliamentaryGroupAtSeat(final int seatNumber) {
-        Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
         int total = 0;
-        while (iterator.hasNext()) {
-            ParliamentaryGroup group = iterator.next();
-            total += group.getSize().getFullSize();
+        for (ParliamentaryGroup parliamentaryGroup : parliamentaryGroups) {
+            total += parliamentaryGroup.getSize().getFullSize();
             if (total > seatNumber) {
-                return group;
+                return parliamentaryGroup;
             }
         }
         return null;
@@ -192,19 +187,16 @@ public class SeatingPlan {
     /**
      * Calculates the start index of a parliamentary group in the hemicycle.
      *
-     * @param group The parliamentary group for which the start index has to be calculated.
+     * @param targetParliamentaryGroup The parliamentary group for which the start index has to be calculated.
      * @return The seat number of the first seat for the parliamentary group in the hemicycle.
      */
-    private int calculateStartIndexOfParliamentaryGroup(final ParliamentaryGroup group) {
-        Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
+    private int calculateStartIndexOfParliamentaryGroup(final ParliamentaryGroup targetParliamentaryGroup) {
         int total = 0;
-        boolean groupReached = false;
-        while (!groupReached && iterator.hasNext()) {
-            ParliamentaryGroup currentGroup = iterator.next();
-            if (currentGroup.equals(group)) {
-                groupReached = true;
+        for (ParliamentaryGroup parliamentaryGroup : parliamentaryGroups) {
+            if (parliamentaryGroup.equals(targetParliamentaryGroup)) {
+                return total;
             } else {
-                total += currentGroup.getSize().getFullSize();
+                total += parliamentaryGroup.getSize().getFullSize();
             }
         }
         return total;
@@ -216,9 +208,7 @@ public class SeatingPlan {
      * @return True if at least one of the parliamentary groups has a likely or unlikely seat.
      */
     private boolean calculateHasUncertainSeats() {
-        Iterator<ParliamentaryGroup> iterator = parliamentaryGroups.iterator();
-        while (iterator.hasNext()) {
-            ParliamentaryGroup parliamentaryGroup = iterator.next();
+        for (ParliamentaryGroup parliamentaryGroup : parliamentaryGroups) {
             if (parliamentaryGroup.getSize() instanceof DifferentiatedGroupSize) {
                 DifferentiatedGroupSize size = (DifferentiatedGroupSize) parliamentaryGroup.getSize();
                 if (size.getFullSize() > size.lowerBound()) {

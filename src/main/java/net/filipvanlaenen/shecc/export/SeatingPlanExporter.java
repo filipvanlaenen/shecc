@@ -2,6 +2,7 @@ package net.filipvanlaenen.shecc.export;
 
 import java.util.Iterator;
 
+import net.filipvanlaenen.kolektoj.ModifiableMap;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.shecc.HemicycleLayout;
 import net.filipvanlaenen.shecc.ParliamentaryGroup;
@@ -429,17 +430,24 @@ public class SeatingPlanExporter extends Exporter {
     private G createHemicycleGrouping(final HemicycleLayout layout, final SeatingPlan plan, final double seatRadius) {
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
         G hemicycleGrouping = new G();
+        ModifiableMap<ParliamentaryGroup, G> parliamentaryGroupGroupings = ModifiableMap.empty();
         int seatNumber = 0;
         while (seatPositions.hasNext()) {
             SeatPosition seatPosition = seatPositions.next();
             ParliamentaryGroup parliamentaryGroup = plan.getParliamentaryGroupAtSeat(seatNumber);
+            if (!parliamentaryGroupGroupings.containsKey(parliamentaryGroup)) {
+                G parliamentaryGroupGrouping = new G();
+                parliamentaryGroupGroupings.add(parliamentaryGroup, parliamentaryGroupGrouping);
+                hemicycleGrouping.addElement(parliamentaryGroupGrouping);
+            }
+            G parliamentaryGroupGrouping = parliamentaryGroupGroupings.get(parliamentaryGroup);
             double x = seatPosition.getX();
             double y = seatPosition.getY();
             SeatStatus seatStatus = plan.getSeatStatus(seatNumber);
             String character = parliamentaryGroup.getCharacter();
             if (character == null) {
-                addDecoratedCircleOrSectors(hemicycleGrouping, x, -y, seatRadius, parliamentaryGroup.getColors(),
-                        seatStatus);
+                addDecoratedCircleOrSectors(parliamentaryGroupGrouping, x, -y, seatRadius,
+                        parliamentaryGroup.getColors(), seatStatus);
             } else {
                 G seatGroup = new G();
                 addDecoratedCircleOrSectors(seatGroup, x, -y, seatRadius, parliamentaryGroup.getColors(), seatStatus);
@@ -458,7 +466,7 @@ public class SeatingPlanExporter extends Exporter {
                     text.fontFamily(fontFamily);
                 }
                 seatGroup.addElement(text);
-                hemicycleGrouping.addElement(seatGroup);
+                parliamentaryGroupGrouping.addElement(seatGroup);
             }
             seatNumber += 1;
         }

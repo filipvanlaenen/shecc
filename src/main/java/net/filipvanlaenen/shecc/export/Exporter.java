@@ -14,6 +14,10 @@ import net.filipvanlaenen.tsvgj.Transform;
  */
 abstract class Exporter {
     /**
+     * The rotation angle for the copyright notice.
+     */
+    private static final double COPYRIGHT_NOTICE_ROTATION_ANGLE = 270D;
+    /**
      * The ratio between the seat circle radius and the row width.
      */
     protected static final double RADIUS_ROW_WIDTH_RATIO = 0.45D;
@@ -29,11 +33,58 @@ abstract class Exporter {
     /**
      * The font color as an integer.
      */
-    protected Integer fontColor;
+    private Integer fontColor;
     /**
      * The font family.
      */
-    protected String fontFamily;
+    private String fontFamily;
+
+    /**
+     * Creates a copyright notice. If no custom notice is provided, only a message telling the chart was produced by
+     * SHecC will be created.
+     *
+     * @param customNotice Custom copyright notice.
+     * @param x            The x coordinate of the top right corner of the view box.
+     * @param y            The y coordinate of the top right corner of the view box.
+     * @param width        The width of the view box.
+     * @param height       The height of the view box.
+     * @return A text element containing the copyright notice.
+     */
+    protected Text createCopyrightNotice(final String customNotice, final double x, final double y, final double width,
+            final double height) {
+        double size = Math.max(width, height);
+        String fullNotice = customNotice == null ? "Chart produced using SHecC"
+                : "© " + getYear() + " " + customNotice + ", chart produced using SHecC";
+        Text text = new Text(fullNotice).x(x - size / 200D).y(y - size / 200D).fontSize(size / 100D)
+                .textAnchor(TextAnchorValue.END).transform(Transform.rotate(COPYRIGHT_NOTICE_ROTATION_ANGLE, x, y));
+        if (fontColor == null) {
+            text.fill(ColorKeyword.BLACK);
+        } else {
+            text.fill(fontColor);
+        }
+        if (fontFamily != null) {
+            text.fontFamily(fontFamily);
+        }
+        return text;
+    }
+
+    /**
+     * Returns the font color, or zero if the font color is <code>null</code>.
+     *
+     * @return The font color, or zero if the font color is <code>null</code>.
+     */
+    protected Integer getFontColorOrZero() {
+        return fontColor == null ? 0 : fontColor;
+    }
+
+    /**
+     * Returns the current year as a string.
+     *
+     * @return The current year as a string.
+     */
+    private String getYear() {
+        return new SimpleDateFormat("yyyy", Locale.US).format(new Date());
+    }
 
     /**
      * Specifies the font color.
@@ -54,40 +105,13 @@ abstract class Exporter {
     }
 
     /**
-     * Creates a copyright notice. If no custom notice is provided, only a message telling the chart was produced by
-     * SHecC will be created.
+     * Sets the font family on a text element, unless the font family is <code>null</code>.
      *
-     * @param customNotice Custom copyright notice.
-     * @param x            The x coordinate of the top right corner of the view box.
-     * @param y            The y coordinate of the top right corner of the view box.
-     * @param width        The width of the view box.
-     * @param height       The height of the view box.
-     * @return A text element containing the copyright notice.
+     * @param text The text element for which the font family should be set.
      */
-    protected Text createCopyrightNotice(final String customNotice, final double x, final double y, final double width,
-            final double height) {
-        double size = Math.max(width, height);
-        String fullNotice = customNotice == null ? "Chart produced using SHecC"
-                : "© " + getYear() + " " + customNotice + ", chart produced using SHecC";
-        Text text = new Text(fullNotice).x(x - size / 200D).y(y - size / 200D).fontSize(size / 100D)
-                .textAnchor(TextAnchorValue.END).transform(Transform.rotate(270D, x, y));
-        if (fontColor == null) {
-            text.fill(ColorKeyword.BLACK);
-        } else {
-            text.fill(fontColor);
-        }
+    protected void setFontFamilyUnlessNull(final Text text) {
         if (fontFamily != null) {
             text.fontFamily(fontFamily);
         }
-        return text;
-    }
-
-    /**
-     * Returns the current year as a string.
-     *
-     * @return The current year as a string.
-     */
-    private String getYear() {
-        return new SimpleDateFormat("yyyy", Locale.US).format(new Date());
     }
 }

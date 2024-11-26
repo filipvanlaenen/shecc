@@ -71,7 +71,7 @@ public class CommandLineInterface {
             String character = attributes.length > CHARACTER_INDEX ? attributes[CHARACTER_INDEX] : null;
             groups[i] = new ParliamentaryGroup(size, colors, name, character);
         }
-        SeatingPlan plan = new SeatingPlan(groups);
+        LinearSeatingPlan plan = new LinearSeatingPlan(groups);
         exporter.setDisplayLegend(atLeastOneNamePresent);
         return exporter.export(plan);
     }

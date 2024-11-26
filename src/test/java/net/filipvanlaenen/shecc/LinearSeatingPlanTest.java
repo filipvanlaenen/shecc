@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import net.filipvanlaenen.kolektoj.Collection;
 
 /**
- * Unit tests on the <code>SeatingPlan</code> class.
+ * Unit tests on the <code>LinearSeatingPlan</code> class.
  */
-public class SeatingPlanTest {
+public class LinearSeatingPlanTest {
     /**
      * The magic number three.
      */
@@ -50,7 +50,7 @@ public class SeatingPlanTest {
      */
     @Test
     void parliamentaryGroupsIsWiredCorrectlyFromTheConstructorToTheGetter() {
-        SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(twoRedSeatsAndOneBlue);
         assertTrue(seatingPlan.getParliamentaryGroups().containsSame(Collection.of(twoRedSeatsAndOneBlue)));
     }
 
@@ -59,7 +59,7 @@ public class SeatingPlanTest {
      */
     @Test
     void numberOfSeatsIsThreeForTwoRedSeatsAndOneBlueSeat() {
-        SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(twoRedSeatsAndOneBlue);
         assertEquals(THREE, seatingPlan.getNumberOfSeats());
     }
 
@@ -68,7 +68,7 @@ public class SeatingPlanTest {
      */
     @Test
     void firstSeatIsForTheRedGroupForTwoRedSeatsAndOneBlue() {
-        SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(twoRedSeatsAndOneBlue);
         assertEquals(RED_GROUP_WITH_TWO_SEATS, seatingPlan.getParliamentaryGroupAtSeat(0));
     }
 
@@ -77,7 +77,7 @@ public class SeatingPlanTest {
      */
     @Test
     void thirdSeatIsForTheBlueGroupForTwoRedSeatsAndOneBlue() {
-        SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(twoRedSeatsAndOneBlue);
         assertEquals(BLUE_GROUP_WITH_ONE_SEAT, seatingPlan.getParliamentaryGroupAtSeat(2));
     }
 
@@ -86,7 +86,7 @@ public class SeatingPlanTest {
      */
     @Test
     void firstGreenSeatIsCertainInTheLeftHalfOfTheHemicycle() {
-        SeatingPlan seatingPlan = new SeatingPlan(oneTwoThreeGreenSeatsAndOneBlue);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(oneTwoThreeGreenSeatsAndOneBlue);
         assertEquals(SeatStatus.CERTAIN, seatingPlan.getSeatStatus(0));
     }
 
@@ -95,7 +95,7 @@ public class SeatingPlanTest {
      */
     @Test
     void secondGreenSeatIsLikelyInTheLeftHalfOfTheHemicycle() {
-        SeatingPlan seatingPlan = new SeatingPlan(oneTwoThreeGreenSeatsAndOneBlue);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(oneTwoThreeGreenSeatsAndOneBlue);
         assertEquals(SeatStatus.LIKELY, seatingPlan.getSeatStatus(1));
     }
 
@@ -104,7 +104,7 @@ public class SeatingPlanTest {
      */
     @Test
     void thirdGreenSeatIsUnlikelyInTheLeftHalfOfTheHemicycle() {
-        SeatingPlan seatingPlan = new SeatingPlan(oneTwoThreeGreenSeatsAndOneBlue);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(oneTwoThreeGreenSeatsAndOneBlue);
         assertEquals(SeatStatus.UNLIKELY, seatingPlan.getSeatStatus(2));
     }
 
@@ -113,7 +113,7 @@ public class SeatingPlanTest {
      */
     @Test
     void lastGreenSeatIsCertainInTheRightHalfOfTheHemicycle() {
-        SeatingPlan seatingPlan = new SeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
         assertEquals(SeatStatus.CERTAIN, seatingPlan.getSeatStatus(THREE));
     }
 
@@ -122,7 +122,7 @@ public class SeatingPlanTest {
      */
     @Test
     void secondGreenSeatIsLikelyInTheRightHalfOfTheHemicycle() {
-        SeatingPlan seatingPlan = new SeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
         assertEquals(SeatStatus.LIKELY, seatingPlan.getSeatStatus(2));
     }
 
@@ -131,7 +131,7 @@ public class SeatingPlanTest {
      */
     @Test
     void firstGreenSeatIsUnlikelyInTheRightHalfOfTheHemicycle() {
-        SeatingPlan seatingPlan = new SeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
         assertEquals(SeatStatus.UNLIKELY, seatingPlan.getSeatStatus(1));
     }
 
@@ -140,7 +140,7 @@ public class SeatingPlanTest {
      */
     @Test
     void hasLikelyOrUnlikelySeatsReturnsFalseForCertainSeatsOnly() {
-        SeatingPlan seatingPlan = new SeatingPlan(twoRedSeatsAndOneBlue);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(twoRedSeatsAndOneBlue);
         assertFalse(seatingPlan.hasUncertainSeats());
     }
 
@@ -149,7 +149,7 @@ public class SeatingPlanTest {
      */
     @Test
     void hasLikelyOrUnlikelySeatsReturnsTrueIfThereAreLikelyOrUnlikelySeats() {
-        SeatingPlan seatingPlan = new SeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
+        LinearSeatingPlan seatingPlan = new LinearSeatingPlan(oneBlueAndOneTwoThreeGreenSeats);
         assertTrue(seatingPlan.hasUncertainSeats());
     }
 }

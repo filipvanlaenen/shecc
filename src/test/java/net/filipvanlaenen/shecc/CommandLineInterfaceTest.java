@@ -63,7 +63,7 @@ public class CommandLineInterfaceTest {
     void cliProducesSimpleSeatingPlanIfNamesAndLettersAreMissing() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000..,1.0000FF..");
-        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
+        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String expected = exporter.export(plan);
         assertEquals(expected, actual);
@@ -76,8 +76,8 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithoutLegendIfNamesAreMissing() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000..R,1.0000FF..B");
-        SeatingPlan plan =
-                new SeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
+        LinearSeatingPlan plan =
+                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String expected = exporter.export(plan);
         assertEquals(expected, actual);
@@ -90,8 +90,8 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithLegendIfNamesArePresent() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000.Red.,1.0000FF.Blue.");
-        SeatingPlan plan =
-                new SeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(1, BLUE, "Blue"));
+        LinearSeatingPlan plan =
+                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(1, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String expected = exporter.export(plan);
@@ -106,7 +106,7 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithCharactersAndLegendIfNamesArePresent() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000.Red.R,1.0000FF.Blue.B");
-        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED, "Red", "R"), ONE_BLUE);
+        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red", "R"), ONE_BLUE);
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String expected = exporter.export(plan);
@@ -121,8 +121,8 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithLegendWithDifferentLegendLabelWidthRatio() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000.Red.,1.0000FF.Blue.", "--legend-label-width-ratio=3");
-        SeatingPlan plan =
-                new SeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(1, BLUE, "Blue"));
+        LinearSeatingPlan plan =
+                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(1, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         exporter.setLegendLabelWidthRatio(THREE);
@@ -138,8 +138,8 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithDifferentiatedGroupSizes() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("1:2:3.FF0000.Red.R,1:2.00FF00.Green.G,1.0000FF.Blue.B");
-        SeatingPlan plan =
-                new SeatingPlan(new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED, "Red", "R"),
+        LinearSeatingPlan plan =
+                new LinearSeatingPlan(new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED, "Red", "R"),
                         new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2), GREEN, "Green", "G"), ONE_BLUE);
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
@@ -155,7 +155,7 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanForGroupsWithMultipleColors() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("1.FF0000:00FF00.Red/Green.R,2.0000FF.Blue.B");
-        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(1, new int[] {RED, GREEN}, "Red/Green", "R"),
+        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(1, new int[] {RED, GREEN}, "Red/Green", "R"),
                 new ParliamentaryGroup(2, BLUE, "Blue", "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
@@ -172,7 +172,7 @@ public class CommandLineInterfaceTest {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("1:2:3.FF0000:00FF00:777777.Red/Green/Grey.R,1:2.0000FF:FFFF00.Blue/Yellow.B,"
                 + "1.FF00FF:00FFFF.Pink/Magenta.P");
-        SeatingPlan plan = new SeatingPlan(
+        LinearSeatingPlan plan = new LinearSeatingPlan(
                 new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), new int[] {RED, GREEN, GREY},
                         "Red/Green/Grey", "R"),
                 new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2), new int[] {BLUE, YELLOW}, "Blue/Yellow", "B"),
@@ -191,7 +191,7 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithLegendInCorrectFontFamilyAndColor() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000.Red.R,1.0000FF.Blue.B", "--font-family=Lato", "--font-color=FF00FF");
-        SeatingPlan plan = new SeatingPlan(new ParliamentaryGroup(2, RED, "Red", "R"),
+        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red", "R"),
                 new ParliamentaryGroup(1, BLUE, "Blue", "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
@@ -209,8 +209,8 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithCustomCopyrightNotice() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000..R,1.0000FF..B", "--copyright-notice=John Doe");
-        SeatingPlan plan =
-                new SeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
+        LinearSeatingPlan plan =
+                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setCustomCopyrightNotice("John Doe");
         String expected = exporter.export(plan);
@@ -224,8 +224,8 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithBackgroundColor() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000..R,1.0000FF..B", "--background-color=FFFFFF");
-        SeatingPlan plan =
-                new SeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
+        LinearSeatingPlan plan =
+                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         String expected = exporter.export(plan);
@@ -240,8 +240,8 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithTitle() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000..R,1.0000FF..B", "--background-color=FFFFFF", "--title=Lorem Ipsum");
-        SeatingPlan plan =
-                new SeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
+        LinearSeatingPlan plan =
+                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         exporter.setTitle("Lorem Ipsum");
@@ -258,8 +258,8 @@ public class CommandLineInterfaceTest {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000..R,1.0000FF..B", "--background-color=FFFFFF", "--title=Lorem Ipsum",
                 "--subtitle=Dolor Sit Amet");
-        SeatingPlan plan =
-                new SeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
+        LinearSeatingPlan plan =
+                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         exporter.setTitle("Lorem Ipsum");
@@ -275,8 +275,8 @@ public class CommandLineInterfaceTest {
     void cliProducesSeatingPlanWithAngle() {
         CommandLineInterface cli = new CommandLineInterface();
         String actual = cli.perform("2.FF0000..R,1.0000FF..B", "--angle=150");
-        SeatingPlan plan =
-                new SeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
+        LinearSeatingPlan plan =
+                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setAngle(ONE_HUNDRED_FIFTY);
         String expected = exporter.export(plan);

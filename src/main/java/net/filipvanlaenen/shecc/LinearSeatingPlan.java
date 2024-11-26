@@ -3,9 +3,10 @@ package net.filipvanlaenen.shecc;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 
 /**
- * A class representing a seating plan.
+ * A class representing a linear seating plan. A linear seating plan orders seats on a strictly linear basis, without
+ * taking into account whether the seat positions for all parliamentary groups are connected to each other or not.
  */
-public class SeatingPlan {
+public class LinearSeatingPlan {
     /**
      * The parliamentary groups for this seating plan.
      */
@@ -32,7 +33,7 @@ public class SeatingPlan {
      *
      * @param parliamentaryGroups The parliamentary groups to be seated.
      */
-    public SeatingPlan(final ParliamentaryGroup... parliamentaryGroups) {
+    public LinearSeatingPlan(final ParliamentaryGroup... parliamentaryGroups) {
         this.parliamentaryGroups = OrderedCollection.of(parliamentaryGroups);
         numberOfSeats = calculateNumberOfSeats();
         hasUncertainSeats = calculateHasUncertainSeats();

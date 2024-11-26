@@ -8,9 +8,12 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
-import net.filipvanlaenen.shecc.ParliamentaryGroup;
-import net.filipvanlaenen.shecc.LinearSeatingPlan;
+import net.filipvanlaenen.kolektoj.SortedCollection;
 import net.filipvanlaenen.shecc.DifferentiatedGroupSize;
+import net.filipvanlaenen.shecc.HemicycleLayout;
+import net.filipvanlaenen.shecc.ParliamentaryGroup;
+import net.filipvanlaenen.shecc.RowConnectedSeatingPlan;
+import net.filipvanlaenen.shecc.SeatPosition;
 
 /**
  * Unit tests on the <code>SeatingPlanExporter</code> class.
@@ -45,9 +48,15 @@ public class SeatingPlanExporterTest {
      */
     private static final int THREE = 3;
     /**
+     * The magic number four.
+     */
+    private static final int FOUR = 4;
+    /**
      * The magic number ten.
      */
     private static final int TEN = 10;
+    private static SortedCollection<SeatPosition> THREE_SEAT_POSITIONS = new HemicycleLayout(THREE).getSeatPositions();
+    private static SortedCollection<SeatPosition> FOUR_SEAT_POSITIONS = new HemicycleLayout(FOUR).getSeatPositions();
 
     /**
      * Test verifying the export of a seating plan with two seats for the red group and one for the blue group using the
@@ -55,7 +64,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS, new ParliamentaryGroup(2, RED),
+                new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String actual = exporter.export(plan);
         String expected = "<svg height=\"788.15216\" viewBox=\"-0.316178 -1.05 0.632355 0.788152\" width=\"632.355228\""
@@ -75,8 +85,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportForTwoRedAndOneBlueSeatsWithLettersInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan =
-                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS,
+                new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String actual = exporter.export(plan);
         String expected = "<svg height=\"788.15216\" viewBox=\"-0.316178 -1.05 0.632355 0.788152\" width=\"632.355228\""
@@ -103,8 +113,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportForTwoRedAndOneBlueSeatsWithRotatedLettersInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan =
-                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS,
+                new ParliamentaryGroup(2, RED, null, "R"), new ParliamentaryGroup(1, BLUE, null, "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setRotateLetters(true);
         String actual = exporter.export(plan);
@@ -132,8 +142,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportWithLegendForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan =
-                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(1, BLUE, "Blue"));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS,
+                new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(1, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
@@ -161,8 +171,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportsLegendOnOneLineWhenThereIsPlaceEnough() {
-        LinearSeatingPlan plan =
-                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(2, BLUE, "Blue"));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS,
+                new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(2, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
@@ -170,8 +180,8 @@ public class SeatingPlanExporterTest {
                 "<svg height=\"1688.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.688152\" width=\"632.355228\""
                         + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
                         + "      <circle cx=\"-0.139053\" cy=\"-0.877945\" fill=\"#FF0000\" r=\"0.1\"/>\n"
-                        + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
-                        + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
+                        + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "      <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "    </g>\n"
                         + "  </g>\n" + "  <g>\n" + "    <g>\n"
                         + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
@@ -191,8 +201,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportsLegendWithSpecifiedLegendLabelWidthRatio() {
-        LinearSeatingPlan plan =
-                new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(2, BLUE, "Blue"));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS,
+                new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(2, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         exporter.setLegendLabelWidthRatio(TEN);
@@ -201,8 +211,8 @@ public class SeatingPlanExporterTest {
                 "<svg height=\"1988.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.988152\" width=\"632.355228\""
                         + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
                         + "      <circle cx=\"-0.139053\" cy=\"-0.877945\" fill=\"#FF0000\" r=\"0.1\"/>\n"
-                        + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
-                        + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
+                        + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "      <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "    </g>\n"
                         + "  </g>\n" + "  <g>\n" + "    <g>\n"
                         + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
@@ -222,8 +232,9 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportsCentersLastRowOfLegend() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red"),
-                new ParliamentaryGroup(1, BLUE, "Blue"), new ParliamentaryGroup(1, MAGENTA, "Magenta"));
+        RowConnectedSeatingPlan plan =
+                new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS, new ParliamentaryGroup(2, RED, "Red"),
+                        new ParliamentaryGroup(1, BLUE, "Blue"), new ParliamentaryGroup(1, MAGENTA, "Magenta"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
@@ -231,8 +242,8 @@ public class SeatingPlanExporterTest {
                 "<svg height=\"1988.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.988152\" width=\"632.355228\""
                         + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
                         + "      <circle cx=\"-0.139053\" cy=\"-0.877945\" fill=\"#FF0000\" r=\"0.1\"/>\n"
-                        + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
-                        + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
+                        + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "    </g>\n" + "    <g>\n"
                         + "      <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#FF00FF\" r=\"0.1\"/>\n" + "    </g>\n"
                         + "  </g>\n" + "  <g>\n" + "    <g>\n"
@@ -257,8 +268,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportWithLegendForTwoRedAndOneBlueSeatsWithLettersInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red", "R"),
-                new ParliamentaryGroup(1, BLUE, "Blue", "B"));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS,
+                new ParliamentaryGroup(2, RED, "Red", "R"), new ParliamentaryGroup(1, BLUE, "Blue", "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);
@@ -298,8 +309,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportWithLegendForTwoRedAndOneBlueSeatsWithLettersInADefaultHemicycleLayoutWithASpecificFont() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red", "R"),
-                new ParliamentaryGroup(1, BLUE, "Blue", "B"));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS,
+                new ParliamentaryGroup(2, RED, "Red", "R"), new ParliamentaryGroup(1, BLUE, "Blue", "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         exporter.setFontFamily("Lato");
@@ -341,8 +352,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportWithLegendForTwoRedAndOneBlueSeatsWithLettersInADefaultHemicycleLayoutWithATextColor() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED, "Red", "R"),
-                new ParliamentaryGroup(1, BLUE, "Blue", "B"));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS,
+                new ParliamentaryGroup(2, RED, "Red", "R"), new ParliamentaryGroup(1, BLUE, "Blue", "B"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         exporter.setFontColor(MAGENTA);
@@ -382,7 +393,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportsWithCustomCopyrightNoticeForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS, new ParliamentaryGroup(2, RED),
+                new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setCustomCopyrightNotice("John Doe");
         String actual = exporter.export(plan);
@@ -404,7 +416,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportsWithBackgroundColorForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS, new ParliamentaryGroup(2, RED),
+                new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         String actual = exporter.export(plan);
@@ -426,7 +439,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportsWithTitleAndBackgroundColorForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS, new ParliamentaryGroup(2, RED),
+                new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         exporter.setTitle("Lorem Ipsum");
@@ -451,7 +465,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportsWithTitleAndSubtitleAndBackgroundColorForTwoRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(2, RED), new ParliamentaryGroup(1, BLUE));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS, new ParliamentaryGroup(2, RED),
+                new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
         exporter.setTitle("Lorem Ipsum");
@@ -482,7 +497,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportWithLegendForTwoRedMagentaAndOneBlueSeatsInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(1, RED_MAGENTA_GREEN, "Red/Magenta/Green"),
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS,
+                new ParliamentaryGroup(1, RED_MAGENTA_GREEN, "Red/Magenta/Green"),
                 new ParliamentaryGroup(2, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
@@ -522,8 +538,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportForThreeRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED),
-                new ParliamentaryGroup(1, BLUE));
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS,
+                new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED), new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String actual = exporter.export(plan);
         String expected = "<svg height=\"788.15216\" viewBox=\"-0.316178 -1.05 0.632355 0.788152\" width=\"632.355228\""
@@ -546,7 +562,8 @@ public class SeatingPlanExporterTest {
      */
     @Test
     void svgExportWithLegendForThreeRedAndOneBlueSeatsInADefaultHemicycleLayout() {
-        LinearSeatingPlan plan = new LinearSeatingPlan(new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED, "Red"),
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS,
+                new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED, "Red"),
                 new ParliamentaryGroup(1, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);

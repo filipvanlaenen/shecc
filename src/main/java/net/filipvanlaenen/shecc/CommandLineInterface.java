@@ -71,7 +71,12 @@ public class CommandLineInterface {
             String character = attributes.length > CHARACTER_INDEX ? attributes[CHARACTER_INDEX] : null;
             groups[i] = new ParliamentaryGroup(size, colors, name, character);
         }
-        LinearSeatingPlan plan = new LinearSeatingPlan(groups);
+        int numberOfSeats = 0;
+        for (ParliamentaryGroup parliamentaryGroup : groups) {
+            numberOfSeats += parliamentaryGroup.getSize().getFullSize();
+        }
+        HemicycleLayout layout = new HemicycleLayout(numberOfSeats, exporter.getAngle());
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(layout.getSeatPositions(), groups);
         exporter.setDisplayLegend(atLeastOneNamePresent);
         return exporter.export(plan);
     }

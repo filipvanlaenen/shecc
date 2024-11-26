@@ -6,9 +6,9 @@ import net.filipvanlaenen.kolektoj.ModifiableMap;
 import net.filipvanlaenen.kolektoj.OrderedCollection;
 import net.filipvanlaenen.shecc.HemicycleLayout;
 import net.filipvanlaenen.shecc.ParliamentaryGroup;
+import net.filipvanlaenen.shecc.RowConnectedSeatingPlan;
 import net.filipvanlaenen.shecc.SeatPosition;
 import net.filipvanlaenen.shecc.SeatStatus;
-import net.filipvanlaenen.shecc.LinearSeatingPlan;
 import net.filipvanlaenen.tsvgj.Circle;
 import net.filipvanlaenen.tsvgj.ColorKeyword;
 import net.filipvanlaenen.tsvgj.FontWeightValue;
@@ -110,7 +110,7 @@ public class SeatingPlanExporter extends Exporter {
      * @param plan The seating plan to be exported.
      * @return A string representing the seating plan in SVG.
      */
-    public String export(final LinearSeatingPlan plan) {
+    public String export(final RowConnectedSeatingPlan plan) {
         HemicycleLayout layout = new HemicycleLayout(plan.getNumberOfSeats(), angle);
         double layoutWidth = layout.getWidth();
         double layoutHalfWidth = layoutWidth / 2D;
@@ -172,7 +172,7 @@ public class SeatingPlanExporter extends Exporter {
      * @param noOfLegendRows                   The number of legend rows.
      * @return A grouping with the legend.
      */
-    private G createLegendGrouping(final LinearSeatingPlan plan, final double layoutWidth, final double layoutHalfWidth,
+    private G createLegendGrouping(final RowConnectedSeatingPlan plan, final double layoutWidth, final double layoutHalfWidth,
             final double hemicycleHeight, final double seatRadius,
             final OrderedCollection<ParliamentaryGroup> parliamentaryGroupsList,
             final int noOfParliamentaryGroupLegendRows, final int noOfLegendRows) {
@@ -402,7 +402,8 @@ public class SeatingPlanExporter extends Exporter {
      * @param seatRadius The seat radius.
      * @return A grouping for the hemicycle and its content.
      */
-    private G createHemicycleGrouping(final HemicycleLayout layout, final LinearSeatingPlan plan, final double seatRadius) {
+    private G createHemicycleGrouping(final HemicycleLayout layout, final RowConnectedSeatingPlan plan,
+            final double seatRadius) {
         Iterator<SeatPosition> seatPositions = layout.getSeatPositions().iterator();
         G hemicycleGrouping = new G();
         ModifiableMap<ParliamentaryGroup, G> parliamentaryGroupGroupings = ModifiableMap.empty();
@@ -748,5 +749,9 @@ public class SeatingPlanExporter extends Exporter {
         } else {
             return legendLabelWidthRatio;
         }
+    }
+
+    public Double getAngle() {
+        return angle;
     }
 }

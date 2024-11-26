@@ -11,19 +11,17 @@ public class SeatingPlan {
      */
     private final OrderedCollection<ParliamentaryGroup> parliamentaryGroups;
     /**
-     * The total number of seats. This field is calculated and set through lazy initialization.
+     * The total number of seats.
      */
-    private int numberOfSeats;
+    private final int numberOfSeats;
     /**
-     * Whether or not the seating plan has likely or unlikely seats. This field is calculated and set through lazy
-     * initialization.
+     * Whether or not the seating plan has likely or unlikely seats.
      */
-    private Boolean hasUncertainSeats;
+    private final boolean hasUncertainSeats;
     /**
-     * An array holding a pointer for each seat to the parliamentary group holding the seat. The elements in the array
-     * are calculated and set through lazy initialization.
+     * An array holding a pointer for each seat to the parliamentary group holding the seat.
      */
-    private ParliamentaryGroup[] seats;
+    private final ParliamentaryGroup[] seats;
     /**
      * An array holding the statuses of the seats. The elements in the array are calculated and set through lazy
      * initialization.
@@ -37,15 +35,39 @@ public class SeatingPlan {
      */
     public SeatingPlan(final ParliamentaryGroup... parliamentaryGroups) {
         this.parliamentaryGroups = OrderedCollection.of(parliamentaryGroups);
+        numberOfSeats = calculateNumberOfSeats();
+        hasUncertainSeats = calculateHasUncertainSeats();
+        seats = calculateSeats();
     }
 
     /**
-     * Returns an unmodifiable copy of the list of the parliamentary groups.
+     * Calculates whether any of the parliamentary groups has a likely or unlikely seat.
      *
-     * @return An unmodifiable copy of the list of the parliamentary groups
+     * @return True if at least one of the parliamentary groups has a likely or unlikely seat.
      */
-    public OrderedCollection<ParliamentaryGroup> getParliamentaryGroups() {
-        return parliamentaryGroups;
+    private boolean calculateHasUncertainSeats() {
+        for (ParliamentaryGroup parliamentaryGroup : parliamentaryGroups) {
+            if (parliamentaryGroup.getSize() instanceof DifferentiatedGroupSize) {
+                DifferentiatedGroupSize size = (DifferentiatedGroupSize) parliamentaryGroup.getSize();
+                if (size.getFullSize() > size.lowerBound()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Calculates whether the seats within a parliamentary group with differentiated size should be sorted
+     * certain-likely-unlikely or unlikely-likely-certain.
+     *
+     * @param startIndex The seat number for the first seat of the parliamentary group.
+     * @param size       The size of the parliamentary group.
+     * @return True if the seats should be sorted as certain-likely-unlikely, and false otherwise.
+     */
+    private boolean calculateIfCertainSeatsArePositionedToTheLeft(final int startIndex,
+            final DifferentiatedGroupSize size) {
+        return startIndex * 2 + size.getFullSize() < numberOfSeats;
     }
 
     /**
@@ -61,65 +83,17 @@ public class SeatingPlan {
         return total;
     }
 
-    /**
-     * Returns the total number of seats for all parliamentary groups together.
-     *
-     * @return The total number of seats.
-     */
-    public int getNumberOfSeats() {
-        if (numberOfSeats == 0) {
-            numberOfSeats = calculateNumberOfSeats();
-        }
-        return numberOfSeats;
-    }
-
-    /**
-     * Calculates the parliamentary group occupying a given seat.
-     *
-     * @param seatNumber The number of the seat.
-     * @return The parliamentary group sitting at the request seat number.
-     */
-    private ParliamentaryGroup calculateParliamentaryGroupAtSeat(final int seatNumber) {
-        int total = 0;
+    private ParliamentaryGroup[] calculateSeats() {
+        ParliamentaryGroup[] result = new ParliamentaryGroup[numberOfSeats];
+        int numberOfSeatsSoFar = 0;
         for (ParliamentaryGroup parliamentaryGroup : parliamentaryGroups) {
-            total += parliamentaryGroup.getSize().getFullSize();
-            if (total > seatNumber) {
-                return parliamentaryGroup;
+            int fullSize = parliamentaryGroup.getSize().getFullSize();
+            for (int seatNumber = numberOfSeatsSoFar; seatNumber < numberOfSeatsSoFar + fullSize; seatNumber++) {
+                result[seatNumber] = parliamentaryGroup;
             }
+            numberOfSeatsSoFar += fullSize;
         }
-        return null;
-    }
-
-    /**
-     * Returns the parliamentary group occupying a given seat.
-     *
-     * @param seatNumber The number of the seat.
-     * @return The parliamentary group sitting at the request seat number.
-     */
-    public ParliamentaryGroup getParliamentaryGroupAtSeat(final int seatNumber) {
-        if (seats == null) {
-            seats = new ParliamentaryGroup[getNumberOfSeats()];
-        }
-        if (seats[seatNumber] == null) {
-            seats[seatNumber] = calculateParliamentaryGroupAtSeat(seatNumber);
-        }
-        return seats[seatNumber];
-    }
-
-    /**
-     * Returns the status of a seat.
-     *
-     * @param seatNumber The number of the seat in the hemicycle.
-     * @return The seat's status.
-     */
-    public SeatStatus getSeatStatus(final int seatNumber) {
-        if (seatStatuses == null) {
-            seatStatuses = new SeatStatus[getNumberOfSeats()];
-        }
-        if (seatStatuses[seatNumber] == null) {
-            seatStatuses[seatNumber] = calculateSeatStatus(seatNumber);
-        }
-        return seatStatuses[seatNumber];
+        return result;
     }
 
     /**
@@ -172,19 +146,6 @@ public class SeatingPlan {
     }
 
     /**
-     * Calculates whether the seats within a parliamentary group with differentiated size should be sorted
-     * certain-likely-unlikely or unlikely-likely-certain.
-     *
-     * @param startIndex The seat number for the first seat of the parliamentary group.
-     * @param size       The size of the parliamentary group.
-     * @return True if the seats should be sorted as certain-likely-unlikely, and false otherwise.
-     */
-    private boolean calculateIfCertainSeatsArePositionedToTheLeft(final int startIndex,
-            final DifferentiatedGroupSize size) {
-        return startIndex * 2 + size.getFullSize() < numberOfSeats;
-    }
-
-    /**
      * Calculates the start index of a parliamentary group in the hemicycle.
      *
      * @param targetParliamentaryGroup The parliamentary group for which the start index has to be calculated.
@@ -203,20 +164,47 @@ public class SeatingPlan {
     }
 
     /**
-     * Calculates whether any of the parliamentary groups has a likely or unlikely seat.
+     * Returns the total number of seats for all parliamentary groups together.
      *
-     * @return True if at least one of the parliamentary groups has a likely or unlikely seat.
+     * @return The total number of seats.
      */
-    private boolean calculateHasUncertainSeats() {
-        for (ParliamentaryGroup parliamentaryGroup : parliamentaryGroups) {
-            if (parliamentaryGroup.getSize() instanceof DifferentiatedGroupSize) {
-                DifferentiatedGroupSize size = (DifferentiatedGroupSize) parliamentaryGroup.getSize();
-                if (size.getFullSize() > size.lowerBound()) {
-                    return true;
-                }
-            }
+    public int getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    /**
+     * Returns the parliamentary group occupying a given seat.
+     *
+     * @param seatNumber The number of the seat.
+     * @return The parliamentary group sitting at the request seat number.
+     */
+    public ParliamentaryGroup getParliamentaryGroupAtSeat(final int seatNumber) {
+        return seats[seatNumber];
+    }
+
+    /**
+     * Returns an ordered collection with the parliamentary groups.
+     *
+     * @return An ordered collection with the parliamentary groups
+     */
+    public OrderedCollection<ParliamentaryGroup> getParliamentaryGroups() {
+        return parliamentaryGroups;
+    }
+
+    /**
+     * Returns the status of a seat.
+     *
+     * @param seatNumber The number of the seat in the hemicycle.
+     * @return The seat's status.
+     */
+    public SeatStatus getSeatStatus(final int seatNumber) {
+        if (seatStatuses == null) {
+            seatStatuses = new SeatStatus[getNumberOfSeats()];
         }
-        return false;
+        if (seatStatuses[seatNumber] == null) {
+            seatStatuses[seatNumber] = calculateSeatStatus(seatNumber);
+        }
+        return seatStatuses[seatNumber];
     }
 
     /**
@@ -225,9 +213,6 @@ public class SeatingPlan {
      * @return True if at least one of the parliamentary groups has a likely or unlikely seat.
      */
     public boolean hasUncertainSeats() {
-        if (hasUncertainSeats == null) {
-            hasUncertainSeats = calculateHasUncertainSeats();
-        }
         return hasUncertainSeats;
     }
 }

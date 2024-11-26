@@ -23,10 +23,9 @@ public class SeatingPlan {
      */
     private final ParliamentaryGroup[] seats;
     /**
-     * An array holding the statuses of the seats. The elements in the array are calculated and set through lazy
-     * initialization.
+     * An array holding the statuses of the seats.
      */
-    private SeatStatus[] seatStatuses;
+    private final SeatStatus[] seatStatuses;
 
     /**
      * Constructs a seating plan based on an ordered list of parliamentary groups.
@@ -38,6 +37,7 @@ public class SeatingPlan {
         numberOfSeats = calculateNumberOfSeats();
         hasUncertainSeats = calculateHasUncertainSeats();
         seats = calculateSeats();
+        seatStatuses = calculateSeatStatuses();
     }
 
     /**
@@ -58,19 +58,6 @@ public class SeatingPlan {
     }
 
     /**
-     * Calculates whether the seats within a parliamentary group with differentiated size should be sorted
-     * certain-likely-unlikely or unlikely-likely-certain.
-     *
-     * @param startIndex The seat number for the first seat of the parliamentary group.
-     * @param size       The size of the parliamentary group.
-     * @return True if the seats should be sorted as certain-likely-unlikely, and false otherwise.
-     */
-    private boolean calculateIfCertainSeatsArePositionedToTheLeft(final int startIndex,
-            final DifferentiatedGroupSize size) {
-        return startIndex * 2 + size.getFullSize() < numberOfSeats;
-    }
-
-    /**
      * Calculates the total number of seats for all parliamentary groups together.
      *
      * @return The total number of seats.
@@ -83,6 +70,11 @@ public class SeatingPlan {
         return total;
     }
 
+    /**
+     * Calculates the parliamentary group for each seat.
+     *
+     * @return An array with the parliamentary group for each seat.
+     */
     private ParliamentaryGroup[] calculateSeats() {
         ParliamentaryGroup[] result = new ParliamentaryGroup[numberOfSeats];
         int numberOfSeatsSoFar = 0;
@@ -97,21 +89,28 @@ public class SeatingPlan {
     }
 
     /**
-     * Calculates the status of a seat.
+     * Calculates the seat status for each seat.
      *
-     * @param seatNumber The number of the seat in the hemicycle.
-     * @return The seat's status.
+     * @return An array with the status for each seat.
      */
-    private SeatStatus calculateSeatStatus(final int seatNumber) {
-        ParliamentaryGroup group = getParliamentaryGroupAtSeat(seatNumber);
-        if (group.getSize() instanceof SimpleGroupSize) {
-            return SeatStatus.CERTAIN;
-        } else {
-            int startIndex = calculateStartIndexOfParliamentaryGroup(group);
-            DifferentiatedGroupSize size = (DifferentiatedGroupSize) group.getSize();
-            boolean certainSeatsToTheLeft = calculateIfCertainSeatsArePositionedToTheLeft(startIndex, size);
-            return calculateSeatStatusWithinGroup(seatNumber, startIndex, size, certainSeatsToTheLeft);
+    private SeatStatus[] calculateSeatStatuses() {
+        SeatStatus[] result = new SeatStatus[numberOfSeats];
+        int numberOfSeatsSoFar = 0;
+        for (ParliamentaryGroup parliamentaryGroup : parliamentaryGroups) {
+            GroupSize size = parliamentaryGroup.getSize();
+            int fullSize = size.getFullSize();
+            for (int seatNumber = numberOfSeatsSoFar; seatNumber < numberOfSeatsSoFar + fullSize; seatNumber++) {
+                if (size instanceof SimpleGroupSize) {
+                    result[seatNumber] = SeatStatus.CERTAIN;
+                } else {
+                    boolean certainSeatsToTheLeft = numberOfSeatsSoFar * 2 + fullSize < numberOfSeats;
+                    result[seatNumber] = calculateSeatStatusWithinGroup(seatNumber, numberOfSeatsSoFar,
+                            (DifferentiatedGroupSize) size, certainSeatsToTheLeft);
+                }
+            }
+            numberOfSeatsSoFar += fullSize;
         }
+        return result;
     }
 
     /**
@@ -143,24 +142,6 @@ public class SeatingPlan {
                 return SeatStatus.UNLIKELY;
             }
         }
-    }
-
-    /**
-     * Calculates the start index of a parliamentary group in the hemicycle.
-     *
-     * @param targetParliamentaryGroup The parliamentary group for which the start index has to be calculated.
-     * @return The seat number of the first seat for the parliamentary group in the hemicycle.
-     */
-    private int calculateStartIndexOfParliamentaryGroup(final ParliamentaryGroup targetParliamentaryGroup) {
-        int total = 0;
-        for (ParliamentaryGroup parliamentaryGroup : parliamentaryGroups) {
-            if (parliamentaryGroup.equals(targetParliamentaryGroup)) {
-                return total;
-            } else {
-                total += parliamentaryGroup.getSize().getFullSize();
-            }
-        }
-        return total;
     }
 
     /**
@@ -198,12 +179,6 @@ public class SeatingPlan {
      * @return The seat's status.
      */
     public SeatStatus getSeatStatus(final int seatNumber) {
-        if (seatStatuses == null) {
-            seatStatuses = new SeatStatus[getNumberOfSeats()];
-        }
-        if (seatStatuses[seatNumber] == null) {
-            seatStatuses[seatNumber] = calculateSeatStatus(seatNumber);
-        }
         return seatStatuses[seatNumber];
     }
 

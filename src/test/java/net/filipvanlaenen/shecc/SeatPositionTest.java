@@ -22,7 +22,7 @@ public class SeatPositionTest {
      */
     @Test
     void toStringShowsRadiusAndAngle() {
-        SeatPosition seatPosition = new SeatPosition(1D, Math.PI);
+        SeatPosition seatPosition = new SeatPosition(1, 1D, Math.PI);
         assertEquals("Seat position (1.0, 3.141592653589793 rad)", seatPosition.toString());
     }
 
@@ -31,7 +31,7 @@ public class SeatPositionTest {
      */
     @Test
     void xCoordinateIsCalculatedCorrectly() {
-        SeatPosition seatPosition = new SeatPosition(A_HALF, 1D);
+        SeatPosition seatPosition = new SeatPosition(1, A_HALF, 1D);
         double expected = Math.cos(1D) / 2D;
         assertEquals(expected, seatPosition.getX(), DOUBLE_DELTA);
     }
@@ -41,7 +41,7 @@ public class SeatPositionTest {
      */
     @Test
     void yCoordinateIsCalculatedCorrectly() {
-        SeatPosition seatPosition = new SeatPosition(A_HALF, 1D);
+        SeatPosition seatPosition = new SeatPosition(1, A_HALF, 1D);
         double expected = Math.sin(1D) / 2D;
         assertEquals(expected, seatPosition.getY(), DOUBLE_DELTA);
     }

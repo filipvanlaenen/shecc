@@ -178,7 +178,7 @@ public class HemicycleLayout {
             double rowRadius = radiusRatio + ((double) row - ONE_HALF) * rowWidth;
             int numberOfSeatsOnThisRow = numberOfSeatsOnRow[row - 1];
             if (numberOfSeatsOnThisRow == 1) {
-                seatPositionArray[seatNumber++] = new SeatPosition(rowRadius, Math.PI / 2D);
+                seatPositionArray[seatNumber++] = new SeatPosition(row, rowRadius, Math.PI / 2D);
             } else {
                 double anglePerSeat = angle / (numberOfSeatsOnThisRow - 1);
                 for (int seat = 0; seat < numberOfSeatsOnThisRow; seat++) {
@@ -187,7 +187,7 @@ public class HemicycleLayout {
                         // EQMU: Replacing double addition with subtraction below produces an equivalent mutant.
                         seatAngle += Math.PI * 2D;
                     }
-                    seatPositionArray[seatNumber++] = new SeatPosition(rowRadius, seatAngle);
+                    seatPositionArray[seatNumber++] = new SeatPosition(row, rowRadius, seatAngle);
                 }
             }
         }

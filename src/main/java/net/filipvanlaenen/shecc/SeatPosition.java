@@ -7,7 +7,7 @@ package net.filipvanlaenen.shecc;
  * @param radius The radius for the seat position.
  * @param angle  The angle for the seat position.
  */
-public record SeatPosition(double radius, double angle) {
+public record SeatPosition(int row, double radius, double angle) {
     /**
      * Returns the x coordinate for the seat position.
      *

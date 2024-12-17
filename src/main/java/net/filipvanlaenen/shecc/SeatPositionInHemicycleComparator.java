@@ -35,6 +35,7 @@ class SeatPositionInHemicycleComparator implements Comparator<SeatPosition> {
      */
     private double angleFromOneAndAHalfPi(final double angle) {
         double distance = ONE_AND_A_HALF_PI - angle;
+        // EQMU: Changing the conditional boundary below produces a mutant that is practically equivalent.
         if (distance < 0D) {
             distance += 2D * Math.PI;
         }
@@ -73,6 +74,7 @@ class SeatPositionInHemicycleComparator implements Comparator<SeatPosition> {
      * @return True if the angles of the two seat positions are practically equal.
      */
     private boolean anglesArePraticallyEqual(final SeatPosition seatPosition1, final SeatPosition seatPosition2) {
+        // EQMU: Changing the conditional boundary below produces a mutant that is practically equivalent.
         return Math.abs(seatPosition1.angle() - seatPosition2.angle()) < ANGLE_DELTA;
     }
 }

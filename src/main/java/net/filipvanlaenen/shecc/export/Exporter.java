@@ -29,6 +29,14 @@ abstract class Exporter {
      * The margin between the actual drawing and the edges of the SVG document.
      */
     protected static final double EDGES_MARGIN = 0.05D;
+    /**
+     * The magic number one hundred.
+     */
+    private static final double ONE_HUNDRED = 100D;
+    /**
+     * The magic number two hundred.
+     */
+    private static final double TWO_HUNDRED = 200D;
 
     /**
      * The font color as an integer.
@@ -55,16 +63,15 @@ abstract class Exporter {
         double size = Math.max(width, height);
         String fullNotice = customNotice == null ? "Chart produced using SHecC"
                 : "© " + getYear() + " " + customNotice + ", chart produced using SHecC";
-        Text text = new Text(fullNotice).x(x - size / 200D).y(y - size / 200D).fontSize(size / 100D)
-                .textAnchor(TextAnchorValue.END).transform(Transform.rotate(COPYRIGHT_NOTICE_ROTATION_ANGLE, x, y));
+        Text text = new Text(fullNotice).x(x - size / TWO_HUNDRED).y(y - size / TWO_HUNDRED)
+                .fontSize(size / ONE_HUNDRED).textAnchor(TextAnchorValue.END)
+                .transform(Transform.rotate(COPYRIGHT_NOTICE_ROTATION_ANGLE, x, y));
         if (fontColor == null) {
             text.fill(ColorKeyword.BLACK);
         } else {
             text.fill(fontColor);
         }
-        if (fontFamily != null) {
-            text.fontFamily(fontFamily);
-        }
+        setFontFamilyUnlessNull(text);
         return text;
     }
 

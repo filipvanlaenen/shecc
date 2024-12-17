@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests on the <code>ChartLayout</code> class.
+ * Unit tests on the <code>HemicycleLayout</code> class.
  */
 class HemicycleLayoutTest {
     /**

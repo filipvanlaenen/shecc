@@ -136,29 +136,30 @@ public class HemicycleLayout {
      * @return An array with the number of seats for each row.
      */
     private int[] calculateNumberOfSeatsPerRow() {
-        int thisNoOfRows = getNumberOfRows();
-        double width = (1.0D - radiusRatio) / thisNoOfRows;
-        double[] rowRadii = new double[thisNoOfRows];
-        double[] nextSeatArc = new double[thisNoOfRows];
-        for (int row = 1; row <= thisNoOfRows; row++) {
-            rowRadii[row - 1] = radiusRatio + ((double) row - ONE_HALF) * width;
-            nextSeatArc[row - 1] = rowRadii[row - 1] * 2D;
+        int thisNumberOfRows = getNumberOfRows();
+        double width = (1.0D - radiusRatio) / thisNumberOfRows;
+        double[] rowRadii = new double[thisNumberOfRows];
+        double[] nextSeatArc = new double[thisNumberOfRows];
+        int[] numberOfSeatsOnRow = new int[thisNumberOfRows];
+        for (int row = 0; row < thisNumberOfRows; row++) {
+            numberOfSeatsOnRow[row] = 1;
+            rowRadii[row] = radiusRatio + ((double) (row + 1) - ONE_HALF) * width;
+            nextSeatArc[row] = rowRadii[row];
         }
-        int[] seats = new int[thisNoOfRows];
-        for (int seat = 1; seat <= numberOfSeats; seat++) {
-            int bestRow = 1;
+        for (int seat = thisNumberOfRows; seat < numberOfSeats; seat++) {
+            int bestRow = 0;
             double highestQuote = nextSeatArc[0];
-            for (int row = 2; row <= thisNoOfRows; row++) {
+            for (int row = 1; row < thisNumberOfRows; row++) {
                 // EQMU: Changing the conditional boundary below produces an equivalent mutant.
-                if (nextSeatArc[row - 1] > highestQuote) {
+                if (nextSeatArc[row] > highestQuote) {
                     bestRow = row;
-                    highestQuote = nextSeatArc[row - 1];
+                    highestQuote = nextSeatArc[row];
                 }
             }
-            seats[bestRow - 1] += 1;
-            nextSeatArc[bestRow - 1] = rowRadii[bestRow - 1] / seats[bestRow - 1];
+            numberOfSeatsOnRow[bestRow] += 1;
+            nextSeatArc[bestRow] = rowRadii[bestRow] / numberOfSeatsOnRow[bestRow];
         }
-        return seats;
+        return numberOfSeatsOnRow;
     }
 
     /**

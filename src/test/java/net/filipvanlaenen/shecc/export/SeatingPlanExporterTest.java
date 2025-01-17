@@ -47,6 +47,9 @@ public class SeatingPlanExporterTest {
      * The magic number three.
      */
     private static final int THREE = 3;
+    /**
+     * A differentiated group size of 1, 2 and 3.
+     */
     private static final DifferentiatedGroupSize DIFFERENTIATED123 = new DifferentiatedGroupSize(1, 2, THREE);
     /**
      * The magic number four.

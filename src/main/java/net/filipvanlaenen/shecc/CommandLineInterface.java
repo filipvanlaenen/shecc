@@ -8,7 +8,6 @@ import net.filipvanlaenen.shecc.export.SeatingPlanExporter;
  * The command-line interface for this library.
  */
 public class CommandLineInterface {
-
     /**
      * The index of the size in the parliamentary group encoding.
      */

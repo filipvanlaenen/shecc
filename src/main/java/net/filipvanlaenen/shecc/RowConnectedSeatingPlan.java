@@ -22,6 +22,9 @@ public class RowConnectedSeatingPlan {
      * The parliamentary groups for this seating plan.
      */
     private final OrderedCollection<ParliamentaryGroup> parliamentaryGroups;
+    /**
+     * An array with the seat positions.
+     */
     private final SeatPosition[] seatPositions;
     /**
      * An array holding a pointer for each seat to the parliamentary group holding the seat.
@@ -39,7 +42,7 @@ public class RowConnectedSeatingPlan {
      * @param seatPositions       A sorted collection with the seat positions.
      * @param parliamentaryGroups The parliamentary groups to be seated.
      */
-    public RowConnectedSeatingPlan(SortedCollection<SeatPosition> seatPositions,
+    public RowConnectedSeatingPlan(final SortedCollection<SeatPosition> seatPositions,
             final ParliamentaryGroup... parliamentaryGroups) {
         this.parliamentaryGroups = OrderedCollection.of(parliamentaryGroups);
         numberOfSeats = calculateNumberOfSeats();
@@ -80,6 +83,9 @@ public class RowConnectedSeatingPlan {
         return total;
     }
 
+    /**
+     * Calculates all the seats and the seat statuses.
+     */
     private void calculateSeatsAndStatuses() {
         for (ParliamentaryGroup parliamentaryGroup : parliamentaryGroups) {
             GroupSize size = parliamentaryGroup.getSize();
@@ -158,6 +164,11 @@ public class RowConnectedSeatingPlan {
         }
     }
 
+    /**
+     * Finds the first seat that's empty.
+     *
+     * @return The seat number of the first empty seat.
+     */
     private int findFirstEmptySeat() {
         int seatNumber = 0;
         while (seats[seatNumber] != null) {

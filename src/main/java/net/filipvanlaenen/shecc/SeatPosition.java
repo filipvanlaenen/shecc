@@ -4,6 +4,7 @@ package net.filipvanlaenen.shecc;
  * Class defining the position of a seat in a hemicycle. A seat position is defined by its polar coordinates, i.e. a
  * radius and an angle, and should be treated as a value object.
  *
+ * @param row    The row of the seat position.
  * @param radius The radius for the seat position.
  * @param angle  The angle for the seat position.
  */

@@ -17,6 +17,9 @@ public class RowConnectedSeatingPlanTest {
      * The magic number three.
      */
     private static final int THREE = 3;
+    /**
+     * The magic number four.
+     */
     private static final int FOUR = 4;
     /**
      * A parliamentary group with two seats using the color red.
@@ -32,6 +35,16 @@ public class RowConnectedSeatingPlanTest {
     private static final ParliamentaryGroup GREEN_GROUP_WITH_ONE_TWO_THREE_SEATS =
             new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, 3), 0x0000FF);
     /**
+     * The seat positions for a hemicycle layout with three seats.
+     */
+    private static final SortedCollection<SeatPosition> THREE_SEAT_POSITIONS =
+            new HemicycleLayout(THREE).getSeatPositions();
+    /**
+     * The seat positions for a hemicycle layout with four seats.
+     */
+    private static final SortedCollection<SeatPosition> FOUR_SEAT_POSITIONS =
+            new HemicycleLayout(FOUR).getSeatPositions();
+    /**
      * A list with two red seats and one blue seat to run the tests on.
      */
     private static ParliamentaryGroup[] twoRedSeatsAndOneBlue =
@@ -46,9 +59,6 @@ public class RowConnectedSeatingPlanTest {
      */
     private static ParliamentaryGroup[] oneBlueAndOneTwoThreeGreenSeats =
             new ParliamentaryGroup[] {BLUE_GROUP_WITH_ONE_SEAT, GREEN_GROUP_WITH_ONE_TWO_THREE_SEATS};
-
-    private static SortedCollection<SeatPosition> THREE_SEAT_POSITIONS = new HemicycleLayout(THREE).getSeatPositions();
-    private static SortedCollection<SeatPosition> FOUR_SEAT_POSITIONS = new HemicycleLayout(FOUR).getSeatPositions();
 
     /**
      * Test verifying that the list of parliamentary groups is wired correctly from the constructor to the getter.

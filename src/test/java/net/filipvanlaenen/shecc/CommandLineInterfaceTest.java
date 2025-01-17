@@ -59,8 +59,16 @@ public class CommandLineInterfaceTest {
      * A parliamentary group with one seat for the blue party.
      */
     private static final ParliamentaryGroup ONE_BLUE = new ParliamentaryGroup(1, BLUE, "Blue", "B");
-    private static SortedCollection<SeatPosition> THREE_SEAT_POSITIONS = new HemicycleLayout(THREE).getSeatPositions();
-    private static SortedCollection<SeatPosition> SIX_SEAT_POSITIONS = new HemicycleLayout(SIX).getSeatPositions();
+    /**
+     * The seat positions for a hemicycle layout with three seats.
+     */
+    private static final SortedCollection<SeatPosition> THREE_SEAT_POSITIONS =
+            new HemicycleLayout(THREE).getSeatPositions();
+    /**
+     * The seat positions for a hemicycle layout with six seats.
+     */
+    private static final SortedCollection<SeatPosition> SIX_SEAT_POSITIONS =
+            new HemicycleLayout(SIX).getSeatPositions();
 
     /**
      * Test verifying that the command-line interface produces a simple seating plan without a legend if the names and

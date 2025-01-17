@@ -45,7 +45,7 @@ public class ExporterTest {
         String actual = exporter.createCopyrightNotice("Foo", 1, 2, THREE, FOUR).asString();
         String expected =
                 "<text fill=\"black\" font-size=\"0.04\" text-anchor=\"end\" transform=\"rotate(270 1,2)\" x=\"0.98\""
-                        + " y=\"1.98\">© 2024 Foo, chart produced using SHecC</text>";
+                        + " y=\"1.98\">© 2025 Foo, chart produced using SHecC</text>";
         assertEquals(expected, actual);
     }
 

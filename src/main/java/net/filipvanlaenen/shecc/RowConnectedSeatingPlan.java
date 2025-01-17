@@ -96,13 +96,7 @@ public class RowConnectedSeatingPlan {
                 int row = seatPositions[firstSeat].row();
                 int lowRow = row;
                 int highRow = row;
-                if (size instanceof SimpleGroupSize) {
-                    seatStatuses[firstSeat] = SeatStatus.CERTAIN;
-                } else {
-                    boolean certainSeatsToTheLeft = firstSeat * 2 + fullSize < numberOfSeats;
-                    seatStatuses[firstSeat] = calculateSeatStatusWithinGroup(firstSeat, firstSeat,
-                            (DifferentiatedGroupSize) size, certainSeatsToTheLeft);
-                }
+                seatStatuses[firstSeat] = calculateSeatStatusWithinGroup(firstSeat, firstSeat, size);
                 for (int i = 1; i < fullSize; i++) {
                     int seatNumber = 0;
                     while (seatNumber < numberOfSeats
@@ -115,19 +109,15 @@ public class RowConnectedSeatingPlan {
                     }
                     seats[seatNumber] = parliamentaryGroup;
                     row = seatPositions[seatNumber].row();
+                    // EQMU: Changing the conditional boundary below produces an equivalent mutant.
                     if (row < lowRow) {
                         lowRow = row;
                     }
+                    // EQMU: Changing the conditional boundary below produces an equivalent mutant.
                     if (row > highRow) {
                         highRow = row;
                     }
-                    if (size instanceof SimpleGroupSize) {
-                        seatStatuses[seatNumber] = SeatStatus.CERTAIN;
-                    } else {
-                        boolean certainSeatsToTheLeft = firstSeat * 2 + fullSize < numberOfSeats;
-                        seatStatuses[seatNumber] = calculateSeatStatusWithinGroup(seatNumber, firstSeat,
-                                (DifferentiatedGroupSize) size, certainSeatsToTheLeft);
-                    }
+                    seatStatuses[seatNumber] = calculateSeatStatusWithinGroup(seatNumber, firstSeat, size);
                 }
             }
         }
@@ -136,15 +126,31 @@ public class RowConnectedSeatingPlan {
     /**
      * Calculates the status of a seat within a group.
      *
-     * @param seatNumber            The number of the seat for which the status has to be calculated.
-     * @param startIndex            The seat number for the first seat of the parliamentary group.
-     * @param size                  The size of the parliamentary group.
-     * @param certainSeatsToTheLeft Whether the certain seats should be placed to the left, meaning that the ordering is
-     *                              certain-likely-unlikely.
+     * @param seatNumber The number of the seat for which the status has to be calculated.
+     * @param startIndex The seat number for the first seat of the parliamentary group.
+     * @param size       The size of the parliamentary group.
      * @return The seat's status.
      */
     private SeatStatus calculateSeatStatusWithinGroup(final int seatNumber, final int startIndex,
-            final DifferentiatedGroupSize size, final boolean certainSeatsToTheLeft) {
+            final GroupSize size) {
+        if (size instanceof SimpleGroupSize) {
+            return SeatStatus.CERTAIN;
+        } else {
+            return calculateSeatStatusWithinGroup(seatNumber, startIndex, (DifferentiatedGroupSize) size);
+        }
+    }
+
+    /**
+     * Calculates the status of a seat within a group.
+     *
+     * @param seatNumber The number of the seat for which the status has to be calculated.
+     * @param startIndex The seat number for the first seat of the parliamentary group.
+     * @param size       The size of the parliamentary group.
+     * @return The seat's status.
+     */
+    private SeatStatus calculateSeatStatusWithinGroup(final int seatNumber, final int startIndex,
+            final DifferentiatedGroupSize size) {
+        boolean certainSeatsToTheLeft = startIndex * 2 + size.getFullSize() <= numberOfSeats;
         if (certainSeatsToTheLeft) {
             if (startIndex + size.lowerBound() > seatNumber) {
                 return SeatStatus.CERTAIN;

@@ -197,10 +197,10 @@ public class SeatingPlanExporterTest {
     }
 
     /**
-     * Test verifying that the legend uses up only one line when there is place enough.
+     * Test verifying that the legend uses two lines when needed.
      */
     @Test
-    void svgExportsLegendOnOneLineWhenThereIsPlaceEnough() {
+    void svgShouldExportLegendOnTwoLinesWhenNeeded() {
         RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS,
                 new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(2, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
@@ -222,6 +222,37 @@ public class SeatingPlanExporterTest {
                         + " y=\"0.221485\">Blue (2)</text>\n" + "    </g>\n" + "  </g>\n"
                         + "  <text fill=\"black\" font-size=\"0.016882\" text-anchor=\"end\""
                         + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.307737\" y=\"-1.058441\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test verifying that the legend uses only one line when possible.
+     */
+    @Test
+    void svgShouldExportLegendOnOneLineIfPossible() {
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS,
+                new ParliamentaryGroup(2, RED, "Red"), new ParliamentaryGroup(2, BLUE, "Blue"));
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setDisplayLegend(true);
+        exporter.setLegendLabelWidthRatio(2);
+        String actual = exporter.export(plan);
+        String expected =
+                "<svg height=\"1088.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.088152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.139053\" cy=\"-0.877945\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
+                        + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "    </g>\n"
+                        + "  </g>\n" + "  <g>\n" + "    <g>\n"
+                        + "      <circle cx=\"-0.166178\" cy=\"-0.111848\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"#000000\" font-size=\"0.1\" text-anchor=\"start\" x=\"-0.016178\""
+                        + " y=\"-0.078515\">Red (2)</text>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0.1\" cy=\"-0.111848\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "      <text fill=\"#000000\" font-size=\"0.1\" text-anchor=\"start\" x=\"0.25\""
+                        + " y=\"-0.078515\">Blue (2)</text>\n" + "    </g>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-size=\"0.010882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.310737\" y=\"-1.055441\">Chart produced"
                         + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }

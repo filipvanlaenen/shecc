@@ -49,7 +49,7 @@ public class SeatingPlanExporter extends Exporter {
     /**
      * The default ratio used to calculate the width of the slot in the legend for the names, based on the seat radius.
      */
-    private static final int DEFAULT_SEAT_RADIUS_TO_LEGEND_LABEL_WIDTH_RATIO = 6;
+    private static final int DEFAULT_SEAT_RADIUS_TO_LEGEND_LABEL_WIDTH_RATIO = 7;
     /**
      * Factor to calculate the stroke width based on a circle's radius.
      */

@@ -72,7 +72,7 @@ public class SeatingPlanExporter extends Exporter {
     private static final double TITLE_MARGIN = 0.05D;
 
     /**
-     * The angle of the hemicycle.
+     * The angle (in radians) of the hemicycle.
      */
     private Double angle;
     /**
@@ -172,8 +172,8 @@ public class SeatingPlanExporter extends Exporter {
      * @param noOfLegendRows                   The number of legend rows.
      * @return A grouping with the legend.
      */
-    private G createLegendGrouping(final RowConnectedSeatingPlan plan, final double layoutWidth, final double layoutHalfWidth,
-            final double hemicycleHeight, final double seatRadius,
+    private G createLegendGrouping(final RowConnectedSeatingPlan plan, final double layoutWidth,
+            final double layoutHalfWidth, final double hemicycleHeight, final double seatRadius,
             final OrderedCollection<ParliamentaryGroup> parliamentaryGroupsList,
             final int noOfParliamentaryGroupLegendRows, final int noOfLegendRows) {
         G parliamentaryGroupsLegendGrouping = new G();
@@ -665,9 +665,32 @@ public class SeatingPlanExporter extends Exporter {
     }
 
     /**
-     * Specifies the angle of the hemicycle.
+     * Returns the angle (in radians).
      *
-     * @param angle The angle of the hemicycle.
+     * @return The angle (in radians).
+     */
+    public Double getAngle() {
+        return angle;
+    }
+
+    /**
+     * Returns the legend label width ratio to be used, i.e. the provided one, or if no ratio has been provided, the
+     * default one.
+     *
+     * @return The legend label width ratio to be used.
+     */
+    private int getLegendLabelWidthRatio() {
+        if (legendLabelWidthRatio == null) {
+            return DEFAULT_SEAT_RADIUS_TO_LEGEND_LABEL_WIDTH_RATIO;
+        } else {
+            return legendLabelWidthRatio;
+        }
+    }
+
+    /**
+     * Specifies the angle (in degrees) of the hemicycle.
+     *
+     * @param angle The angle (in degrees) of the hemicycle.
      */
     public void setAngle(final double angle) {
         this.angle = Math.PI * angle / STRAIGHT_ANGLE;
@@ -735,23 +758,5 @@ public class SeatingPlanExporter extends Exporter {
      */
     public void setLegendLabelWidthRatio(final int legendLabelWidthRatio) {
         this.legendLabelWidthRatio = legendLabelWidthRatio;
-    }
-
-    /**
-     * Returns the legend label width ratio to be used, i.e. the provided one, or if no ratio has been provided, the
-     * default one.
-     *
-     * @return The legend label width ratio to be used.
-     */
-    private int getLegendLabelWidthRatio() {
-        if (legendLabelWidthRatio == null) {
-            return DEFAULT_SEAT_RADIUS_TO_LEGEND_LABEL_WIDTH_RATIO;
-        } else {
-            return legendLabelWidthRatio;
-        }
-    }
-
-    public Double getAngle() {
-        return angle;
     }
 }

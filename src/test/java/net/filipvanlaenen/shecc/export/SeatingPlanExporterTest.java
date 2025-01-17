@@ -47,6 +47,7 @@ public class SeatingPlanExporterTest {
      * The magic number three.
      */
     private static final int THREE = 3;
+    private static final DifferentiatedGroupSize DIFFERENTIATED123 = new DifferentiatedGroupSize(1, 2, THREE);
     /**
      * The magic number four.
      */
@@ -55,8 +56,34 @@ public class SeatingPlanExporterTest {
      * The magic number ten.
      */
     private static final int TEN = 10;
-    private static SortedCollection<SeatPosition> THREE_SEAT_POSITIONS = new HemicycleLayout(THREE).getSeatPositions();
-    private static SortedCollection<SeatPosition> FOUR_SEAT_POSITIONS = new HemicycleLayout(FOUR).getSeatPositions();
+    /**
+     * The magic number ninety.
+     */
+    private static final double NINETY = 90D;
+    /**
+     * The delta for double comparisons.
+     */
+    private static final double DOUBLE_DELTA = 0.000001D;
+    /**
+     * The seat positions for a hemicycle layout with three seats.
+     */
+    private static final SortedCollection<SeatPosition> THREE_SEAT_POSITIONS =
+            new HemicycleLayout(THREE).getSeatPositions();
+    /**
+     * The seat positions for a hemicycle layout with four seats.
+     */
+    private static final SortedCollection<SeatPosition> FOUR_SEAT_POSITIONS =
+            new HemicycleLayout(FOUR).getSeatPositions();
+
+    /**
+     * Verifies that the angle is converted correctly from degrees to radians.
+     */
+    @Test
+    public void setAngleShouldConvertFromDegreesToRadians() {
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setAngle(NINETY);
+        assertEquals(Math.PI / 2D, exporter.getAngle(), DOUBLE_DELTA);
+    }
 
     /**
      * Test verifying the export of a seating plan with two seats for the red group and one for the blue group using the
@@ -469,6 +496,7 @@ public class SeatingPlanExporterTest {
                 new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setBackgroundColor(WHITE);
+        exporter.setFontFamily("Arial");
         exporter.setTitle("Lorem Ipsum");
         exporter.setSubtitle("Dolor Sit Amet");
         String actual = exporter.export(plan);
@@ -477,26 +505,26 @@ public class SeatingPlanExporterTest {
                         + " xmlns=\"http://www.w3.org/2000/svg\">\n"
                         + "  <rect fill=\"#FFFFFF\" height=\"0.973152\" width=\"0.632355\" x=\"-0.316178\""
                         + " y=\"-1.235\"/>\n"
-                        + "  <text fill=\"#000000\" font-size=\"0.05\" font-weight=\"bold\" text-anchor=\"middle\""
-                        + " x=\"0\" y=\"-1.135\">Lorem Ipsum</text>\n"
-                        + "  <text fill=\"#000000\" font-size=\"0.035\" font-weight=\"bold\" text-anchor=\"middle\""
-                        + " x=\"0\" y=\"-1.05\">Dolor Sit Amet</text>\n" + "  <g>\n" + "    <g>\n"
-                        + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
+                        + "  <text fill=\"#000000\" font-family=\"Arial\" font-size=\"0.05\" font-weight=\"bold\""
+                        + " text-anchor=\"middle\" x=\"0\" y=\"-1.135\">Lorem Ipsum</text>\n"
+                        + "  <text fill=\"#000000\" font-family=\"Arial\" font-size=\"0.035\" font-weight=\"bold\""
+                        + " text-anchor=\"middle\" x=\"0\" y=\"-1.05\">Dolor Sit Amet</text>\n" + "  <g>\n"
+                        + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.444444\" fill=\"#FF0000\" r=\"0.1\"/>\n"
                         + "      <circle cx=\"0\" cy=\"-0.666667\" fill=\"#FF0000\" r=\"0.1\"/>\n" + "    </g>\n"
                         + "    <g>\n" + "      <circle cx=\"0\" cy=\"-0.888889\" fill=\"#0000FF\" r=\"0.1\"/>\n"
                         + "    </g>\n" + "  </g>\n"
-                        + "  <text fill=\"black\" font-size=\"0.009732\" text-anchor=\"end\""
+                        + "  <text fill=\"black\" font-family=\"Arial\" font-size=\"0.009732\" text-anchor=\"end\""
                         + " transform=\"rotate(270 0.316178,-1.235)\" x=\"0.311312\" y=\"-1.239866\">Chart produced"
                         + " using SHecC</text>\n" + "</svg>";
         assertEquals(expected, actual);
     }
 
     /**
-     * Test verifying the export of a seating plan with legend with two seats for the red/magenta group and one for the
-     * blue group using the default hemicycle layout to SVG.
+     * Test verifying the export of a seating plan with legend with two seats for the red/magenta/green group and one
+     * for the blue group using the default hemicycle layout to SVG.
      */
     @Test
-    void svgExportWithLegendForTwoRedMagentaAndOneBlueSeatsInADefaultHemicycleLayout() {
+    void svgExportWithLegendForTwoRedMagentaGreenAndOneBlueSeatsInADefaultHemicycleLayout() {
         RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(THREE_SEAT_POSITIONS,
                 new ParliamentaryGroup(1, RED_MAGENTA_GREEN, "Red/Magenta/Green"),
                 new ParliamentaryGroup(2, BLUE, "Blue"));
@@ -533,13 +561,93 @@ public class SeatingPlanExporterTest {
     }
 
     /**
+     * Test verifying the export of a seating plan with legend with three differentiated seats for the red/magenta/green
+     * group and one for the blue group using the default hemicycle layout to SVG.
+     */
+    @Test
+    void svgExportWithLegendForDifferentiatedThreeRedMagentaGreenAndOneBlueSeatsInADefaultHemicycleLayout() {
+        RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS,
+                new ParliamentaryGroup(DIFFERENTIATED123, RED_MAGENTA_GREEN, "Red/Magenta/Green"),
+                new ParliamentaryGroup(1, BLUE, "Blue"));
+        SeatingPlanExporter exporter = new SeatingPlanExporter();
+        exporter.setDisplayLegend(true);
+        exporter.setFontFamily("Arial");
+        String actual = exporter.export(plan);
+        String expected =
+                "<svg height=\"1988.15216\" viewBox=\"-0.316178 -1.05 0.632355 1.988152\" width=\"632.355228\""
+                        + " xmlns=\"http://www.w3.org/2000/svg\">\n" + "  <g>\n" + "    <g>\n" + "      <g>\n"
+                        + "        <path d=\"M -0.139053 -0.877945 L -0.139053 -0.977945 A 0.1 0.1 0 0 1 -0.05245"
+                        + " -0.827945 Z\" fill=\"#FF0000\"/>\n"
+                        + "        <path d=\"M -0.139053 -0.877945 L -0.05245 -0.827945 A 0.1 0.1 0 0 1 -0.225655"
+                        + " -0.827945 Z\" fill=\"#FF00FF\"/>\n"
+                        + "        <path d=\"M -0.139053 -0.877945 L -0.225655 -0.827945 A 0.1 0.1 0 0 1 -0.139053"
+                        + " -0.977945 Z\" fill=\"#00FF00\"/>\n" + "      </g>\n" + "      <g>\n"
+                        + "        <path d=\"M 0 -0.444444 L 0 -0.544444 A 0.1 0.1 0 0 1 0.086603 -0.394444 Z\""
+                        + " fill=\"#FF0000\" opacity=\"0.3\"/>\n"
+                        + "        <path d=\"M 0 -0.534444 A 0.09 0.09 0 0 1 0.077942 -0.399444\" fill=\"none\""
+                        + " stroke=\"#FF0000\" stroke-width=\"0.02\"/>\n"
+                        + "        <path d=\"M 0 -0.444444 L 0.086603 -0.394444 A 0.1 0.1 0 0 1 -0.086603 -0.394444 Z\""
+                        + " fill=\"#FF00FF\" opacity=\"0.3\"/>\n"
+                        + "        <path d=\"M 0.077942 -0.399444 A 0.09 0.09 0 0 1 -0.077942 -0.399444\" fill=\"none\""
+                        + " stroke=\"#FF00FF\" stroke-width=\"0.02\"/>\n"
+                        + "        <path d=\"M 0 -0.444444 L -0.086603 -0.394444 A 0.1 0.1 0 0 1 0 -0.544444 Z\""
+                        + " fill=\"#00FF00\" opacity=\"0.3\"/>\n"
+                        + "        <path d=\"M -0.077942 -0.399444 A 0.09 0.09 0 0 1 0 -0.534444\" fill=\"none\""
+                        + " stroke=\"#00FF00\" stroke-width=\"0.02\"/>\n" + "      </g>\n" + "      <g>\n"
+                        + "        <path d=\"M 0 -0.756667 A 0.09 0.09 0 0 1 0.077942 -0.621667\" fill=\"none\""
+                        + " stroke=\"#FF0000\" stroke-width=\"0.02\"/>\n"
+                        + "        <path d=\"M 0.077942 -0.621667 A 0.09 0.09 0 0 1 -0.077942 -0.621667\" fill=\"none\""
+                        + " stroke=\"#FF00FF\" stroke-width=\"0.02\"/>\n"
+                        + "        <path d=\"M -0.077942 -0.621667 A 0.09 0.09 0 0 1 0 -0.756667\" fill=\"none\""
+                        + " stroke=\"#00FF00\" stroke-width=\"0.02\"/>\n" + "      </g>\n" + "    </g>\n" + "    <g>\n"
+                        + "      <circle cx=\"0.139053\" cy=\"-0.877945\" fill=\"#0000FF\" r=\"0.1\"/>\n" + "    </g>\n"
+                        + "  </g>\n" + "  <g>\n" + "    <g>\n" + "      <g>\n" + "        <g>\n"
+                        + "          <path d=\"M -0.166178 -0.111848 L -0.166178 -0.211848 A 0.1 0.1 0 0 1 -0.079575"
+                        + " -0.061848 Z\" fill=\"#FF0000\"/>\n"
+                        + "          <path d=\"M -0.166178 -0.111848 L -0.079575 -0.061848 A 0.1 0.1 0 0 1 -0.25278"
+                        + " -0.061848 Z\" fill=\"#FF00FF\"/>\n"
+                        + "          <path d=\"M -0.166178 -0.111848 L -0.25278 -0.061848 A 0.1 0.1 0 0 1 -0.166178"
+                        + " -0.211848 Z\" fill=\"#00FF00\"/>\n" + "        </g>\n"
+                        + "        <text fill=\"#000000\" font-family=\"Arial\" font-size=\"0.1\" text-anchor=\"start\""
+                        + " x=\"-0.016178\" y=\"-0.078515\">Red/Magenta/Green (3)</text>\n" + "      </g>\n"
+                        + "      <g>\n"
+                        + "        <circle cx=\"-0.166178\" cy=\"0.188152\" fill=\"#0000FF\" r=\"0.1\"/>\n"
+                        + "        <text fill=\"#000000\" font-family=\"Arial\" font-size=\"0.1\" text-anchor=\"start\""
+                        + " x=\"-0.016178\" y=\"0.221485\">Blue (1)</text>\n" + "      </g>\n" + "    </g>\n"
+                        + "    <g>\n" + "      <g>\n" + "        <g>\n"
+                        + "          <circle cx=\"-0.166178\" cy=\"0.788152\" fill=\"#000000\" r=\"0.1\"/>\n"
+                        + "          <text fill=\"white\" font-family=\"Arial\" font-size=\"0.1\""
+                        + " text-anchor=\"middle\" x=\"-0.166178\" y=\"0.821485\">X</text>\n" + "        </g>\n"
+                        + "        <text fill=\"#000000\" font-family=\"Arial\" font-size=\"0.1\" text-anchor=\"start\""
+                        + " x=\"-0.016178\" y=\"0.821485\">Certain (P ≥ 97.5%)</text>\n" + "      </g>\n"
+                        + "      <g>\n" + "        <g>\n"
+                        + "          <circle cx=\"0.011274\" cy=\"0.788152\" fill=\"#000000\" fill-opacity=\"0.3\""
+                        + " r=\"0.09\" stroke=\"#000000\" stroke-width=\"0.02\"/>\n"
+                        + "          <text fill=\"#000000\" font-family=\"Arial\" font-size=\"0.1\""
+                        + " text-anchor=\"middle\" x=\"0.011274\" y=\"0.821485\">X</text>\n" + "        </g>\n"
+                        + "        <text fill=\"#000000\" font-family=\"Arial\" font-size=\"0.1\" text-anchor=\"start\""
+                        + " x=\"0.161274\" y=\"0.821485\">Likely (P ≥ 50%)</text>\n" + "      </g>\n" + "      <g>\n"
+                        + "        <g>\n" + "          <circle cx=\"0.188726\" cy=\"0.788152\" fill=\"none\" r=\"0.09\""
+                        + " stroke=\"#000000\" stroke-width=\"0.02\"/>\n"
+                        + "          <text fill=\"#000000\" font-family=\"Arial\" font-size=\"0.1\""
+                        + " text-anchor=\"middle\" x=\"0.188726\" y=\"0.821485\">X</text>\n" + "        </g>\n"
+                        + "        <text fill=\"#000000\" font-family=\"Arial\" font-size=\"0.1\" text-anchor=\"start\""
+                        + " x=\"0.338726\" y=\"0.821485\">Unlikely (P &lt; 50%)</text>\n" + "      </g>\n"
+                        + "    </g>\n" + "  </g>\n"
+                        + "  <text fill=\"black\" font-family=\"Arial\" font-size=\"0.019882\" text-anchor=\"end\""
+                        + " transform=\"rotate(270 0.316178,-1.05)\" x=\"0.306237\" y=\"-1.059941\">Chart produced"
+                        + " using SHecC</text>\n" + "</svg>";
+        assertEquals(expected, actual);
+    }
+
+    /**
      * Test verifying the export of a seating plan with two seats for the red group and one for the blue group using the
      * default hemicycle layout to SVG.
      */
     @Test
     void svgExportForThreeRedAndOneBlueSeatsInADefaultHemicycleLayout() {
         RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS,
-                new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED), new ParliamentaryGroup(1, BLUE));
+                new ParliamentaryGroup(DIFFERENTIATED123, RED), new ParliamentaryGroup(1, BLUE));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         String actual = exporter.export(plan);
         String expected = "<svg height=\"788.15216\" viewBox=\"-0.316178 -1.05 0.632355 0.788152\" width=\"632.355228\""
@@ -563,8 +671,7 @@ public class SeatingPlanExporterTest {
     @Test
     void svgExportWithLegendForThreeRedAndOneBlueSeatsInADefaultHemicycleLayout() {
         RowConnectedSeatingPlan plan = new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS,
-                new ParliamentaryGroup(new DifferentiatedGroupSize(1, 2, THREE), RED, "Red"),
-                new ParliamentaryGroup(1, BLUE, "Blue"));
+                new ParliamentaryGroup(DIFFERENTIATED123, RED, "Red"), new ParliamentaryGroup(1, BLUE, "Blue"));
         SeatingPlanExporter exporter = new SeatingPlanExporter();
         exporter.setDisplayLegend(true);
         String actual = exporter.export(plan);

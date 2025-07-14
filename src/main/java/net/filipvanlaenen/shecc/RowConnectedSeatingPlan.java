@@ -96,8 +96,8 @@ public class RowConnectedSeatingPlan {
                 int row = seatPositions[firstSeat].row();
                 int lowRow = row;
                 int highRow = row;
-                seatStatuses[firstSeat] = calculateSeatStatusWithinGroup(firstSeat, firstSeat, size);
-                for (int i = 1; i < fullSize; i++) {
+                seatStatuses[firstSeat] = calculateSeatStatusWithinGroup(0, firstSeat, size);
+                for (int seatIndex = 1; seatIndex < fullSize; seatIndex++) {
                     int seatNumber = 0;
                     while (seatNumber < numberOfSeats
                             && (seats[seatNumber] != null || seatPositions[seatNumber].row() > highRow + 1
@@ -117,7 +117,7 @@ public class RowConnectedSeatingPlan {
                     if (row > highRow) {
                         highRow = row;
                     }
-                    seatStatuses[seatNumber] = calculateSeatStatusWithinGroup(seatNumber, firstSeat, size);
+                    seatStatuses[seatNumber] = calculateSeatStatusWithinGroup(seatIndex, firstSeat, size);
                 }
             }
         }
@@ -126,43 +126,44 @@ public class RowConnectedSeatingPlan {
     /**
      * Calculates the status of a seat within a group.
      *
-     * @param seatNumber The number of the seat for which the status has to be calculated.
+     * @param seatIndex  The index (in the parliamentary group) of the seat for which the status has to be calculated.
      * @param startIndex The seat number for the first seat of the parliamentary group.
      * @param size       The size of the parliamentary group.
+     *
      * @return The seat's status.
      */
-    private SeatStatus calculateSeatStatusWithinGroup(final int seatNumber, final int startIndex,
-            final GroupSize size) {
+    private SeatStatus calculateSeatStatusWithinGroup(final int seatIndex, final int startIndex, final GroupSize size) {
         if (size instanceof SimpleGroupSize) {
             return SeatStatus.CERTAIN;
         } else {
-            return calculateSeatStatusWithinGroup(seatNumber, startIndex, (DifferentiatedGroupSize) size);
+            return calculateSeatStatusWithinGroup(seatIndex, startIndex, (DifferentiatedGroupSize) size);
         }
     }
 
     /**
      * Calculates the status of a seat within a group.
      *
-     * @param seatNumber The number of the seat for which the status has to be calculated.
+     * @param seatIndex  The index (in the parliamentary group) of the seat for which the status has to be calculated.
      * @param startIndex The seat number for the first seat of the parliamentary group.
      * @param size       The size of the parliamentary group.
+     *
      * @return The seat's status.
      */
-    private SeatStatus calculateSeatStatusWithinGroup(final int seatNumber, final int startIndex,
+    private SeatStatus calculateSeatStatusWithinGroup(final int seatIndex, final int startIndex,
             final DifferentiatedGroupSize size) {
         boolean certainSeatsToTheLeft = startIndex * 2 + size.getFullSize() <= numberOfSeats;
         if (certainSeatsToTheLeft) {
-            if (startIndex + size.lowerBound() > seatNumber) {
+            if (seatIndex < size.lowerBound()) {
                 return SeatStatus.CERTAIN;
-            } else if (startIndex + size.median() > seatNumber) {
+            } else if (seatIndex < size.median()) {
                 return SeatStatus.LIKELY;
             } else {
                 return SeatStatus.UNLIKELY;
             }
         } else {
-            if (startIndex + size.getFullSize() - size.lowerBound() <= seatNumber) {
+            if (size.getFullSize() - seatIndex <= size.lowerBound()) {
                 return SeatStatus.CERTAIN;
-            } else if (startIndex + size.getFullSize() - size.median() <= seatNumber) {
+            } else if (size.getFullSize() - seatIndex <= size.median()) {
                 return SeatStatus.LIKELY;
             } else {
                 return SeatStatus.UNLIKELY;

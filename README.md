@@ -32,14 +32,14 @@ If everything works well, you'll a JAR file in the `target` directory with all d
 
 ```
 cd target
-java -jar shecc-1.0.0-jar-with-dependencies.jar 19.FF0000..R,11.00FF00..G,48.0000FF..B
+java -jar shecc-1.0.1-jar-with-dependencies.jar 19.FF0000..R,11.00FF00..G,48.0000FF..B
 ```
 
 As you'll see, this will print the contents of an SVG file to the command line. You can redirect the output to an SVG
 file, and if you have [Inkscape](https://inkscape.org/) installed, convert it to a PNG file as follows:
 
 ```
-java -jar shecc-1.0.0-jar-with-dependencies.jar 19.FF0000..R,11.00FF00..G,48.0000FF..B > seating-plan.svg
+java -jar shecc-1.0.1-jar-with-dependencies.jar 19.FF0000..R,11.00FF00..G,48.0000FF..B > seating-plan.svg
 inkscape -z -D seating-plan.svg -e seating-plan.png
 ```
 
@@ -67,7 +67,7 @@ Now lets add names for the parliamentary groups. You can do this as follows (not
 the command-line argument if any of the names contains a space):
 
 ```
-java -jar shecc-1.0.0-jar-with-dependencies.jar \
+java -jar shecc-1.0.1-jar-with-dependencies.jar \
   "19.FF0000.Red Party.R,11.00FF00.Green Party.G,48.0000FF.Blue Party.B" > seating-plan-with-legend.svg
 ```
 
@@ -77,14 +77,14 @@ Next, lets merge the red and the green party together with a yellow party into a
 You can specify a set of colors for a parliamentary group by concatenating each of the colors with a colon in between:
 
 ```
-java -jar shecc-1.0.0-jar-with-dependencies.jar \
+java -jar shecc-1.0.1-jar-with-dependencies.jar \
   "30.FF0000:00FF00:FFFF00.Red-green-yellow Alliance.A,48.0000FF.Blue Party.B" > seating-plan-with-red-green-yellow-party.svg
 ```
 
 Finally, differentiate between the seats that are certain, those that are likely, and those that are unlikely:
 
 ```
-java -jar shecc-1.0.0-jar-with-dependencies.jar \
+java -jar shecc-1.0.1-jar-with-dependencies.jar \
   "24:29:30.FF0000:00FF00:FFFF00.Red-green-yellow Alliance.A,41:46:48.0000FF.Blue Party.B" > seating-plan-with-red-green-yellow-party-and-likelihoods.svg
 ```
 
@@ -135,7 +135,7 @@ The following command will produce a chart having a hemicycle with an angle of 1
 blue as the font color, with a title and a subtitle:
 
 ```
-java -jar shecc-1.0.0-jar-with-dependencies.jar \
+java -jar shecc-1.0.1-jar-with-dependencies.jar \
   "19.FF0000.Red Party.R,11.00FF00.Green Party.G,48.0000FF.Blue Party.B" \
   --font-color=000077 --font-family=Lato --subtitle="A sample seating plan" \
   --title="Seating Plan" --angle=150 > styled-seating-plan-with-legend.svg

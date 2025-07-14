@@ -201,23 +201,23 @@ public class RowConnectedSeatingPlanTest {
     }
 
     /**
-     * Test verifying that the second seat of the green group is likely if green is to the left.
+     * Test verifying that the second seat of the green group is unlikely if green is to the left.
      */
     @Test
-    void secondGreenSeatShouldBeLikelyInTheLeftHalfOfTheHemicycle() {
+    void secondGreenSeatShouldBeUnlikelyInTheLeftHalfOfTheHemicycle() {
         RowConnectedSeatingPlan seatingPlan =
                 new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS, ONE_TWO_THREE_GREEN_SEATS_AND_ONE_BLUE);
-        assertEquals(SeatStatus.LIKELY, seatingPlan.getSeatStatus(1));
+        assertEquals(SeatStatus.UNLIKELY, seatingPlan.getSeatStatus(1));
     }
 
     /**
-     * Test verifying that the third seat of the green group is unlikely if green is to the left.
+     * Test verifying that the third seat of the green group is likely if green is to the left.
      */
     @Test
-    void thirdGreenSeatShouldBeUnlikelyInTheLeftHalfOfTheHemicycle() {
+    void thirdGreenSeatShouldBeLikelyInTheLeftHalfOfTheHemicycle() {
         RowConnectedSeatingPlan seatingPlan =
                 new RowConnectedSeatingPlan(FOUR_SEAT_POSITIONS, ONE_TWO_THREE_GREEN_SEATS_AND_ONE_BLUE);
-        assertEquals(SeatStatus.UNLIKELY, seatingPlan.getSeatStatus(2));
+        assertEquals(SeatStatus.LIKELY, seatingPlan.getSeatStatus(2));
     }
 
     /**

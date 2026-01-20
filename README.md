@@ -47,7 +47,7 @@ The result should be something like this, a seating plan with 19 red seats, 11 g
 
 ![Seating plan with 19 red seats, 11 green seats and 48 blue seats](/README-seating-plan.png "Seating plan with 19 red seats, 11 green seats and 48 blue seats")
 
-You can also use library in another Java project by adding the following dependency to the project's POM file:
+You can also use the library in another Java project by adding the following dependency to the project's POM file:
 
 ```xml
   <dependency>
